@@ -13,7 +13,7 @@
 The third wave of "AI replaces code" doesn't have a clean name yet. **Prompt as a Process** is one. The thesis in three sentences:
 
 1. Mid-2025 models became reliable enough to follow complex SOPs end-to-end. The `.md` file is now the application; the model is the runtime; the deploy is dropping the file in a folder.
-2. This repo formalizes that pattern into a framework: **20 architectural principles**, a **scoring rubric**, an **empirical survey of community skills**, **four documented evaluations** of a meta-skill that generates other skills, and a **runnable example**.
+2. This repo formalizes that pattern into a framework: **22 architectural principles** with applicability across **3 skill archetypes** (Procedural / Reference / Creative), a **scoring rubric**, an **empirical survey of 50 community skills** + a deep-dive on **gstack** (50 SKILL.md, ~82k stars), **four documented evaluations** of a meta-skill that generates other skills, and a **runnable example**.
 3. Use it to write better skills, evaluate existing ones, extend the rubric, or contribute test data.
 
 ---
@@ -22,7 +22,9 @@ The third wave of "AI replaces code" doesn't have a clean name yet. **Prompt as 
 
 Prompt engineering treated the prompt as a one-shot query. Orchestration frameworks (LangChain, AutoGen) wrapped prompts in code and most teams ripped them back out. PaaP is what's left when the model is reliable enough that the SOP itself is the orchestration.
 
-Calling it "just a system prompt" misses what's interesting: standardization (a file format with a slash-command invoker, a shareable artifact that forks like code) created an ecosystem. There are 1,200+ community Claude Code skills on GitHub. Garry Tan's `gstack` models an engineering team in 28 slash commands. The pattern is real, the question is what makes it work.
+Calling it "just a system prompt" misses what's interesting: standardization (a file format with a slash-command invoker, a shareable artifact that forks like code) created an ecosystem. Anthropic launched the SKILL.md format on October 16, 2025; the spec was opened as a multi-vendor standard on December 18, 2025, adopted by Microsoft, OpenAI, Atlassian, Figma, Cursor, and GitHub. As of this v0.1's ship date, the format is ~6 months old.
+
+There are 1,200+ community skills on GitHub. Garry Tan's `gstack` models an engineering team in 50 SKILL.md files (~82k stars in 6 weeks). The pattern is real; the question is what makes it work.
 
 This repo is the answer, organized as a framework.
 
@@ -35,7 +37,7 @@ This repo is the answer, organized as a framework.
 | [01 — Concept](./01-CONCEPT.md) | Why PaaP, why now, what changed in mid-2025 |
 | [02 — Landscape](./02-LANDSCAPE.md) | Three waves of AI-replaces-code, the framework backlash, gstack case study, empirical survey of 50 community skills |
 | [03 — Anatomy](./03-ANATOMY.md) | How to write a working SKILL.md — the canonical authoring guide |
-| [04 — Rubric](./04-RUBRIC/) | The 20 architectural principles, scoring template, bottom-up empirical validation |
+| [04 — Rubric](./04-RUBRIC/) | The 22 architectural principles, scoring template, bottom-up empirical validation |
 | [05 — Evaluation](./05-EVALUATION/) | n=4 regression study of `meta-paap` (a skill that generates skills) — methodology, per-test results, cross-test patterns |
 | [06 — meta-paap](./06-META-PAAP/) | The skill itself, plus how to use and extend it |
 | [07 — Open questions](./07-OPEN-QUESTIONS.md) | What v0.2 and v1.0 will tackle. Where contributions are most useful |
