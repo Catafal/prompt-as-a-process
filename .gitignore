@@ -1,0 +1,37 @@
+# macOS
+.DS_Store
+._*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (in case any harness scripts get added in v0.2)
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Node (in case)
+node_modules/
+npm-debug.log*
+
+# Logs / scratch
+*.log
+scratch/
+tmp/
+.cache/
+
+# Local-only planning notes — never committed (contain author's vault structure,
+# source-file paths, and working drafts. Useful for the maintainer; not for OSS readers.)
+_planning/
+
+# Anything explicitly marked private
+*.private.md
+*.draft.md

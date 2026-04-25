@@ -1,0 +1,36 @@
+# Citation File Format — https://citation-file-format.github.io/
+# Update `repository-code` once the repo is pushed to GitHub.
+cff-version: 1.2.0
+title: "Prompt as a Process (PaaP): A Framework for Markdown-as-Application Skills"
+message: "If you use this framework, the rubric, or the evaluation methodology in your work, please cite it as below."
+type: software
+version: 0.1.0
+date-released: 2026-04-25
+authors:
+  - given-names: Jordi
+    family-names: Catafal
+    alias: jorcagra
+url: "https://github.com/jorcagra/prompt-as-a-process"
+repository-code: "https://github.com/jorcagra/prompt-as-a-process"
+license: MIT
+license-url: "https://opensource.org/licenses/MIT"
+keywords:
+  - prompt engineering
+  - prompt-as-a-process
+  - PaaP
+  - LLM agents
+  - SKILL.md
+  - Claude Code
+  - markdown applications
+  - AI workflows
+  - skill authoring
+  - meta-skills
+abstract: >-
+  Prompt as a Process (PaaP) is a framework for treating Markdown SOPs as
+  deployable applications, runnable end-to-end by sufficiently reliable
+  language models. This repository formalizes the framework via 20
+  architectural principles, a scoring rubric, an empirical survey of
+  community skills, four documented evaluations of a meta-skill that
+  generates other skills, and a runnable example. Intended for practitioners
+  authoring or evaluating LLM workflow files (e.g., SKILL.md), and
+  researchers studying the post-orchestration-framework ecosystem.
