@@ -69,7 +69,7 @@ The quality of the generated skill depends more on your input than on the genera
 - [`SKILL.md`](./SKILL.md) — The skill itself
 - [`examples.md`](./examples.md) — Sample inputs and outputs
 - [`../05-EVALUATION/`](../05-EVALUATION/) — n=4 regression study
-- [`../04-RUBRIC/20-principles.md`](../04-RUBRIC/20-principles.md) — What it scores against
+- [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — What it scores against
 
 ---
 

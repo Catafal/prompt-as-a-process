@@ -7,7 +7,7 @@ Thanks for considering a contribution. This is a living research repo — the ru
 ## Most valuable contributions (in order)
 
 ### 1. Score one of your skills against the rubric
-This is the highest-leverage contribution. Pick a skill you've written, score it against the [20 principles](./04-RUBRIC/20-principles.md), and submit the evaluation.
+This is the highest-leverage contribution. Pick a skill you've written, score it against the [22 principles](./04-RUBRIC/principles.md), and submit the evaluation.
 
 **How:**
 1. Copy `04-RUBRIC/scoring-template.md` to a new file under `05-EVALUATION/community/your-skill-name.md`.

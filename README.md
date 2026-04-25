@@ -58,7 +58,7 @@ Three ways to use this repo:
 3. Describe what you want to automate. Answer the five questions. Review the architecture. Generate.
 
 **Evaluate an existing skill:**
-1. Read [`04-RUBRIC/20-principles.md`](./04-RUBRIC/20-principles.md).
+1. Read [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md).
 2. Use [`04-RUBRIC/scoring-template.md`](./04-RUBRIC/scoring-template.md).
 3. Score, identify weak principles, iterate.
 

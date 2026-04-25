@@ -51,7 +51,7 @@ It's also concrete enough to run on a real meeting today, and short enough to re
 ## Cross-references
 
 - [`../../03-ANATOMY.md`](../../03-ANATOMY.md) — The canonical authoring guide where this example is referenced
-- [`../../04-RUBRIC/20-principles.md`](../../04-RUBRIC/20-principles.md) — The principles this skill is graded against
+- [`../../04-RUBRIC/principles.md`](../../04-RUBRIC/principles.md) — The principles this skill is graded against
 
 ---
 

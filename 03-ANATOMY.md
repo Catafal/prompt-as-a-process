@@ -85,7 +85,7 @@ Walks through:
 
 ## Cross-references
 
-- [`04-RUBRIC/20-principles.md`](./04-RUBRIC/20-principles.md) — each anatomy element maps to one or more principles
+- [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) — each anatomy element maps to one or more principles
 - [`examples/pre-call/SKILL.md`](./examples/pre-call/SKILL.md) — the runnable worked-example artifact
 
 ---
