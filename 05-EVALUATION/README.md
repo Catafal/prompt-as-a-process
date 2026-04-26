@@ -28,7 +28,9 @@ How we test PaaP empirically: methodology, regression suite, inter-rater reliabi
 | [`kappa-pilot-raw-data.md`](./kappa-pilot-raw-data.md) | Raw scores per persona × skill |
 | [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md) | v0.3 multi-model kappa — 5-rater matrix: 3 Claude personas + GPT-5.4 + Gemini-3-pro-preview. Mean Gemini-3 ↔ Claude-pragmatic = 2.30; mean GPT-5.4 ↔ Claude-pragmatic = 1.20 |
 | [`kappa-pilot-multimodel-raw-data.md`](./kappa-pilot-multimodel-raw-data.md) | Verbatim per-principle outputs (GPT-5.4 + Gemini-3 sections) |
-| [`head-to-head.md`](./head-to-head.md) | Hand-written vs `/meta-paap`-generated, blind judge couldn't distinguish provenance |
+| [`head-to-head.md`](./head-to-head.md) | v0.2 head-to-head: 5 paired skills (structural axis) + 1 humanizer task (output-quality axis, N=1, blind judge mis-attributed provenance) |
+| [`head-to-head-expanded.md`](./head-to-head-expanded.md) | v0.3 priority #3 expansion: 5 workflows × 3 inputs × 3 cross-vendor judges = 45 quality judgments. Workflow-specific picture (HW wins humanizer 8/9; Gen wins remember 9/9 unanimous; provenance accuracy: GPT 67%, Claude 60%, Gemini 53% at chance) |
+| [`head-to-head-expanded-raw-data.md`](./head-to-head-expanded-raw-data.md) | Verbatim 30 outputs + 45 judge JSONs from the v0.3 priority #3 experiment |
 | [`corpus-extension-raw-data.md`](./corpus-extension-raw-data.md) | Raw data for the +30 corpus extension (see [`04-RUBRIC/corpus-extension-30-skills.md`](../04-RUBRIC/corpus-extension-30-skills.md) for analysis) |
 
 ## How to use

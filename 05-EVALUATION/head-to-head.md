@@ -6,6 +6,8 @@
 **Method:** 5 hand-written skills (from a real production skill folder, NOT authored for this test) compared against 5 fresh `meta-paap`-generated equivalents (subagents simulating `/meta-paap` from workflow briefs alone, never seeing the hand-written implementations). Plus 1 output-quality task with blind judge.
 **Honest scope:** v0.2 plan called for 5 workflows × 3-5 task-battery inputs each (~15-25 output comparisons). Actual delivery: 5 structural comparisons + 1 output-quality comparison. The structural axis covers the full plan; the output-quality axis is intentionally bounded to 1 task to ship Stage 4 in a single session. **The 1 output-quality task is the more valuable finding; expanding to 5+ tasks is v0.3 work.**
 
+> **v0.3 expansion (added 2026-04-26):** Priority #3 expanded this experiment to 5 workflows × 3 inputs × 3 cross-vendor judges (15 paired comparisons, 45 judgments). Headline finding: **handwritten wins overall (24/45 vs 20/45) but the picture is workflow-specific** — `remember` is a clean *generated* victory (9/9 unanimous), `humanizer` a clean *handwritten* victory (8/9), `5d-thinking` slightly favors generated (5/9), `eod` and `prompt-engineering` favor handwritten. Provenance prediction barely above chance: GPT-5.4 67%, Claude 60%, **Gemini-3 53% (at chance)**. The N=1 humanizer TIE finding from v0.2 doesn't fully generalize — handwritten *does* win on humanizer at N=3. See [`head-to-head-expanded.md`](./head-to-head-expanded.md) for the full 5×3×3 analysis.
+
 ---
 
 ## TL;DR
@@ -204,6 +206,8 @@ v1.0's workshop-paper conditional becomes concretely defensible. The paper struc
 
 ## Cross-references
 
+- [`./head-to-head-expanded.md`](./head-to-head-expanded.md) — v0.3 priority #3 expansion (5 workflows × 3 inputs × 3 judges = 45 judgments)
+- [`./head-to-head-expanded-raw-data.md`](./head-to-head-expanded-raw-data.md) — Verbatim 30 outputs + 45 judge JSONs
 - [`./methodology.md`](./methodology.md) — How v0.1 evaluated meta-paap
 - [`./regression.md`](./regression.md) — v0.1's n=4 cross-test analysis
 - [`./kappa-pilot.md`](./kappa-pilot.md) — Stage 2 inter-rater data (informs grading variance)

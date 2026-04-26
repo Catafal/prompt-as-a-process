@@ -70,15 +70,22 @@ Both vendors confirm #24 self-observation as a corpus-wide gap (GPT-5.4: 7/7 nea
 
 When the multi-vendor matrix is more complete, principles with low cross-model agreement need rewording for v0.4. This is the actual multi-rater study academic reviewers will demand.
 
-### 3. Output-quality test expansion
+### 3. Output-quality test expansion ✅ DONE
 
 v0.2 Stage 4 ran 1 output-quality task (humanizer). Result was directionally meaningful (TIE + mis-attributed provenance) but N=1.
 
-v0.3 expands to:
-- 5 workflows spanning all 3 archetypes
-- 3-5 task-battery inputs each (15-25 total output comparisons)
-- Multi-judge scoring (3 model-vendor judges per output pair)
-- Workflow-domain specific quality rubrics (separate from the 22 architectural principles)
+**v0.3 delivered (2026-04-26):** 5 workflows × 3 inputs × 3 cross-vendor judges = 45 paired quality judgments. Full results: [`../05-EVALUATION/head-to-head-expanded.md`](../05-EVALUATION/head-to-head-expanded.md).
+
+**Headline:** narrow handwritten preference overall (24/45 vs 20/45) but **the picture is workflow-specific**:
+- `remember` 9/9 unanimous Gen
+- `humanizer` 8/9 HW
+- `prompt-engineering` 7/9 HW
+- `eod` 6/9 HW
+- `5d-thinking` 5/9 Gen
+
+**Provenance prediction:** GPT-5.4 67%, Claude 60%, Gemini 53% (chance). v0.2's N=1 mis-attribution finding generalizes. **Cross-judge cluster pattern from the kappa pilot replicates here** at the output-quality level — Claude+GPT cluster, Gemini-3 outlier.
+
+**Per-dimension split:** handwritten dominates voice/AI-signature/action-specificity (taste-shaped); generated dominates title-quality/distillation/decision-relevance (rubric-articulable). The rubric is not purely circular — it encodes both sides. v0.4+ work: third-party hand-written control arm, human-rater layer, larger N per workflow.
 
 ### 4. Add "rationalizations to reject" to `meta-paap` persona generation
 
