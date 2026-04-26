@@ -1,5 +1,4 @@
 # Citation File Format — https://citation-file-format.github.io/
-# Update `repository-code` once the repo is pushed to GitHub.
 cff-version: 1.2.0
 title: "Prompt as a Process (PaaP): A Framework for Markdown-as-Application Skills"
 message: "If you use this framework, the rubric, the evaluation instrument, or the empirical findings in your work, please cite it as below."
@@ -10,8 +9,8 @@ authors:
   - given-names: Jordi
     family-names: Catafal
     alias: jorcagra
-url: "https://github.com/jorcagra/prompt-as-a-process"
-repository-code: "https://github.com/jorcagra/prompt-as-a-process"
+url: "https://github.com/Catafal/prompt-as-a-process"
+repository-code: "https://github.com/Catafal/prompt-as-a-process"
 license: MIT
 license-url: "https://opensource.org/licenses/MIT"
 keywords:
