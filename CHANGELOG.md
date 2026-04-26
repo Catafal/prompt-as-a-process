@@ -1,0 +1,136 @@
+# Changelog
+
+All notable changes to **Prompt as a Process** documented here.
+
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+Versioning is **content-tied**, not strict semver: each release describes both repository state and rubric state. See [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) "Versioning policy" for the canonical version log.
+
+---
+
+## [v0.2] — 2026-04-26
+
+**Theme:** evidence + tooling. **Rubric content unchanged from v0.1**; v0.2 builds the empirical case and operational infrastructure that v0.1 deliberately deferred.
+
+### Added
+
+**The instrument: `/paap-eval` skill** (06-META-PAAP/paap-eval/, 6 files, ~2,400 lines)
+- Stage 1a — scaffold via `meta-paap` protocol (`SKILL.md`, `genesis.md`, `README.md`)
+- Stage 1b — 12 algorithmic detectors with persona-modulated grade mappings (`references/algorithmic-detectors.md`)
+- Stage 1c — 10 semantic LLM-judge prompts with exemplar cases per grade level (`references/semantic-judges.md`)
+- Stage 1d — calibration validation against 4 reference skills, including the only third-party manual baseline (obra/TDD A- match)
+
+**Inter-rater reliability data** (`05-EVALUATION/kappa-pilot.md` + raw data)
+- 3-persona × 10-skill pilot study (30 independent evaluations)
+- Mean inter-rater grade-step distances quantified:
+  - strict ↔ pragmatic: 1.83
+  - strict ↔ charitable: 1.63
+  - pragmatic ↔ charitable: 0.60
+- 7/10 archetype unanimous detection (3 dissents on Procedural↔Hybrid borderlines)
+- 5 v0.3 rubric-revision recommendations surfaced (auto-N/A column, exit-as-question rebroadening, primary archetype forcing)
+
+**Corpus extension N=50 → N=80** (`04-RUBRIC/corpus-extension-30-skills.md` + raw scoring)
+- 30 new skills scored via `/paap-eval` across 18 distinct new authors (combined N=80, 36 distinct authors)
+- 5 new authors from non-English-speaking backgrounds (Chinese, Russian, Egyptian, Polish, Indian/Korean)
+- Domain expansion: finance, healthcare/biometrics, scientific computing, design audit, content quality, product management, crypto APIs
+- Archetype distribution at N=80: Procedural 60% (down from 76%) / Reference 20% (up from 12%) / Creative 11% / Hybrid 9%
+
+**Deferred-candidate verdicts** (`04-RUBRIC/empirical-validation.md` updated)
+- **PROMOTE for v0.3** (≥20% community-corpus prevalence at extended N): #26 self-observation, #29 host-portable, #30 spawn-detection
+- **CONFIRM gstack-only** (0% community sightings): #22 section-skip composition, #24 dual-voice consensus, #28 plan-rubric-reuse-at-audit
+- Keep deferred (insufficient evidence): #21 build-artifact (10%), #25 hooks-as-enforcement (7%)
+
+**Head-to-head experiment** (`05-EVALUATION/head-to-head.md`)
+- 5 hand-written production skills (real daily-use, not authored for the test) compared against 5 fresh `meta-paap`-generated equivalents
+- Generators never saw hand-written implementations (blind generation from workflow briefs only)
+- **Structural rubric:** generated mean **A**, hand-written mean **B+** (+0.66 grade-step delta consistent across 4 archetypes)
+- **Blind output-quality test (humanizer):** TIE 22/25 — both successfully removed AI signatures, different strengths (generated wins on editorial discipline, hand-written wins on voice)
+- **Blind judge MISATTRIBUTED provenance** — couldn't distinguish generated from hand-written, guessed wrong on both
+
+**Five new chapters/files in evaluation directory:**
+- `05-EVALUATION/kappa-pilot.md`
+- `05-EVALUATION/kappa-pilot-raw-data.md`
+- `05-EVALUATION/corpus-extension-raw-data.md`
+- `05-EVALUATION/head-to-head.md`
+- `04-RUBRIC/corpus-extension-30-skills.md`
+
+### Changed
+
+- README status badge: "v0.1 → v0.2 in progress" → "v0.2 released"
+- README roadmap: v0.2 marked released, v1.0 marked conditional-unlocked
+- `07-OPEN-QUESTIONS.md` restructured: full v0.2 plan replaced with v0.2-delivered summary + v0.3 priorities
+- `04-RUBRIC/empirical-validation.md` headline: N=50 → N=80; archetype distribution table updated; all 8 deferred candidates given v0.2 verdicts
+- `04-RUBRIC/principles.md` versioning policy: v0.2 marked released, v0.3 priorities listed, v1.0 unlocked
+- `06-META-PAAP/README.md` "See also" surfaces `/paap-eval` as the complementary scoring skill
+- `04-RUBRIC/reflexive-self-audit.md` updated with v0.2 delta section
+- `CITATION.cff` version 0.1.0 → 0.2.0; date-released bumped; abstract expanded with v0.2 deliverables
+
+### Removed
+
+Nothing. v0.2 is purely additive.
+
+### Deferred to v0.3
+
+- **Promote 3 corpus-validated candidates** (#26, #29, #30) — turns rubric into 25-principle artifact
+- **Multi-model kappa** (Claude + GPT-5 + Gemini) — current pilot is prompt-variant reliability only
+- **Output-quality test expansion** to 5 workflows × 3-5 inputs each — current head-to-head is N=1 task
+- **Add "rationalizations to reject" pattern to `meta-paap` persona generation** — closes the persona-depth gap surfaced in head-to-head
+- **Run head-to-head on community skills** (not just author's hand-written) to remove self-evaluation bias from baseline
+- **Test output quality on Reference and Creative archetypes** — Stage 4's axis-2 used only Hybrid (humanizer)
+
+### What v0.2 evidence enables
+
+A workshop-paper-conditional v1.0 becomes concretely defensible. The defensible paper title:
+
+> *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Match Hand-Authored Ones On Structural Quality and Output Quality, From a Single-Practitioner Tooling Study."*
+
+Honest, not over-claimed, and supported by the v0.2 evidence base. v1.0 ship depends on whether the v0.3 expansions (multi-model, multi-task, multi-author baseline) hold up.
+
+---
+
+## [v0.1] — 2026-04-25
+
+**Theme:** framework + rubric + first evaluation. Initial public release.
+
+### Added
+
+- **22-principle PaaP rubric** with 3-archetype applicability matrix (Procedural / Reference / Creative)
+- **gstack case study** — 50 SKILL.md from Garry Tan analyzed (~82k stars at snapshot, ~43k lines)
+- **50-skill community survey** — N=50 baseline corpus across 18 authors
+- **`/meta-paap` skill** — the skill-that-generates-skills, with 7-phase architecture protocol
+- **n=4 regression study of `meta-paap` outputs** (`/skill-audit`, `/article-forge`, `/review-plan`, `/idea-to-pr`) with cross-test pattern analysis
+- **Reflexive self-audit** — repo scoring itself against own rubric (A overall, 4 A+ / 9 A / 1 A- / 1 B+ / 1 B)
+- **7 chapters:** CONCEPT, EVIDENCE (originally LANDSCAPE), ANATOMY, RUBRIC, EVALUATION, META-PAAP, OPEN-QUESTIONS
+- **Runnable example:** `examples/pre-call/SKILL.md`
+- **Dual licensing:** MIT (code) + CC-BY-4.0 (docs)
+
+### Documented limitations (v0.1 academic gaps)
+
+- Single-scorer rubric work (no inter-rater reliability)
+- N=4 convenience-sampled evaluation (no comparison baseline)
+- 4-author concentration (66% of v0.1 corpus from Anthropic + obra + ToB + michalparkola)
+- No head-to-head outcome test (no evidence generated skills produce comparable outputs)
+- No multi-scorer reliability data
+- 8 deferred gstack candidates without community-corpus evidence
+
+**All v0.1 limitations are addressed (in proportion) by v0.2.**
+
+### Acknowledgements (v0.1)
+
+- Anthropic Claude Code team — SKILL.md format
+- Garry Tan — `gstack` (largest production case study)
+- Andrej Karpathy — autoresearch pattern
+- Octomind team — documented LangChain-removal case
+- Broader Claude Code skills community — 50-skill corpus contributors
+- External-reviewer feedback (Clicky Codex audit) — applied as part of v0.1 final polish
+
+---
+
+## Versioning conventions
+
+- **Major versions** (v1.0, v2.0): rubric content changes (principles added, removed, or substantially reworded) OR significant scope shifts (e.g., paper publication, multi-vendor adoption)
+- **Minor versions** (v0.1 → v0.2): evidence + tooling additions; rubric content stable
+- **Patch versions** (v0.2.1, v0.2.2): bug fixes, minor wording tweaks, cross-reference corrections
+
+The rubric in [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) is the source of truth for what each version "contains" intellectually. The repository is the operational artifact.
+
+When citing this work, include the version: *"PaaP framework v0.2 (Catafal, 2026)."*

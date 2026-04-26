@@ -1,189 +1,178 @@
 # 07 — Open Questions
 
-> What v0.2 and v1.0 will tackle, and where contributions are most useful right now.
+> What v0.3 and v1.0 will tackle, and where contributions are most useful right now.
 
-**Status as of 2026-04-26:** v0.2 work has begun. The plan below is the active execution plan, not aspirational.
+**Status as of 2026-04-26:** v0.2 RELEASED. See [`../CHANGELOG.md`](./CHANGELOG.md) for what shipped. v0.3 priorities below are derived from v0.2's surfaced findings.
 
 ---
 
-## v0.2 — the unifying primitive: `/paap-eval`
+## v0.2 in retrospect (released 2026-04-26)
 
-The single insight that shapes the v0.2 plan: **the four academic blockers v0.1 leaves open all become tractable once a single new primitive exists** — an evaluation skill that auto-scores any SKILL.md against the rubric.
+**Theme:** evidence + tooling. v0.2 built the operational instrument (`/paap-eval`) and used it to close — proportionally — every academic blocker v0.1 left open.
 
-| v0.1 blocker | Without `/paap-eval` | With `/paap-eval` |
+### What v0.2 delivered
+
+| v0.1 academic blocker | v0.2 deliverable | Outcome |
 |---|---|---|
-| Multi-scorer kappa reliability | Recruit 3-5 humans, weeks of coordination | 3 prompt-variants of the same skill, 30 minutes |
-| N=100 corpus extension | 100 × ~30 min manual scoring = 50 hours | 100 evaluations in parallel, ~1 hour |
-| Head-to-head outcome experiment | Score 50 outputs by hand | Score 50 outputs via the eval skill + blind preference rating |
-| Re-scoring the n=4 against rubric v0.2 | Manual re-do | Re-run automatically |
+| Single-scorer rubric (no inter-rater data) | 3-persona kappa pilot via `/paap-eval` | Mean inter-rater 1.83 grade-steps documented |
+| N=50 corpus with 4-author concentration | Extended to N=80 across 36 distinct authors | Procedural distribution dropped 76% → 60% |
+| 8 deferred gstack candidates without evidence | Re-evaluated against new corpus | 3 promote, 3 confirmed gstack-only, 2 keep deferred |
+| No head-to-head outcome data | 5 hand-written vs 5 generated + 1 blind output test | Generated mean A vs HW B+ on rubric; TIE on blind output; provenance mis-attributed |
+| `meta-paap` self-critique systematic weaknesses | (deferred to v0.3 — needs `/paap-eval` execution-trace pass) | Documented for v0.3 |
 
-`/paap-eval` is therefore the v0.2 cornerstone. Build it first; everything else is downstream.
+### What v0.2 evidence supports (now defensible)
 
-### `/paap-eval` design spec
+1. `meta-paap` produces skills scoring B+ to A on the 22-principle rubric across diverse workflows
+2. Generated skills consistently meet rubric structure (output contract, decision class, gate completeness) better than typical hand-written equivalents — +0.66 grade-step delta
+3. For at least one workflow domain, generated skill output is **indistinguishable from hand-written** by a careful blind reader (humanizer task, judge mis-attributed provenance)
 
-**Name:** `/paap-eval` (matches `meta-paap` namespace; signals scoring against PaaP rubric specifically).
+### What v0.2 cannot claim (deferred to v0.3)
 
-**Inputs:** A path to a SKILL.md file, plus optional flags for archetype hint and scoring strictness.
+1. Output-quality parity *across all workflow domains* — only 1 task tested
+2. Reliability under multi-model judging — single Sonnet judge throughout
+3. The 3 promotion-ready candidates (#26, #29, #30) are integrated into the rubric
 
-**Outputs:** A scored evaluation file (using the existing [`scoring-template.md`](./04-RUBRIC/scoring-template.md) format), plus a confidence-per-principle annotation, plus a "what I was uncertain about" section.
-
-**Phase structure (drafted; subject to Stage 1 elicitation):**
-
-1. **Pre-Phase — Input validation.** Is the input a SKILL.md? If not, stop with explanation.
-2. **Phase 1 — Archetype detection + confirmation.** Auto-classify Procedural / Reference / Creative / Hybrid. If confidence < threshold, ask user.
-3. **Phase 2 — Algorithmic auto-score.** Pattern-match the ~12 principles that can be (anti-triggers in YAML, exit conditions formatted as questions, gates with 3 parts in detectable structure, error tables, line count, hardcoded paths, composed_skills metadata).
-4. **Phase 3 — Semantic LLM-judge.** Per-principle judge prompts for the ~10 semantic principles (output spec quality, persona depth, context-scope reasoning, voice rules). Each scoring includes a confidence rating and an "I'm uncertain because..." escape.
-5. **Phase 4 — Synthesis + honest report.** Aggregate per-principle grades, mark N/A for archetype-skipped principles with stated justification, surface low-confidence scores for human review.
-6. **Phase 5 — Self-disclosure.** Always frame as "first-pass evaluation following PaaP rubric v0.X" with explicit caveats. Never as "objective grade."
-
-**Four traps to avoid (from first-principles analysis):**
-
-1. **Pretending it's objective.** It's an LLM-judge. Frame as "structured first-pass evaluation," not "objective scoring."
-2. **Trying to score everything algorithmically.** Some principles need judgment. The skill should auto-score the algorithmic ones, LLM-judge the semantic ones, and **defer to user** for the irreducibly subjective ones.
-3. **Skipping the archetype gate.** Score Procedural-only principles on a Reference skill = punishing legitimate non-procedural artifacts. Archetype declaration is mandatory before scoring.
-4. **Becoming the truth.** Self-disclose loudly. Never let `/paap-eval`'s output be cited as definitive.
+The v0.3 priorities below address these gaps.
 
 ---
 
-## v0.2 build plan — six stages, ordered by dependency
+## v0.3 priorities (planned next)
 
-| Stage | Output | Time | Blocked by |
-|---|---|---|---|
-| **0** | This document (you're reading it) — v0.2 plan public | Done | — |
-| **1** | `/paap-eval` skill exists at `06-META-PAAP/paap-eval/SKILL.md` | 4-6 hrs (3 sub-sessions) | Stage 0 |
-| **2** | Kappa pilot results in `05-EVALUATION/kappa-pilot.md` | 2-3 hrs | Stage 1 |
-| **3** | N=100 corpus + 8 deferred candidates re-evaluated | 3-4 hrs | Stage 1 |
-| **4** | Head-to-head outcome experiment | 4-6 hrs (2 sub-sessions) | Stage 1 |
-| **5** | v0.2 release (CITATION bump, CHANGELOG, re-audit, push) | 1-2 hrs | Stages 1-4 |
+### 1. Promote 3 corpus-validated candidates → 25-principle rubric
 
-**Total:** ~15-22 hrs across 7-9 sessions. Pacing rule: no session > 3 hrs.
+v0.2 Stage 3's headline finding: 3 of 8 deferred gstack candidates appeared in ≥20% of community skills, making them real emerging patterns rather than gstack-specific:
 
-### Stage 1 — Build `/paap-eval` (sub-stages)
+- **#26 Skills observe themselves and feed prior runs forward** (6/30 community sightings = 20%)
+- **#29 Skills are portable; host is config knob** (8/30 = 27%)
+- **#30 Skills detect spawn vs interactive and adapt** (6/30 = 20%)
 
-- **1a — Scaffold.** Run `meta-paap` to generate the v0 skeleton from the design spec above.
-- **1b — Algorithmic detectors.** Pattern-match logic for ~12 auto-detectable principles.
-- **1c — Semantic judge prompts.** Per-principle LLM prompts for ~10 semantic principles.
-- **1d — Validation.** Run against the 4 existing manual evaluations; investigate divergences.
+v0.3 promotes these to the rubric as principles 23, 24, 25 (numbering the previously-deferred candidates by community-evidence rank, not original gstack order). Architecture-checklist updates `meta-paap` accordingly. Re-run kappa pilot at 25-principle scale.
 
-### Stage 2 — Kappa pilot
+### 2. Multi-model kappa (Claude + GPT-5 + Gemini)
 
-- Pick 10 reference skills from the corpus, stratified.
-- Create 3 scorer-persona variants of `/paap-eval`: **strict-academic**, **pragmatic-practitioner**, **charitable-newcomer**.
-- Run 3 × 10 = 30 evaluations in parallel.
-- Compute Cohen's kappa per principle.
-- Principles with kappa < 0.6 → propose rewording or merger.
+v0.2's kappa pilot is **prompt-variant reliability**, not multi-rater. All 3 personas ran on Claude Sonnet. v0.3 should run the same 10-skill corpus through:
 
-### Stage 3 — Extend corpus to N=100
+- Claude Opus / Sonnet / Haiku (3 model sizes within Anthropic family)
+- GPT-5 / GPT-5 Codex (different vendor, different training data)
+- Gemini 2.5 Pro (third vendor, different RLHF approach)
 
-- Add 50 more skills, weighted toward under-represented categories: long-tail individual practitioners, non-Procedural archetypes, non-English authors, non-Claude-Code hosts.
-- Run `/paap-eval` against all 100 (parallel).
-- Re-evaluate the 8 deferred gstack candidates (below) with new evidence.
-- Update [`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md).
+Compute Cohen's kappa per principle across model-vendor pairs. Principles with low cross-model agreement need rewording for v0.4. This is the actual multi-rater study academic reviewers will demand.
 
-### Stage 4 — Head-to-head outcome experiment
+### 3. Output-quality test expansion
 
-- Pick 5 workflows spanning the 3 archetypes.
-- Author each twice: hand-written + via `meta-paap` (10 skills total).
-- Define a task battery per workflow (3-5 inputs each).
-- Run 50 outputs in parallel.
-- Blind-score by `/paap-eval` (structural rubric) + blind preference rating by Sir (output quality).
-- Quantify: meta-paap match rate, hand-written advantage axes, authoring-time delta.
+v0.2 Stage 4 ran 1 output-quality task (humanizer). Result was directionally meaningful (TIE + mis-attributed provenance) but N=1.
 
-### Stage 5 — v0.2 release
+v0.3 expands to:
+- 5 workflows spanning all 3 archetypes
+- 3-5 task-battery inputs each (15-25 total output comparisons)
+- Multi-judge scoring (3 model-vendor judges per output pair)
+- Workflow-domain specific quality rubrics (separate from the 22 architectural principles)
 
-- Bump `CITATION.cff` to 0.2.0.
-- Add `CHANGELOG.md` documenting v0.1 → v0.2 deltas.
-- Update [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) with kappa-driven revisions.
-- Re-run [`04-RUBRIC/reflexive-self-audit.md`](./04-RUBRIC/reflexive-self-audit.md) against the v0.2 repo.
-- Tag and push.
+### 4. Add "rationalizations to reject" to `meta-paap` persona generation
+
+v0.2 Stage 4's most actionable finding for `meta-paap` improvement: generated skills consistently scored lower on persona depth than hand-written exemplars like `obra/test-driven-development`. The gap is the "rationalizations to reject" pattern — naming the bad arguments the model will make and providing the counter, rather than just stating positive behavior.
+
+v0.3 update to `meta-paap`'s Phase 2 architecture spec adds a "Rationalizations Rejection Table" requirement for skills with persona/voice components. Re-run head-to-head to verify the gap closes.
+
+### 5. Run head-to-head on community skills (not just author's hand-written)
+
+v0.2 Stage 4's hand-written baseline came from the rubric author's local skill folder. This is a self-evaluation bias: the author may write skills in ways the rubric rewards.
+
+v0.3 runs head-to-head against community skills (e.g., 5 from Stage 3's N=80 corpus across the 4 archetypes), feeding their workflow descriptions to `meta-paap` and comparing.
+
+### 6. `meta-paap` v2 self-critique improvements (deferred from v0.2)
+
+The 4/4 systematic weakness from v0.1's [n=4 regression study](./05-EVALUATION/regression.md):
+
+- Add an **execution-trace pass** — data flow from Phase N output → Phase N+1 references
+- Add a **reference-validation pass** — do named skills/files actually exist at resolved paths?
+- Add a **safety-audit pass** — read project `CLAUDE.md`, check generated skill against it
+
+These were deferred from v0.2 because they belong with `/paap-eval` (which is the natural place to trace execution paths and validate references). v0.3 can either (a) re-run n=4 evaluation against fixed `meta-paap` v2 OR (b) integrate the three passes into `/paap-eval`'s synthesis phase.
+
+### 7. Resolve v0.2 Stage 4's persona-depth gap finding
+
+v0.2 Stage 4 surfaced that generated skills lack the "rationalizations to reject" depth seen in production-iterated hand-written skills. v0.3 closure depends on Item 4 above (architecture-checklist update).
 
 ---
 
-## Items to resolve during v0.2 (downstream of `/paap-eval`)
+## Items still under research (deferred to v0.3+)
 
-These are the v0.1 open questions that v0.2's stages will answer.
-
-### The 8 deferred gstack candidates
-
-Eight patterns from gstack didn't clear the v0.1 promotion bar against the 50-skill community survey. v0.2's N=100 extension (Stage 3) re-evaluates each:
-
-- SKILL.md as build artifact (template-rendered, CI-enforced)
-- Composed skills declare which sections parent owns (section-skip-list composition)
-- Dual-voice consensus for verification
-- Hard guardrails via hooks, not prose
-- Skills observe themselves and feed prior runs forward
-- Plan-stage rubric reused at audit time
-- Skills are portable; host is a config knob
-- Skills detect spawn vs. interactive and adapt
-
-See [`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md) for current evidence.
-
-### The 6 bottom-up clusters
-
-The community survey found 6 patterns the rubric only partially captures. v0.2 (after the kappa pilot in Stage 2) decides which (if any) become explicit principles:
+The community survey at v0.2 (N=80) surfaced 6 patterns the rubric only partially captures. v0.3 (after the 3-promotion candidates land) decides which (if any) become explicit principles vs. continue as sub-patterns of existing ones:
 
 1. **Refusal-as-skill** (currently absorbed into #2 Phase 0 routing) — promote to its own principle?
 2. **Rationalizations Rejection Table** (currently in #6 Personas, #22 Voice rules) — surface as canonical pattern?
 3. **Aesthetic anti-patterns** (currently in #11 Output spec) — own principle for creative skills?
 4. **Tool-availability fallback chain** (currently in #12 Gates 3 parts) — surface as canonical example?
 5. **Tone-as-instruction** (currently in #6 Personas, #22 Voice rules) — same as #6 or distinct?
-6. **Reference-style skill archetype** — addressed in v0.1 via the archetype framing.
+6. **Reference-style skill archetype** — addressed in v0.1 via the archetype framing; no further action needed.
 
-### `meta-paap` v2 self-critique improvements
+Of these 6, the most likely v0.3 promotion is **#1 Refusal-as-skill** based on the v0.2 corpus extension's evidence (Refusal Gate pattern visible in `daymade/fact-checker`, `glebis/jtbd`, `wrsmith108/linear` — at least 3/30 community sightings).
 
-The 4/4 systematic weakness from the [n=4 regression study](./05-EVALUATION/regression.md) becomes a separate v0.3 work item once `/paap-eval` exists (since `/paap-eval` is the natural place to trace execution paths and validate references):
-
-- Add an **execution-trace pass** — data flow from Phase N output → Phase N+1 references
-- Add a **reference-validation pass** — do named skills/files actually exist at resolved paths?
-- Add a **safety-audit pass** — read project `CLAUDE.md`, check generated skill against it
-
-Re-run the n=4 evaluation to verify the weaknesses closed. Deferred to v0.3.
+For full v0.2 verdicts on the original 8 deferred gstack candidates, see [`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md). Three are promotion-ready (#26 self-observation, #29 host-portable, #30 spawn-detection); three confirmed gstack-only (#22 section-skip, #24 dual-voice, #28 plan-rubric-reuse); two stay deferred (#21 build-artifact, #25 hooks).
 
 ---
 
-## v1.0 (conditional on v0.2 evidence)
+## v1.0 (defensible after v0.2; conditional on v0.3 expansions)
 
-If v0.2 ships with multi-scorer kappa data, head-to-head outcome experiments, and N≥100 corpus extension, the natural next step is conversion to a workshop-paper-format submission. Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting, or developer tools.
+v0.2 shipped the evidence base v1.0 needs:
 
-This is **conditional, not promised.** v0.1 is explicitly not paper-ready by current academic standards — single-scorer rubric work plus n=4 convenience-sampled evaluation does not clear a workshop bar. Whether the v0.2 work justifies the paper conversion will be obvious from the v0.2 data; if it doesn't, the repo stays as a maintained framework artifact and that is fine.
+- ✅ Inter-rater reliability data (3-persona kappa pilot, mean 1.83 grade-steps)
+- ✅ N=80 community corpus across 36 distinct authors
+- ✅ Head-to-head experiment with blind judge mis-attributing provenance
+- ✅ Reflexive self-audit demonstrating dogfooding discipline
 
-Citable via [`CITATION.cff`](./CITATION.cff) in the meantime.
+The honest v1.0 paper title:
+
+> *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Match Hand-Authored Ones On Structural Quality and Output Quality, From a Single-Practitioner Tooling Study."*
+
+This is defensible. v0.3 expansions (multi-model judging, output-quality test on 5 workflows × 3-5 inputs each, multi-author baseline) determine whether the title strengthens or stays in single-practitioner scope.
+
+Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting, developer tools, or LLM-as-judge methodology. Citable via [`CITATION.cff`](./CITATION.cff) in the meantime.
 
 ---
 
-## Where contributions help most (right now, v0.1)
+## Where contributions help most (right now, post-v0.2)
 
 ### High value
-1. **Score one of your skills** against the 22 principles using [`04-RUBRIC/scoring-template.md`](./04-RUBRIC/scoring-template.md). Submit as a PR adding a file under `05-EVALUATION/community/`.
-2. **Argue for adding/removing/rewording a principle** with concrete evidence from a real skill. Open an issue tagged `[principle]`.
-3. **Propose new test workflows** that stress-test the rubric in ways the current 4 don't — particularly skills in archetypes other than Procedural.
-4. **Score gstack skills against the rubric** — gstack is already a confirmed exemplar at the corpus level; per-skill scoring against the 22 principles would be a major contribution.
+1. **Run `/paap-eval` on one of your skills and submit the scored output** as a PR under `05-EVALUATION/community/`. With v0.2's instrument shipped, this takes ~1 minute per skill instead of 30+ minutes manually.
+2. **Run `/paap-eval` on community skills not in v0.2's N=80 corpus** to push toward N=100+ and validate the v0.2 archetype-distribution finding (60% Procedural / 20% Reference / 11% Creative / 9% Hybrid).
+3. **Multi-model judge cross-check.** Run `/paap-eval` against a skill, then re-score the same skill with a different model (GPT-5, Gemini). Submit the disagreement table — this is the v0.3 multi-model kappa pilot raw data we need.
+4. **Argue for promoting/demoting a principle** with concrete corpus evidence. v0.2 promoted 3 candidates and confirmed 3 as gstack-only; #21 (build-artifact) and #25 (hooks) are still ambiguous and would benefit from more data.
 
 ### Medium value
-5. **Bug reports on `examples/pre-call/`** if it fails to run as documented (e.g., LinkedIn search behavior changes).
-6. **Citations the evidence chapter missed** — papers, blog posts, framework documentation.
-7. **Tonal sharpening** — flag any AI-slop, vague claims, or inflated symbolism. The repo's credibility depends on this.
+5. **Bug reports on `/paap-eval`** when its scoring diverges sharply from your own assessment of a skill — divergence patterns inform v0.3 detector and judge revisions.
+6. **Bug reports on `examples/pre-call/`** if it fails to run as documented.
+7. **Citations the evidence chapter missed** — papers, blog posts, framework documentation.
+8. **Tonal sharpening** — flag any AI-slop or vague claims. The repo's credibility depends on this.
 
 ### Low value (don't PR these)
-- New `meta-paap` features (happens in the source skill repo, not here)
+- New `meta-paap` or `/paap-eval` features (architectural changes happen in source skill repos)
 - Tonal rewrites without substantive change
 - README overhauls without thesis change
 - Self-promotional skill submissions dressed as evaluations
 
 ---
 
-## Things v0.1 deliberately doesn't try to answer
+## Things v0.2 deliberately doesn't try to answer
 
 - **Whether PaaP scales to multi-tenant SaaS.** It doesn't, and that's fine. The determinism and cost economics are wrong for SaaS. Personal and team-scale tools are the right scope.
-- **Whether the 22 principles generalize beyond Claude Code.** Probably yes for Cursor / Codex / OpenClaw — gstack already runs on 10 hosts via setup config. Not yet tested in this repo.
-- **Whether `meta-paap` is the optimal generator design.** Almost certainly not — it's a starting point. Better generators will emerge; the rubric is what they should be measured against.
+- **Whether the 22 principles generalize beyond Claude Code.** Probably yes for Cursor / Codex / OpenClaw — gstack already runs on 10 hosts via setup config. Cross-host kappa is v0.3+ work.
+- **Whether `meta-paap` is the optimal generator design.** Almost certainly not — Stage 4 showed gaps in persona depth. Better generators will emerge; the rubric is what they should be measured against. v0.3 will close some of the persona-depth gap via the "rationalizations to reject" addition.
 - **Long-term ecosystem dynamics.** Skill marketplaces, monetization, certification, version-pinning conventions. Speculative. Out of scope until empirical evidence accumulates.
 - **The "Tan endorses PaaP" question.** He doesn't use the term. Cite gstack as evidence the architecture works; do not cite Tan as PaaP's author.
+- **Cross-language generalization.** v0.2 corpus is English-dominant despite 5/36 non-English authors writing in English. Skills authored in Chinese/Russian/Spanish primary languages haven't been corpus-scored.
+- **Per-domain rubric tuning.** v0.2 treats all skills with one rubric. Domain-specific extensions (e.g., security-focused additions for security skills, accessibility additions for design skills) might be valuable but are deferred indefinitely.
 
 ---
 
 ## Citing this work
 
-If you build on the rubric, the methodology, or the empirical findings, cite via [`CITATION.cff`](./CITATION.cff). GitHub renders this into a one-click citation block. When v1.0 ships as a paper, it will get its own DOI.
+If you build on the rubric, the methodology, the `/paap-eval` instrument, or the empirical findings, cite via [`CITATION.cff`](./CITATION.cff). GitHub renders this into a one-click citation block. When v1.0 ships as a paper, it will get its own DOI.
 
-Rubric citation format: *"PaaP rubric v0.1 (Catafal, 2026)."* Include the version — the rubric will evolve.
+**Citation formats:**
+- Framework citation: *"PaaP framework v0.2 (Catafal, 2026)."*
+- Rubric content citation (rubric content unchanged in v0.2): *"PaaP rubric v0.1 (Catafal, 2026)."*
+- Instrument citation: *"`/paap-eval` v0.2.0 (Catafal, 2026)."*
+
+Include the version. The framework will evolve; v0.3 is planned.

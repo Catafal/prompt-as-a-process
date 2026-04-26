@@ -423,9 +423,10 @@ These are real architectural patterns at gstack scale. They may not apply at sma
 
 The rubric will evolve. Major changes (adding/removing principles, changing applicability) trigger a version bump and a changelog entry. Wording changes that don't shift applicability are minor.
 
-- **v0.1 (this version):** 22 principles, 3 archetypes, 8 deferred candidates documented
-- **v0.2 (planned):** empirical survey extended to N=100, candidate principles re-evaluated, multi-scorer reliability data
-- **v1.0 (conditional):** workshop-paper format if v0.2 hits multi-scorer kappa, head-to-head outcome data, and N≥100 corpus. Not promised; depends on the empirical work.
+- **v0.1 (rubric content frozen here, 2026-04-25):** 22 principles, 3 archetypes, 8 deferred gstack candidates documented
+- **v0.2 (released 2026-04-26 — evidence + tooling):** `/paap-eval` skill (auto-scoring instrument), N=80 corpus extension (3 deferred candidates promotion-ready, 3 confirmed gstack-only), 3-persona kappa pilot (mean inter-rater 1.83 grade-steps), head-to-head experiment (5 paired skills + 1 blind-output test, judge mis-attributed provenance). **Rubric content unchanged from v0.1.** See [`../CHANGELOG.md`](../CHANGELOG.md).
+- **v0.3 (planned):** Promote 3 corpus-validated candidates (#26 self-observation, #29 host-portable, #30 spawn-detection) → 25-principle rubric. Multi-model kappa. Output-quality test expansion. "Rationalizations to reject" pattern added to `meta-paap` persona generation.
+- **v1.0 (conditional, unlocked by v0.2):** Workshop-paper format. v0.2 evidence makes this defensible (kappa data, N=80 corpus, head-to-head with mis-attributed provenance). Honest defensible paper title: *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Match Hand-Authored Ones On Structural Quality and Output Quality, From a Single-Practitioner Tooling Study."* v0.3 expansions determine whether v1.0 ships.
 
 When you cite this rubric, include the version: *"PaaP rubric v0.1 (Catafal, 2026)."*
 

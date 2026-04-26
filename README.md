@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](./LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/docs-CC--BY--4.0-lightgrey.svg)](./LICENSE-docs)
-[![Status](https://img.shields.io/badge/status-v0.1%20%E2%86%92%20v0.2%20in%20progress-orange.svg)](./07-OPEN-QUESTIONS.md)
+[![Status](https://img.shields.io/badge/status-v0.2%20released-brightgreen.svg)](./CHANGELOG.md)
 
 ---
 
@@ -155,9 +155,10 @@ This is not a frozen artifact. The rubric will evolve. The evaluation set will g
 
 ### Roadmap
 
-- **v0.1 (released)** — Framework, rubric, n=4 evaluations, 50-skill empirical survey, `meta-paap` skill, runnable example, reflexive self-audit.
-- **v0.2 (in progress)** — `/paap-eval` (a skill that auto-scores SKILL.md files against the rubric), unlocking: multi-scorer kappa pilot, N=100 corpus extension, head-to-head outcome experiment (hand-written vs `meta-paap`-generated, blind-scored). Full plan in [`07-OPEN-QUESTIONS.md`](./07-OPEN-QUESTIONS.md).
-- **v1.0 (conditional)** — Workshop-paper format if v0.2's empirical work warrants it. Submission readiness depends on hitting multi-scorer kappa, head-to-head outcome data, and N≥100 corpus. v0.1 is explicitly not paper-ready by current academic standards.
+- **v0.1 (released 2026-04-25)** — Framework, rubric, n=4 evaluations, 50-skill empirical survey, `meta-paap` skill, runnable example, reflexive self-audit. See [CHANGELOG.md](./CHANGELOG.md) for details.
+- **v0.2 (released 2026-04-26)** — `/paap-eval` skill (the auto-scoring instrument), 3-persona kappa pilot (mean inter-rater 1.83 grade-steps), corpus extended to N=80 across 36 distinct authors (3 deferred candidates promotion-ready, 3 confirmed gstack-only), head-to-head experiment (5 paired skills + 1 blind-output test where the judge mis-attributed provenance). See [CHANGELOG.md](./CHANGELOG.md).
+- **v0.3 (planned)** — Promote 3 corpus-validated candidates → 25-principle rubric. Multi-model kappa (Claude + GPT-5 + Gemini). Output-quality test expanded to 5 workflows × 3-5 inputs each. Add "rationalizations to reject" to `meta-paap` persona generation.
+- **v1.0 (conditional, defensible after v0.2)** — Workshop-paper format. The v0.2 evidence base supports a defensible workshop submission; the honest title would be *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Match Hand-Authored Ones On Structural Quality and Output Quality, From a Single-Practitioner Tooling Study."* v0.3 expansions (multi-model, multi-task, multi-author baseline) determine whether v1.0 ships.
 
 ---
 

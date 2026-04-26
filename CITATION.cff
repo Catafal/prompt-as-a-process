@@ -2,10 +2,10 @@
 # Update `repository-code` once the repo is pushed to GitHub.
 cff-version: 1.2.0
 title: "Prompt as a Process (PaaP): A Framework for Markdown-as-Application Skills"
-message: "If you use this framework, the rubric, or the evaluation methodology in your work, please cite it as below."
+message: "If you use this framework, the rubric, the evaluation instrument, or the empirical findings in your work, please cite it as below."
 type: software
-version: 0.1.0
-date-released: 2026-04-25
+version: 0.2.0
+date-released: 2026-04-26
 authors:
   - given-names: Jordi
     family-names: Catafal
@@ -25,12 +25,19 @@ keywords:
   - AI workflows
   - skill authoring
   - meta-skills
+  - skill evaluation
+  - inter-rater reliability
+  - LLM-judge
 abstract: >-
   Prompt as a Process (PaaP) is a framework for treating Markdown SOPs as
   deployable applications, runnable end-to-end by sufficiently reliable
   language models. This repository formalizes the framework via 22
-  architectural principles, a scoring rubric, an empirical survey of
-  community skills, four documented evaluations of a meta-skill that
-  generates other skills, and a runnable example. Intended for practitioners
-  authoring or evaluating LLM workflow files (e.g., SKILL.md), and
-  researchers studying the post-orchestration-framework ecosystem.
+  architectural principles with archetype-aware applicability, a
+  scoring rubric, an evaluation instrument (`/paap-eval`), an N=80
+  community-skill empirical survey across 36 distinct authors, a
+  3-persona inter-rater kappa pilot (mean inter-rater 1.83 grade-steps),
+  a head-to-head experiment comparing hand-written vs generated skills
+  (blind judge could not distinguish provenance for a humanizer task),
+  and a runnable example. Intended for practitioners authoring or
+  evaluating LLM workflow files (e.g., SKILL.md), and researchers
+  studying the post-orchestration-framework ecosystem.
