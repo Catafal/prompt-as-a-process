@@ -13,6 +13,10 @@ Versioning is **content-tied**, not strict semver: each release describes both r
 
 ### Added
 
+- **v0.3 multi-model kappa pilot — GPT-5.4 via Codex CLI** ([`05-EVALUATION/kappa-pilot-multimodel.md`](./05-EVALUATION/kappa-pilot-multimodel.md)). Same 10 skills as v0.2's pilot, single-persona pragmatic-practitioner, full 25-principle rubric, JSON-Schema-enforced output. Headline: **GPT-5.4 ↔ Claude-pragmatic mean grade-step distance = 1.20** (tighter than the within-Claude 1.83 strict↔pragmatic). GPT-5.4 lands closest to Claude-strict (1.00 distance). Archetype agreement: 7/10 with Claude-pragmatic and Claude-charitable, 6/10 with Claude-strict — same borderline-case pattern as v0.2.
+- **First inter-model evidence on the 3 v0.3 principles.** GPT-5.4 grades 10/10 applicable on #23 (host-portable, mean ≈ B), 7/10 applicable on #24 (self-observation; *all 7 graded near-F* — corpus-wide structural gap, only `anthropics/skill-creator` reached B−), 4/10 applicable on #25 (spawn-detection, mean ≈ D+). The N=7 near-F result on #24 externally confirms the v0.3 reflexive-self-audit's honest C grade on the same principle.
+- `05-EVALUATION/kappa-pilot-multimodel-raw-data.md` — verbatim GPT-5.4 outputs (10 JSON files, schema-validated server-side, no retries).
+
 - **Rubric grew from 22 to 25 principles.** Three deferred candidates from the v0.2 N=80 corpus extension crossed the ≥20% community-prevalence threshold and were promoted into the canonical rubric:
   - **Principle #23 — Host-portable; agent harness is a config knob** (was deferred candidate #29; 8/30 = 27% N=80 evidence — highest of the three)
   - **Principle #24 — Skills observe themselves and feed prior runs forward** (was #26; 6/30 = 20%)

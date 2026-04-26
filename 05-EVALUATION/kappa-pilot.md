@@ -201,12 +201,24 @@ v0.1's #1 academic blocker — single-scorer rubric — is closed proportionally
 
 ---
 
+## v0.3 multi-model extension
+
+The same 10 skills were re-scored against **GPT-5.4 via Codex CLI** as the v0.3 multi-model kappa step (single-persona pragmatic-practitioner, full 25-principle rubric, `model_reasoning_effort=high`). See [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md).
+
+**Headline:** GPT-5.4 ↔ Claude-pragmatic mean grade-step distance = **1.20** — *tighter* than the within-Claude strict↔pragmatic distance of 1.83 reported above. Cross-model agreement is closer than the most-divergent within-model persona pair. GPT-5.4 lands closest to Claude-strict (1.00 grade-steps), suggesting it grades systematically more conservatively than Claude-pragmatic despite identical persona instructions.
+
+The rubric travels across model families. The persona system continues to produce the largest grade-shift; model identity is a smaller (but real and consistent) effect.
+
+---
+
 ## Cross-references
 
 - [`./kappa-pilot-raw-data.md`](./kappa-pilot-raw-data.md) — Verbatim subagent outputs for all 3 personas
 - [`./methodology.md`](./methodology.md) — How v0.1's n=4 study was designed (precursor to this pilot)
 - [`./regression.md`](./regression.md) — v0.1's cross-test analysis
-- [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 22 principles being scored
-- [`../06-META-PAAP/paap-eval/SKILL.md`](../06-META-PAAP/paap-eval/SKILL.md) — The skill that produced these evaluations
+- [`./kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md) — v0.3 GPT-5.4 multi-model extension of this pilot
+- [`./kappa-pilot-multimodel-raw-data.md`](./kappa-pilot-multimodel-raw-data.md) — Verbatim GPT-5.4 outputs
+- [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 25 principles being scored (was 22 at v0.2; v0.3 added #23, #24, #25)
+- [`../06-META-PAAP/paap-eval/SKILL.md`](../06-META-PAAP/paap-eval/SKILL.md) — The skill that produced the v0.2 evaluations (the v0.3 multi-model run used `codex exec` directly, not paap-eval)
 - [`../06-META-PAAP/paap-eval/calibration.md`](../06-META-PAAP/paap-eval/calibration.md) — Stage 1d's smaller-scale calibration that preceded this pilot
 - [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) — Stage 3, 4, 5 plans that this pilot unblocks

@@ -50,15 +50,18 @@ Promoted in v0.3 (commit landed 2026-04-26). Numbering follows community-evidenc
 
 **Still pending in v0.3:** kappa pilot re-run at 25-principle scale (combined with priority #2 below) and architecture-checklist updates inside `meta-paap` for the new principles.
 
-### 2. Multi-model kappa (Claude + GPT-5 + Gemini)
+### 2. Multi-model kappa (Claude + GPT-5 + Gemini) — IN PROGRESS
 
-v0.2's kappa pilot is **prompt-variant reliability**, not multi-rater. All 3 personas ran on Claude Sonnet. v0.3 should run the same 10-skill corpus through:
+v0.2's kappa pilot is **prompt-variant reliability**, not multi-rater. All 3 personas ran on Claude Sonnet. v0.3 runs the same 10-skill corpus through additional model families.
 
-- Claude Opus / Sonnet / Haiku (3 model sizes within Anthropic family)
-- GPT-5 / GPT-5 Codex (different vendor, different training data)
+**v0.3 Codex/GPT-5.4 run (✅ DONE 2026-04-26).** Same 10 skills, full 25-principle rubric, single pragmatic-practitioner persona, JSON-Schema-enforced output via `codex exec`. Headline: GPT-5.4 ↔ Claude-pragmatic mean distance = 1.20 grade-steps (tighter than within-Claude 1.83). Closest cluster: GPT-5.4 ↔ Claude-strict (1.00). 7/10 archetype agreement with Claude-pragmatic. First inter-model evidence on principles #23/#24/#25 — #24 (self-observation) graded near-F across all 7 applicable skills, externally confirming the framework's own honest C self-audit. Full results: [`../05-EVALUATION/kappa-pilot-multimodel.md`](../05-EVALUATION/kappa-pilot-multimodel.md). GPT-5.5 run pending account access.
+
+**Still pending in v0.3:**
+- Within-Claude family expansion (Claude Opus / Sonnet / Haiku — 3 model sizes within Anthropic family)
 - Gemini 2.5 Pro (third vendor, different RLHF approach)
+- Per-principle Cohen's kappa across model-vendor pairs (currently aggregate-grade-distance only)
 
-Compute Cohen's kappa per principle across model-vendor pairs. Principles with low cross-model agreement need rewording for v0.4. This is the actual multi-rater study academic reviewers will demand.
+When the multi-vendor matrix is complete, principles with low cross-model agreement need rewording for v0.4. This is the actual multi-rater study academic reviewers will demand.
 
 ### 3. Output-quality test expansion
 
