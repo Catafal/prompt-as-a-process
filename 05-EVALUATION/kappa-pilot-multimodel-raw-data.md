@@ -1,12 +1,19 @@
-# Multi-model Kappa Pilot — Raw GPT-5.4 Outputs
+# Multi-model Kappa Pilot — Raw Outputs (GPT-5.4 + Gemini-3)
 
-> Verbatim per-principle grades from `gpt-5.4` via Codex CLI, 10 SKILL.md files, `pragmatic-practitioner` persona, `model_reasoning_effort=high`. JSON Schema-validated server-side; no schema-violation retries.
+> Verbatim per-principle grades from two non-Claude raters scoring the same 10 SKILL.md files at 25-principle scale, both with `pragmatic-practitioner` persona. The GPT-5.4 section was generated 2026-04-26 (server-side JSON Schema enforcement); the Gemini-3 section was added later the same day (prompt-engineered JSON + client-side validation).
+
+**Aggregated analysis:** [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md)
+**v0.2 Claude baseline:** [`kappa-pilot.md`](./kappa-pilot.md) (Claude-pragmatic / strict / charitable)
+
+This file has two sections: **GPT-5.4 outputs** (below) and **Gemini-3-pro-preview outputs** (further below).
+
+---
+
+# GPT-5.4 raw outputs
 
 **Date:** 2026-04-26
 **Method:** `codex exec --output-schema rubric-schema.json -m gpt-5.4 -c model_reasoning_effort="high"` per skill, sequential.
-**Total wall-clock:** 17 min 12 sec (mean 110 s/call)
-**Aggregated analysis:** [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md)
-**Comparison baseline:** [`kappa-pilot.md`](./kappa-pilot.md) (v0.2 Claude-pragmatic / strict / charitable)
+**Total wall-clock:** 17 min 12 sec (mean 110 s/call). Schema-violation retries: 0.
 
 ---
 
@@ -378,4 +385,385 @@
 | 23 | Host-portable | C- | high | The produced artifact is portable browser output and the template paths are relative, which helps. But the skill body is still visibly tuned to Claude/Anthropic conventions and names host-specific behavior directly. |
 | 24 | Self-observation | N/A | high | Persistent execution analytics and read-back loops are not expected for a creative-dominant generation skill. |
 | 25 | Spawn-detection | N/A | high | The skill does not define spawned-agent behavior, but that adaptation is a procedural concern rather than a creative one for this archetype. |
+
+
+---
+
+# Gemini-3-pro-preview raw outputs (added 2026-04-26)
+
+> Same protocol as the GPT-5.4 section above. Gemini CLI 0.32.1, `gemini-3-pro-preview`, pragmatic-practitioner persona, prompt-engineered JSON (no server-side schema enforcement available in CLI). All 10 calls succeeded on first attempt with no retries.
+
+**Total wall-clock:** 11 min 53 sec (mean ~71 s/call)
+
+---
+
+
+## 01-obra-tdd
+
+**Archetype:** Hybrid — The skill functions primarily as a Creative behavioral constraint that overrides the AI's default coding persona, while utilizing Reference elements to enforce the Red-Green-Refactor process.
+
+**Aggregate grade:** A- — An exceptionally strong behavioral constraint skill that perfectly leverages tone, anti-patterns, and strict process mapping to combat LLM laziness, only slightly weakened by minor omissions in progress reporting and hardcoded pathing.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | A | high | The YAML description explicitly defines when the skill should be triggered (before writing implementation code), acting as clear routing logic rather than a generic tagline. |
+| 2 | Route before work | N/A | high | Skill acts as a behavioral constraint and reference, not a sequential procedural pipeline. |
+| 3 | Modes | N/A | high | No multiple execution paths or modes exist in this behavioral discipline. |
+| 4 | State | N/A | high | Skill dictates real-time coding behavior without requiring durable state across long horizons. |
+| 5 | Parallel | N/A | high | No independent subtasks to parallelize. |
+| 6 | Personas/voice | A+ | high | Implements an exceptionally strong persona designed to combat AI laziness, utilizing explicit rules, 'Iron Laws', and anti-rationalization tables instead of generic framing. |
+| 7 | Files = bus | N/A | high | Not a multi-phase data processing pipeline requiring a file bus. |
+| 8 | Synthesis | N/A | high | No parallel subtasks to merge or synthesize. |
+| 9 | Human gate | N/A | high | Not a procedural pipeline requiring formal phase gates, though it bounds autonomy via human exceptions. |
+| 10 | Exit = question | N/A | high | Not a procedural pipeline with formal phase exits. |
+| 11 | Output spec | B+ | medium | Provides clear constraints for the generated code and test outputs using 'Good/Bad' contrasting examples, though it lacks a rigid layout spec for the AI's conversational response. |
+| 12 | Gates = 3 parts | N/A | high | Not a sequential pipeline with formal quality gates. |
+| 13 | External storage | N/A | high | Skill is under the ~400 line threshold requiring externalized prompts. |
+| 14 | Context scope | A | high | Explicitly bounds its own applicability, stating exactly when to apply the rules (Always) and when they can be bypassed (Exceptions). |
+| 15 | Progress | C+ | medium | While the skill defines a tight cycle (Red->Verify->Green->Verify) and provides a 'Verification Checklist', it lacks explicit instructions on how to communicate progress to the user during these phases. |
+| 16 | Errors | A | high | Includes a highly effective 'When Stuck' error-handling table that maps specific failure states to concrete recovery actions. |
+| 17 | Autonomy | A | high | Clearly bounds autonomy by explicitly defining situations where human permission is required, overriding default AI behavior. |
+| 18 | Path resolution | C | medium | References an external file but uses a hardcoded relative/at-mention format rather than dynamic runtime resolution or fallback paths. |
+| 19 | Composition | N/A | high | Does not explicitly compose or invoke other predefined skills. |
+| 20 | Output-first | B | medium | The core output expectation ('The Iron Law') is stated early, though specific code output examples are located midway through the document. |
+| 21 | Decision class drives gating | N/A | high | Not a procedural pipeline with decision classification gating. |
+| 22 | Voice + writing rules | A+ | high | Masterful integration of tone and voice rules directly into the skill content. The 'Common Rationalizations' table effectively functions as an anti-AI-vocabulary/behavior list. |
+| 23 | Host-portable (v0.3) | A | high | Uses standard framework-agnostic commands and avoids hardcoded absolute system paths, ensuring portability across multiple environments. |
+| 24 | Self-observation (v0.3) | N/A | high | As a creative/behavioral constraint, it does not persist execution records or analytics. |
+| 25 | Spawn-detection (v0.3) | N/A | high | Does not differentiate between spawn and interactive execution contexts. |
+
+
+## 02-tob-auditor
+
+**Archetype:** Procedural — The skill defines a strict, multi-step execution pipeline (Steps 0-5) to perform an audit, processing inputs sequentially rather than serving purely as an inert reference or a creative guideline.
+
+**Aggregate grade:** C+ — The skill is a robust, well-scoped diagnostic prompt with excellent routing, error handling, and output specs, but it misses several core PaaP architectural requirements (State, Files=Bus, Gates, Self-observation).
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | A+ | high | The description clearly specifies exact use cases and the skill includes explicit 'When to Use' and 'When NOT to Use' sections acting as precise routing logic. |
+| 2 | Route before work | A | high | Step 0 acts as a routing phase, classifying the input as local or remote and fetching necessary remote context before substantive audit work begins. |
+| 3 | Modes | A | high | The skill explicitly defines criteria-driven execution paths (local vs. remote modes) with clear handling for each. |
+| 4 | State | C- | high | The skill instructs the agent to 'capture' and 'record' extensive security context across multiple files but fails to mandate writing this state to disk, risking context window degradation. |
+| 5 | Parallel | N/A | high | The skill instructs scanning files, but does not dictate launching discrete sub-agents or parallel independent tasks. |
+| 6 | Personas/voice | A+ | high | The skill uses 'Rationalizations to Reject' to heavily enforce a strict security auditor persona, grounding the agent in specific behavioral discipline rather than generic 'expert' framing. |
+| 7 | Files = bus | F | high | The skill explicitly relies on passing data between steps in-memory ('capture' in Step 3, then 'check each vector against the security context captured in Step 3' in Step 4) instead of using intermediate files. |
+| 8 | Synthesis | B+ | high | Step 5 provides detailed, structured rules for synthesizing the raw findings into a cohesive report, including severity grouping and clean-repo edge cases. |
+| 9 | Human gate | D | high | The process executes end-to-end without a single 'AskUserQuestion' checkpoint to allow human intervention or validation during the audit. |
+| 10 | Exit = question | C | medium | Has binary exit conditions early on ('If no workflow files are found... stop'), but lacks question-based exits between the substantive phases (Step 3 to 4, Step 4 to 5). |
+| 11 | Output spec | A+ | high | The output specification in Step 5 is exhaustive, dictating exact headings, section order, severity judgment, and data flow trace formatting. |
+| 12 | Gates = 3 parts | F | high | The skill lacks explicit quality gates containing a check, a failure condition, and a recovery path. |
+| 13 | External storage | A | high | The skill effectively utilizes external markdown files for granular vector definitions and reference profiles, keeping the core prompt streamlined. |
+| 14 | Context scope | A | high | Context scope is strongly defined with explicit instructions on what boundaries to respect during the audit. |
+| 15 | Progress | A | high | The skill instructs the agent to emit status updates with quantitative stats after specific checkpoints. |
+| 16 | Errors | A | high | Includes a dedicated error handling section mapping specific API failure codes to specific reporting actions. |
+| 17 | Autonomy | A | high | The skill defaults intelligently to local mode if an explicit remote URL is not provided, avoiding unnecessary questions to the user. |
+| 18 | Path resolution | A | high | Avoids hardcoded absolute paths by using a `{baseDir}` abstraction to resolve external references at runtime. |
+| 19 | Composition | N/A | high | The skill operates standalone and does not invoke or compose other agent skills. |
+| 20 | Output-first | D | high | The detailed output specification is placed at the very end of the prompt (Step 5) rather than being defined before the workflow phases. |
+| 21 | Decision class | F | high | The skill does not categorize decisions into Mechanical, Taste, or User Challenge classes to drive gating behavior. |
+| 22 | Voice + writing | B+ | medium | While it lacks a strict 'banned words' list, the reporting format and severity judgment rules implicitly enforce a highly structured, objective tone. |
+| 23 | Host-portable | A | high | The skill is portable, specifying standard allowed tools and avoiding OS-specific hardcoded paths. |
+| 24 | Self-observation | F | high | The skill contains no mechanism for maintaining a record of its previous executions or learning from them. |
+| 25 | Spawn-detection | F | high | The skill lacks any instructions to detect if it was spawned by another agent versus a human user to adapt its output accordingly. |
+
+
+## 03-anthropic-skill-creator
+
+**Archetype:** Procedural — The skill outlines a complex, multi-step, iterative workflow with explicit phases, parallel execution branching, human gates, and file-based state management.
+
+**Aggregate grade:** B+ — A highly pragmatic, production-ready skill that excels in state management, parallel execution, and host portability, with only minor structural omissions like explicit error tables.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | B+ | high | The description clearly explains when to invoke the skill for various sub-tasks (create, edit, measure, benchmark). It lacks explicit negative triggers (when NOT to use it). |
+| 2 | Route before work | A | high | The skill instructs the agent to explicitly determine the user's current stage in the process before starting substantive work. |
+| 3 | Modes | B+ | medium | Execution paths branch based on context (new vs. existing skill, Claude.ai vs. Cowork), which act as functional modes, though they aren't formally named 'Modes' in the text. |
+| 4 | State | A- | high | The skill heavily relies on writing state to disk, allowing it to seamlessly resume or read past state across different iterations. |
+| 5 | Parallel | A+ | high | Provides explicit, forceful instructions to launch baseline and test runs in parallel within the same turn. |
+| 6 | Personas/voice | B | medium | Includes guidance on adapting communication based on the user's technical literacy, though it lacks a formalized 'Iron Law' or rejection rationalizations. |
+| 7 | Files = bus | A | high | Data, metadata, and evaluations are systematically passed through clearly structured, numbered JSON and Markdown files. |
+| 8 | Synthesis | A- | high | Explicitly details how to synthesize parallel run data, both algorithmically (via a python script) and analytically (an 'analyst pass'). |
+| 9 | Human gate | A | high | Implements strict waiting periods where human evaluation is irreducible, ensuring the agent halts execution appropriately. |
+| 10 | Exit = question | B- | medium | Exits are clear (driven by user feedback files), but they are not framed as strict binary questions for internal phase transitions. |
+| 11 | Output spec | A | high | Provides rigorous schemas, formatting templates, and anatomy breakdowns for the generated artifacts. |
+| 12 | Gates = 3 parts | B+ | high | The feedback review acts as a gate with a clear check (read feedback), failure condition (specific complaints), and recovery path (focus improvements on those). |
+| 13 | External storage | A+ | high | Extensively externalizes subagent prompts and large schemas to reference files, keeping the main skill lean. |
+| 14 | Context scope | B | medium | Defines what the skill is for thoroughly, but lacks explicit boundaries on what the skill should explicitly reject or is NOT for. |
+| 15 | Progress | A | high | Mandates progress updates to the user during long-running background tasks. |
+| 16 | Errors | C- | high | Lacks a structured error table mapping specific failures to specific recovery actions, relying on general prose instead. |
+| 17 | Autonomy | A- | high | Guides the agent to proactively suggest defaults, use its own judgment on baseline selection, and draft assertions asynchronously. |
+| 18 | Path resolution | A- | high | Uses relative or generated dynamic paths seamlessly, avoiding hardcoded user directories (except standard ~/Downloads). |
+| 19 | Composition | C | medium | Mentions using other tools (MCPs) but fails to define them formally in a `composed_skills` YAML block. |
+| 20 | Output-first | B- | medium | The exact output specification (SKILL.md anatomy) is buried halfway through the document rather than presented prior to the phase execution. |
+| 21 | Decision class | C- | low | Does not classify decisions formally into Mechanical/Taste/Challenge categories, though it implicitly handles taste via human review. |
+| 22 | Voice + writing rules | B | medium | Contains excellent guidance on pedagogical theory of mind, though it lacks an explicit list of banned 'AI' phrases. |
+| 23 | Host-portable | A+ | high | Flawlessly adapts logic based on the host environment (Cowork vs Claude.ai) with specific feature flagging and workarounds. |
+| 24 | Self-observation | A | high | Explicitly loops back to read user feedback from previous executions and carries that context forward into new iterations. |
+| 25 | Spawn-detection | N/A | high | The skill is designed strictly for interactive co-development with a human user and is not intended to be spawned headlessly by another agent. |
+
+
+## 04-tapestry-article-extractor
+
+**Archetype:** Procedural — The skill outlines a multi-step execution workflow for downloading and extracting content, relying on fallbacks and sequential tool execution.
+
+**Aggregate grade:** C — While the skill is a functional and portable shell script wrapper with good error handling, it lacks the structural PaaP disciplines like routing, gating, output-first design, and state observation.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | B+ | high | The YAML description contains clear positive routing indicators, but lacks explicit negative anti-triggers. |
+| 2 | Route before work | D | high | The skill jumps directly into tool installation checks and extraction without a preliminary routing, classification, or stop-condition check phase. |
+| 3 | Modes | N/A | high |  |
+| 4 | State | N/A | high |  |
+| 5 | Parallel | N/A | high |  |
+| 6 | Personas/voice | F | high | No persona, behavioral discipline, or 'Iron Law' is defined for the agent executing the script. |
+| 7 | Files = bus | C | medium | It uses a temporary file to hold intermediate state, but it relies heavily on bash variables rather than a formal numbered file bus architecture. |
+| 8 | Synthesis | N/A | high |  |
+| 9 | Human gate | C | high | It mentions asking the user if the result looks correct at the end, but lacks an explicit blocking gate before taking irreversible action. |
+| 10 | Exit = question | F | high | There are no phase exits defined as binary, answerable questions. |
+| 11 | Output spec | B | high | Defines what to include and what to remove in the output, but lacks rigid formatting rules or section constraints. |
+| 12 | Gates = 3 parts | C+ | medium | Contains checks and fallbacks for failed extraction, but they are not formalized as explicit 3-part quality gates. |
+| 13 | External storage | N/A | high |  |
+| 14 | Context scope | B | high | Provides clear scenarios for when to use the skill, but missing explicit negative constraints. |
+| 15 | Progress | B- | medium | Instructs the agent to display a success message and preview at the end, but lacks mid-flight progress indicators. |
+| 16 | Errors | A- | high | Contains a dedicated Error Handling section that explicitly maps specific failure modes to concrete recovery actions. |
+| 17 | Autonomy | B+ | high | Demonstrates strong autonomy via automated tool fallback logic and sensible clean-up defaults. |
+| 18 | Path resolution | N/A | high |  |
+| 19 | Composition | D | high | Casually references invoking another skill without declaring it in YAML or formalizing the composition path. |
+| 20 | Output-first | F | high | The Output Format is defined near the very bottom of the document, after all the extraction methodologies. |
+| 21 | Decision class | N/A | high |  |
+| 22 | Voice + writing | F | high | No tone, banned phrases, or prose-structure rules are provided. |
+| 23 | Host-portable | A- | high | Relies on standard bash commands, uses `allowed-tools`, and dynamically checks for dependencies with `command -v`. |
+| 24 | Self-observation | F | high | The skill makes no attempt to observe or record its own executions or learn from past runs. |
+| 25 | Spawn-detection | N/A | high |  |
+
+
+## 05-expo-deployment
+
+**Archetype:** Reference — The skill functions as a static cheat sheet or documentation library for EAS commands and deployment processes rather than an executable, step-by-step procedure or creative guideline.
+
+**Aggregate grade:** D — The skill is a barebones documentation cheat sheet masquerading as an agentic skill; it completely lacks the output specifications, routing constraints, or systemic instructions required by the PaaP rubric.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | D | high | The description is a basic tagline rather than routing logic. It lacks explicit triggers or anti-triggers to tell the harness when NOT to invoke it. |
+| 2 | Route before work | N/A | high |  |
+| 3 | Modes | N/A | high |  |
+| 4 | State | N/A | high |  |
+| 5 | Parallel | N/A | high |  |
+| 6 | Personas/voice | N/A | high |  |
+| 7 | Files = bus | N/A | high |  |
+| 8 | Synthesis | N/A | high |  |
+| 9 | Human gate | N/A | high |  |
+| 10 | Exit = question | N/A | high |  |
+| 11 | Output spec | F | high | The skill completely lacks an output specification. It provides commands to the agent but sets zero constraints on how the agent should format or deliver its output to the user. |
+| 12 | Gates = 3 parts | N/A | high |  |
+| 13 | External storage | N/A | high |  |
+| 14 | Context scope | C | high | Briefly states what the skill covers, but entirely lacks explicit anti-scope or what it is NOT for. |
+| 15 | Progress | F | high | It does not define any rules or checkpoints for the agent to report progress to the user while employing the reference material. |
+| 16 | Errors | N/A | high |  |
+| 17 | Autonomy | N/A | high |  |
+| 18 | Path resolution | B | high | Uses relative paths appropriately for portability, but fails to define fallback behavior if these referenced files are missing at runtime. |
+| 19 | Composition | D | high | References external markdown modules but fails to declare them in the YAML metadata as `composed_skills:` with name, phase, or purpose. |
+| 20 | Output-first | F | high | The skill lacks an output specification entirely, making it impossible to adhere to the output-first principle. |
+| 21 | Decision class | N/A | high |  |
+| 22 | Voice + writing | N/A | high |  |
+| 23 | Host-portable | B | medium | Uses relative paths and standard CLI commands, making it generally portable across host environments, though it lacks explicit harness-agnostic design details. |
+| 24 | Self-observation | F | high | Does not maintain or read from a record of previous executions or learnings. |
+| 25 | Spawn-detection | N/A | high |  |
+
+
+## 06-kdense-biopython
+
+**Archetype:** Reference — The skill acts as a library/API documentation wrapper for Biopython, intended to be read and searched rather than executed as a step-by-step procedural workflow.
+
+**Aggregate grade:** C — While strong on routing and context scoping, the skill completely ignores universal requirements like output specification, progress reporting, and self-observation.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | A+ | high | The description clearly states what the skill is best for and provides explicit anti-triggers, suggesting alternative tools (gget, bioservices) for specific use cases. |
+| 2 | Route before work | N/A | high | As a Reference skill, there is no procedural workflow or routing phase prior to work execution. |
+| 3 | Modes | N/A | high | The skill does not define different execution modes as it is purely a reference document. |
+| 4 | State | N/A | high | Reference skills do not execute long-horizon tasks requiring durable state. |
+| 5 | Parallel | N/A | high | There are no procedural subtasks to execute in parallel. |
+| 6 | Personas/voice | N/A | high | Reference skills do not typically define personas or behavioral discipline for sub-agents. |
+| 7 | Files = bus | N/A | high | There are no multi-phase executions passing data via files. |
+| 8 | Synthesis | N/A | high | No parallel subtasks to merge. |
+| 9 | Human gate | N/A | high | No procedural execution requiring human judgment checkpoints. |
+| 10 | Exit = question | N/A | high | No phases to exit from. |
+| 11 | Output spec | F | high | The skill completely lacks an exact format, named sections, or constraints for how the AI should present the synthesized reference information to the user. |
+| 12 | Gates = 3 parts | N/A | high | No procedural quality gates exist in a reference skill. |
+| 13 | External storage | A | high | The skill correctly offloads detailed module documentation into separate markdown files in a references directory. |
+| 14 | Context scope | A | high | The skill provides a clear and explicit 'When to Use This Skill' section that defines its scope. |
+| 15 | Progress | F | high | The skill does not instruct the agent to provide progress updates or status reports to the user while performing reference lookups or writing code. |
+| 16 | Errors | N/A | high | While there is a troubleshooting section, explicit error tables mapping to agent actions are procedural. |
+| 17 | Autonomy | N/A | high | Reference skills are not autonomous execution agents. |
+| 18 | Path resolution | C+ | medium | The skill uses relative paths for its references, which is good, but it assumes the runtime execution context will match these paths without providing a robust resolution or fallback mechanism. |
+| 19 | Composition | F | high | Although the description mentions other tools (gget, bioservices), the skill lacks explicit YAML composition declarations or runtime resolution for invoking them. |
+| 20 | Output-first | F | high | The skill does not define an output specification for the agent to work towards. |
+| 21 | Decision class | N/A | high | No procedural gating or decision classification. |
+| 22 | Voice + writing rules | N/A | high | Voice and writing rules are generally not applicable for pure reference skills. |
+| 23 | Host-portable | A | high | The skill relies on standard shell utilities like grep and python package managers, avoiding hardcoded host-specific absolute paths. |
+| 24 | Self-observation | F | high | The skill lacks any mechanism for recording previous executions, maintaining a learnings file, or reading back past mistakes. |
+| 25 | Spawn-detection | N/A | high | Reference skills are not typically invoked as autonomous spawned processes needing interactive vs non-interactive detection. |
+
+
+## 07-chrisvoncsefalvay-d3
+
+**Archetype:** Reference — The skill is a comprehensive library and API documentation for D3.js reformatted as a SKILL.md, designed to be read as reference material rather than executed end-to-end.
+
+**Aggregate grade:** C+ — While the skill functions as an excellent, portable library reference with clear scoping and externalized boilerplate, it falls short on PaaP agentic requirements like upfront output specs, self-observation loops, and robust path resolution fallbacks.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | A | high | The YAML description explicitly states what the skill is for (custom charts, complex SVG) and includes routing hints indicating when it should be triggered. |
+| 2 | Route before work | N/A | high | This principle does not apply. |
+| 3 | Modes | N/A | high | This principle does not apply. |
+| 4 | State | N/A | high | This principle does not apply. |
+| 5 | Parallel | N/A | high | This principle does not apply. |
+| 6 | Personas/voice | N/A | high | This principle does not apply. |
+| 7 | Files = bus | N/A | high | This principle does not apply. |
+| 8 | Synthesis | N/A | high | This principle does not apply. |
+| 9 | Human gate | N/A | high | This principle does not apply. |
+| 10 | Exit = question | N/A | high | This principle does not apply. |
+| 11 | Output spec | C | high | The skill provides standard structural templates for D3 code but lacks a formal, strict output specification defining exact format, named sections, or anti-templates for the agent's final output. |
+| 12 | Gates = 3 parts | N/A | high | This principle does not apply. |
+| 13 | External storage | A | high | The skill exceeds 400 lines and successfully delegates extensive boilerplate and patterns to external files in the references/ and assets/ directories. |
+| 14 | Context scope | A | high | The skill explicitly defines what it is for (custom visualizations) and sets clear boundaries on what it is NOT for (3D visualizations). |
+| 15 | Progress | N/A | high | This principle does not apply. |
+| 16 | Errors | N/A | high | This principle does not apply. |
+| 17 | Autonomy | N/A | high | This principle does not apply. |
+| 18 | Path resolution | C | medium | The skill references external paths relatively, which is good, but it fails to define runtime path resolution or fallback behaviors if those directories or files are missing. |
+| 19 | Composition | N/A | high | This principle does not apply. |
+| 20 | Output-first | D | high | The skill provides no upfront output specification before diving into the core workflow and reference material. |
+| 21 | Decision class | N/A | high | This principle does not apply. |
+| 22 | Voice + writing | N/A | high | This principle does not apply. |
+| 23 | Host-portable | B+ | high | The skill is inherently portable by avoiding absolute paths and explicitly supporting multiple JavaScript environments, though it lacks explicit harness-agnostic tool configurations. |
+| 24 | Self-observation | F | high | The skill lacks any mechanism for recording or reading back its own previous executions, mistakes, or session learnings. |
+| 25 | Spawn-detection | N/A | high | This principle does not apply. |
+
+
+## 08-anthropic-canvas-design
+
+**Archetype:** Creative — The skill is heavily focused on aesthetic judgment, visual output specifications, and voice rules for an artistic persona, rather than strict procedural gates or state management.
+
+**Aggregate grade:** B — A highly effective and richly detailed Creative skill that produces outstanding aesthetic guidelines, though it falls short on robust operational features like explicit progress updates, error handling, and realistic host-tool constraints for graphic rendering.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | A- | high | The description clearly defines when to use the skill (posters, art, static pieces) and includes a strong anti-trigger to avoid copying existing artists. |
+| 2 | Route before work | N/A | high | Routing before work is a principle specific to the Procedural archetype. |
+| 3 | Modes | N/A | high | There are no distinct execution modes required for this linear creative task. |
+| 4 | State | N/A | high | State management is specific to long-horizon Procedural skills. |
+| 5 | Parallel | N/A | high | The tasks here (philosophy -> canvas -> refinement) are strictly sequential. |
+| 6 | Personas/voice | A | high | Provides exceptionally strong and specific persona framing for the creative output, emphasizing master-level craftsmanship and avoiding cartoony aesthetics. |
+| 7 | Files = bus | N/A | high | Passing data via numbered files is a Procedural-only principle. |
+| 8 | Synthesis | N/A | high | Synthesis rules apply to merging parallel subtasks, which this skill does not have. |
+| 9 | Human gate | N/A | high | Human gating checkpoints are a Procedural-only principle. |
+| 10 | Exit = question | N/A | high | Phase exits as answerable questions is a Procedural-only principle. |
+| 11 | Output spec | A | high | Defines exact file formats (.md, .pdf, .png), layout constraints, and structural requirements for both the text and visual artifacts. |
+| 12 | Gates = 3 parts | N/A | high | Quality gates (check + fail + recover) are a Procedural-only principle. |
+| 13 | External storage | N/A | high | The skill is well under the ~400 line threshold. |
+| 14 | Context scope | B+ | high | Clearly scopes the skill for high-end artistic creation and explicitly bans layouts, templates, and amateur/cartoony outputs. |
+| 15 | Progress | D | medium | Fails to instruct the agent to provide any progress updates or intermediate status between the heavily conceptual philosophy stage and the generation stage. |
+| 16 | Errors | D | high | Lacks any explicit error handling instructions or tables, particularly concerning graphic generation failures or missing fonts. |
+| 17 | Autonomy | A | high | Requires the agent to make highly autonomous, iterative creative decisions, including a mandatory self-reflection pass without user intervention. |
+| 18 | Path resolution | B- | medium | References a relative path (`./canvas-fonts`) which is good for portability, but does not provide fallback instructions if the directory cannot be found. |
+| 19 | Composition | N/A | high | Composition is for Procedural and Reference archetypes invoking other skills. |
+| 20 | Output-first | B | medium | The skill outlines output requirements effectively, though they are somewhat intertwined with the procedural steps rather than strictly front-loaded. |
+| 21 | Decision class | N/A | high | Decision classification gating is a Procedural-only principle. |
+| 22 | Voice + writing | A | high | Provides rigorous, excellent writing rules for the manifesto, dictating tone, brevity, and focus on visual expression. |
+| 23 | Host-portable | C | medium | Instructs the generation of complex visual assets (.pdf/.png) without specifying tool constraints or acknowledging varying host capabilities. It assumes the agent has a 'magic' way to render these on the canvas. |
+| 24 | Self-observation | N/A | high | Self-observation is a Procedural and Reference archetype principle. |
+| 25 | Spawn-detection | N/A | high | Spawn detection is a Procedural-only principle. |
+
+
+## 09-anthropic-frontend-design
+
+**Archetype:** Creative — The skill is driven entirely by output specifications, aesthetic voice rules, and qualitative constraints rather than a multi-step procedural workflow.
+
+**Aggregate grade:** B+ — A strong Creative archetype skill that excels at setting qualitative constraints, anti-templates, and a bold persona, but drops points on missing progress reporting and error handling.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | A | high | The description clearly defines the exact triggers (build web components, pages, styling) and the specific value proposition (avoiding generic AI aesthetics) to help the harness route requests accurately. |
+| 2 | Route before work | N/A | high | Does not apply to Creative archetypes, which are typically single-path output generators. |
+| 3 | Modes | N/A | high | The skill has a single, cohesive conceptual path rather than distinct operational modes. |
+| 4 | State | N/A | high | Creative generation tasks of this nature do not require durable state or resume protocols. |
+| 5 | Parallel | N/A | high | Code generation for a specific UI component or page is inherently linear and does not spawn parallel subtasks. |
+| 6 | Personas/voice | A- | high | The skill establishes a strong design persona by dictating bold aesthetic choices and explicitly banning timid or generic defaults. It lacks formal 'Iron Law' tables but effectively achieves the same goal through its ... |
+| 7 | Files = bus | N/A | high | Data passing via numbered files is not relevant for a single-phase creative skill. |
+| 8 | Synthesis | N/A | high | There are no parallel subtasks that require merging or conflict resolution. |
+| 9 | Human gate | N/A | high | Creative generation does not require mid-process human checkpoints for ethics or irreversible actions. |
+| 10 | Exit = question | N/A | high | There are no discrete phase exits in this creative skill. |
+| 11 | Output spec | B+ | medium | Provides strong qualitative constraints and anti-templates for the output, though it relies on the code itself as the format rather than dictating a strict structural Markdown response. |
+| 12 | Gates = 3 parts | N/A | high | The skill does not implement a quality gating system. |
+| 13 | External storage | N/A | high | The skill is well under the 400-line threshold and does not require externalizing prompts. |
+| 14 | Context scope | A | high | The skill clearly bounds its purpose (creating distinctive frontend interfaces) and explicitly states what it is not for (generic, unopinionated 'AI slop'). |
+| 15 | Progress | D | medium | Although labeled Universal, the skill completely omits any instruction for the agent to report its chosen aesthetic direction or plan before dumping code. It largely ignores the principle. |
+| 16 | Errors | F | high | There is no error table or error handling instruction for common frontend generation issues (e.g., missing assets, framework conflicts, or unsupported styling properties). |
+| 17 | Autonomy | A- | high | Empowers the agent to autonomously commit to an extreme aesthetic and make opinionated design choices without asking the user for permission on every detail. |
+| 18 | Path resolution | N/A | high | The skill does not reference external paths or files. |
+| 19 | Composition | N/A | high | Creative archetypes do not typically compose other skills. |
+| 20 | Output-first | A | high | The entire skill document serves as a detailed qualitative specification for the final output, prioritizing the shape and style of the generated code. |
+| 21 | Decision class | N/A | high | No procedural decision gates exist in this skill. |
+| 22 | Voice + writing | A+ | high | Exceptional use of anti-patterns and specific stylistic bans. It explicitly lists overused traits to avoid and enforces a strong creative standard. |
+| 23 | Host-portable | A | high | The skill is entirely conceptual and structural, containing no host-specific subprocess calls, hardcoded system paths, or harness-dependent logic. |
+| 24 | Self-observation | N/A | high | Creative generation tasks generally do not maintain persistent execution logs for self-correction across runs. |
+| 25 | Spawn-detection | N/A | high | The skill does not rely on interactive loops or user checkpoints that would need to be suppressed if spawned by another agent. |
+
+
+## 10-anthropic-algorithmic-art
+
+**Archetype:** Creative — The skill's primary focus is aesthetic output generation (algorithmic philosophy and p5.js art) driven by voice and output specifications rather than a procedural state machine.
+
+**Aggregate grade:** C+ — While the skill excels in voice, persona, and output formatting for its creative task, it misses fundamental PaaP structural requirements like progress updates, error handling, and robust path resolution.
+
+**Per-principle:**
+
+| # | Principle | Grade | Conf | Reasoning |
+|:--:|---|:--:|:--:|---|
+| 1 | Description as router | A- | high | The YAML description provides clear triggers for when to use the skill and a specific anti-trigger regarding copyright. |
+| 2 | Route before work | N/A | high | Not applicable. |
+| 3 | Modes | N/A | high | Not applicable. |
+| 4 | State | N/A | high | Not applicable. |
+| 5 | Parallel | N/A | high | Not applicable. |
+| 6 | Personas/voice | A | high | The skill establishes a strong, specialized persona ('jazz musician quoting another song') and mandates master-level craftsmanship. |
+| 7 | Files = bus | N/A | high | Not applicable. |
+| 8 | Synthesis | N/A | high | Not applicable. |
+| 9 | Human gate | N/A | high | Not applicable. |
+| 10 | Exit = question | N/A | high | Not applicable. |
+| 11 | Output spec | A | high | Provides detailed structural requirements for the HTML artifact, delineating exactly what must be fixed versus variable. |
+| 12 | Gates = 3 parts | N/A | high | Not applicable. |
+| 13 | External storage | N/A | high | Not applicable. |
+| 14 | Context scope | B | medium | Defines the purpose well but lacks explicit boundaries on what the skill should explicitly refuse to do, other than avoiding direct copying. |
+| 15 | Progress | F | high | The skill completely lacks instructions for providing status updates or progress milestones during generation. |
+| 16 | Errors | F | high | There is no error table or explicit failure handling mechanism defined in the skill. |
+| 17 | Autonomy | B | medium | Encourages creative autonomy and establishes sensible defaults, but lacks explicit fallback logic if the user's request is totally ambiguous. |
+| 18 | Path resolution | D | high | Hardcodes references to template files without runtime resolution or fallback paths if these files are missing. |
+| 19 | Composition | N/A | high | Not applicable. |
+| 20 | Output-first | C | high | Outputs are well-defined, but they are presented in the middle of the prompt rather than being specified at the very top before the execution phases. |
+| 21 | Decision class | N/A | high | Not applicable. |
+| 22 | Voice + writing | A | high | Integrates strong rules regarding redundancy avoidance and framing instructions directly into the skill body. |
+| 23 | Host-portable | B | medium | Generally avoids harness-specific commands, but relying on hardcoded relative paths to template files creates a portability risk. |
+| 24 | Self-observation | N/A | high | Not applicable. |
+| 25 | Spawn-detection | N/A | high | Not applicable. |
 

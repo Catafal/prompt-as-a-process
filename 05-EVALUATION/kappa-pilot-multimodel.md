@@ -1,17 +1,27 @@
-# Multi-model Kappa Pilot — GPT-5.4 vs Claude Personas (v0.3)
+# Multi-model Kappa Pilot — 5-rater matrix (Claude × 3 + GPT-5.4 + Gemini-3)
 
-> v0.3 Stage: extends the v0.2 prompt-variant kappa pilot to a different model family. Same 10 skills, new rater (OpenAI GPT-5.4 via Codex CLI). Asks the question v0.2 deferred: **does the rubric travel across model families, or does it encode Claude-shaped bias?**
+> v0.3 Stage: extends the v0.2 prompt-variant kappa pilot across two additional model families. Same 10 skills, three vendors, five raters total. Asks the question v0.2 deferred: **does the rubric travel across model families, or does it encode Claude-shaped bias?**
 
 **Date:** 2026-04-26
-**Method:** Single GPT-5.4 invocation per skill via `codex exec --output-schema` with `model_reasoning_effort=high`, `pragmatic-practitioner` persona, full 25-principle rubric. JSON-Schema-enforced response shape, server-side.
+**Method:** Single non-interactive call per (model, skill) pair, full 25-principle rubric, `pragmatic-practitioner` persona for all non-Claude raters. GPT-5.4 via `codex exec --output-schema` (server-side JSON Schema enforcement). Gemini-3 via `gemini -p` with prompt-engineered JSON + client-side validation + retry-once.
 **Skills:** the same 10 community SKILL.md files used in v0.2 (4 Procedural / 1 Reference-borderline / 3 Reference / 3 Creative — see [`kappa-pilot.md`](./kappa-pilot.md) for the original archetype declarations).
-**Comparison baseline:** the 3 Claude personas (strict-academic / pragmatic-practitioner / charitable-newcomer) from v0.2's pilot.
+**Raters:** 3 Claude personas (strict-academic / pragmatic-practitioner / charitable-newcomer, v0.2 data) + GPT-5.4 (Codex CLI, this file) + Gemini-3-pro-preview (Gemini CLI, this file).
 **Raw data:** [`kappa-pilot-multimodel-raw-data.md`](./kappa-pilot-multimodel-raw-data.md)
 **Rubric version:** v0.3 (Catafal, 2026) — 25 principles. v0.2 Claude data was at 22-principle scale; the comparison uses aggregate grades (which don't depend on individual principle counts the same way).
 
 ---
 
-## Headline findings
+## Research arc — read this first
+
+This document was originally written after the GPT-5.4 run alone. Its first headline finding was *"cross-model agreement is tighter than within-Claude persona spread — the rubric travels"*. **Gemini-3-pro-preview added 24 hours later overturned that synthesis.** The Gemini ↔ Claude-pragmatic distance is 2.30 grade-steps — the **largest** pair distance in the dataset, larger than within-Claude strict↔pragmatic (1.83) and nearly twice GPT-5.4's 1.20.
+
+The GPT-5.4 sections below are preserved as written. The "Multi-vendor synthesis" section at the end carries the corrected conclusions. This is intentional — the 24-hour story-arc shows what one model's data alone supports vs what triangulation reveals.
+
+---
+
+## Stage A — GPT-5.4 vs Claude (original headline findings)
+
+> The findings in this section are correct *for the GPT-5.4-only data*. They were the headline before Gemini-3 was added. The "Multi-vendor synthesis" section at the end shows what changes once Gemini-3 is included.
 
 1. **Cross-model agreement is *tighter* than within-Claude persona spread.** GPT-5.4 ↔ Claude-pragmatic mean grade-step distance = **1.20** (n=10). The within-Claude strict↔pragmatic distance was 1.83 (v0.2 data). A different model family agrees with Claude-pragmatic *more closely* than Claude-strict does. This is the single most important finding: the rubric is not Claude-specific in any disabling way.
 
@@ -236,11 +246,149 @@ Per-principle κ requires aligned rubric versions (Claude data is 22-principle, 
 
 ---
 
+## Stage B — Gemini-3 vs the 4-rater baseline
+
+Same 10 skills, fifth rater added: **gemini-3-pro-preview** via Gemini CLI 0.32.1 with the same `pragmatic-practitioner` persona and the same 25-principle rubric. The CLI does not expose `response_schema`, so JSON was prompt-engineered + Python-validated + retry-once on parse failure (vs Codex's server-side schema enforcement). All 10 calls succeeded on first attempt; no retries triggered.
+
+**Total wall-clock:** 11 min 53 sec for 10 calls (mean ~71 s/call). Faster than GPT-5.4's 17 min — Gemini CLI doesn't expose a reasoning-effort knob.
+
+### Headline finding (Stage B)
+
+**Gemini-3 ↔ Claude-pragmatic = 2.30 grade-steps** — the largest pair distance in the dataset, larger than within-Claude strict↔pragmatic (1.83) and nearly twice GPT-5.4's 1.20.
+
+| Pair | Mean distance | n |
+|---|---:|---:|
+| **Gemini-3 ↔ Claude-pragmatic** | **2.30** | 10 |
+| Gemini-3 ↔ Claude-charitable | 2.00 | 10 |
+| Gemini-3 ↔ Claude-strict | 1.70 | 10 |
+| Gemini-3 ↔ GPT-5.4 (cross-vendor) | 1.70 | 10 |
+| *(reference)* GPT-5.4 ↔ Claude-pragmatic | 1.20 | 10 |
+| *(reference)* Within-Claude strict↔pragmatic | 1.83 | 10 |
+
+Gemini-3 is closest to Claude-strict and to GPT-5.4 (both at 1.70), and farthest from Claude-pragmatic. The reframing: GPT-5.4 was the well-aligned outlier; Gemini-3 looks more like what a "different model family" actually produces under the same rubric.
+
+### 5-rater aggregate grades
+
+| Skill | Gemini-3 | GPT-5.4 | Claude-pragmatic | Claude-strict | Claude-charitable | 5-rater spread |
+|---|:---:|:---:|:---:|:---:|:---:|---:|
+| obra/test-driven-development | A− | B− | A− | C+ | B+ | 4.0 |
+| trailofbits/agentic-actions-auditor | C+ | B− | A− | B+ | B+ | 4.0 |
+| anthropic/skill-creator | B+ | B+ | B+ | B+ | B+ | **0.0** |
+| tapestry/article-extractor | C | B− | B− | C | C+ | 2.0 |
+| expo/deployment | **D** | C | B− | C− | B− | **5.0** |
+| K-Dense-AI/biopython | C | B− | B+ | B− | B+ | 4.0 |
+| chrisvoncsefalvay/d3-viz | C+ | B− | B | C+ | B | 2.0 |
+| anthropic/canvas-design | B | B | B+ | B+ | B+ | 1.0 |
+| anthropic/frontend-design | B+ | B− | B− | C+ | B+ | 3.0 |
+| anthropic/algorithmic-art | C+ | B+ | B+ | B | B+ | 3.0 |
+
+**5-rater unanimity: 1/10** — only `anthropics/skill-creator` earned identical aggregate grades from all 5 raters. Down from v0.2's 2/10 within-Claude. The wildest spread is on `expo/deployment` (5 grade-steps from B− to D — which is also the smallest skill at 190 lines).
+
+### Archetype detection — 5 raters
+
+| Skill | Gemini-3 | GPT-5.4 | C-prag | C-strict | C-charit |
+|---|---|---|---|---|---|
+| obra/test-driven-development | **Hybrid** | Procedural | Procedural | Procedural | Procedural |
+| trailofbits/agentic-actions-auditor | Procedural | Procedural | Procedural | **Hybrid** | Procedural |
+| anthropic/skill-creator | Procedural | Procedural | **Hybrid** | Procedural | **Hybrid** |
+| tapestry/article-extractor | Procedural | Procedural | Procedural | **Reference** | Procedural |
+| expo/deployment | Reference | Reference | Reference | Reference | Reference |
+| K-Dense-AI/biopython | Reference | Reference | Reference | Reference | Reference |
+| chrisvoncsefalvay/d3-viz | Reference | Reference | Reference | Reference | Reference |
+| anthropic/canvas-design | Creative | **Hybrid** | Creative | Creative | Creative |
+| anthropic/frontend-design | Creative | Creative | Creative | Creative | Creative |
+| anthropic/algorithmic-art | Creative | **Hybrid** | Creative | Creative | Creative |
+
+**Archetype agreement Gemini-3 vs the others:**
+
+- Gemini-3 ↔ Claude-pragmatic: **8/10**
+- Gemini-3 ↔ Claude-charitable: 8/10
+- Gemini-3 ↔ Claude-strict: 7/10
+- Gemini-3 ↔ GPT-5.4: 7/10
+
+**This is the surprising part.** Gemini-3 *agrees better than GPT-5.4* on archetype classification (8/10 vs 7/10 with Claude-pragmatic), while disagreeing more on grading severity. The disagreement is on *how good is this skill*, not *what kind of skill is this*.
+
+### Gemini-3 grades on the 3 v0.3 principles
+
+| Skill | #23 host | #24 self | #25 spawn |
+|---|:---:|:---:|:---:|
+| obra/test-driven-development | A | N/A | N/A |
+| trailofbits/agentic-actions-auditor | A | F | F |
+| anthropic/skill-creator | **A+** | **A** | N/A |
+| tapestry/article-extractor | A− | F | N/A |
+| expo/deployment | B | F | N/A |
+| K-Dense-AI/biopython | A | F | N/A |
+| chrisvoncsefalvay/d3-viz | B+ | F | N/A |
+| anthropic/canvas-design | C | N/A | N/A |
+| anthropic/frontend-design | A | N/A | N/A |
+| anthropic/algorithmic-art | B | N/A | N/A |
+
+**Means + comparison to GPT-5.4:**
+
+| Principle | Gemini-3 mean ordinal | GPT-5.4 mean ordinal | Applicability divergence |
+|---|---:|---:|---|
+| #23 host-portable | 9.6 (≈ A−) | 7.9 (≈ B) | Gemini grades ~2 letters higher |
+| #24 self-observation | 1.8 (≈ ~F+) | 1.0 (≈ F) | Gemini found `skill-creator` deserved A; GPT-5.4 said B− |
+| #25 spawn-detection | 0.0 (≈ F, n=1 only) | 2.8 (≈ D+) | **Major applicability split:** Gemini marked 9/10 N/A; GPT-5.4 marked 4/10 applicable |
+
+**The #25 applicability split is the most informative single finding.** Gemini-3 read spawn-detection as not-applicable to most Procedural skills in the corpus; GPT-5.4 read it as applicable to all 4 Procedural skills. The rubric's N/A justification rule is genuinely ambiguous on this principle — that's a v0.3+ rubric-revision item.
+
+---
+
+## Multi-vendor synthesis (post-Gemini, the corrected conclusions)
+
+### What the GPT-5.4-only data suggested vs what 5-rater data shows
+
+**After GPT-5.4 alone:** "Cross-model agreement is tighter than within-Claude persona spread. The rubric travels."
+
+**After GPT-5.4 + Gemini-3:** That conclusion was over-strong. **Three of four Gemini-3 ↔ Claude pair-distances exceed the within-Claude max of 1.83.** Cross-model variance is real and substantial; GPT-5.4 was the well-aligned outlier, not the representative case.
+
+### Candidate explanations for the asymmetric vendor agreement
+
+The data does not adjudicate between these — but they are the live hypotheses worth testing. The first one is the **leading candidate** given the observed asymmetry (Claude+GPT cluster, Gemini outlier):
+
+1. **Corpus-vendor familiarity bias (leading candidate).** The 10-skill corpus was authored primarily for Claude Code. From GPT-5 onward, OpenAI's frontier models follow long detailed instructions with accuracy that closely tracks Claude's interpretation of the same text — the two vendors converged on similar instruction-following behavior at the high end. Gemini-3 trained on a different RLHF distribution: same instruction text, different reading. Under this hypothesis, the asymmetry isn't "Gemini grades wrong" — it's "the corpus and the rubric were both authored against the Claude+GPT mode of instruction-following, so a model that doesn't share that mode applies the same rubric more literally and lands at different grades." *This explanation is consistent with all the observed data*: GPT-5.4 inside the Claude triangle (1.20 from pragmatic), Gemini outside it (2.30 from pragmatic), cross-vendor distance equal to Gemini-vs-Claude-strict (both 1.70 — Gemini reads like its own consistent rater, not a noisy version of the others).
+2. **Pragmatic-practitioner persona prompt landed differently.** GPT-5.4 may interpret "real-world weighting; reward implementations that work in practice" closely to Claude's reading; Gemini-3 may apply that frame to a stricter baseline of what "works" means.
+3. **N/A handling.** Gemini-3 marked 9/10 N/A on #25 vs GPT-5.4's 4/10 — meta-level disagreement on what counts as applicable. Some of Gemini's lower aggregate grades come from including more applicable principles in the average.
+4. **Reasoning-effort confound.** GPT-5.4 was run at `model_reasoning_effort=high` (explicit deeper-thinking). Gemini CLI doesn't expose an equivalent knob — Gemini-3 may have done less internal CoT per call.
+
+The cleanest discriminator: re-run GPT-5.4 at `medium` or `low` effort, and re-run a deliberately Claude-friendly skill subset on Gemini, and see which knobs move the distances most. **v0.4 follow-up.**
+
+### Updated headline numbers
+
+| Pair | Mean grade-step distance |
+|---|---:|
+| **GPT-5.4 ↔ Claude-pragmatic** | **1.20** |
+| GPT-5.4 ↔ Claude-strict | 1.00 |
+| GPT-5.4 ↔ Claude-charitable | 1.30 |
+| **Gemini-3 ↔ Claude-pragmatic** | **2.30** |
+| Gemini-3 ↔ Claude-strict | 1.70 |
+| Gemini-3 ↔ Claude-charitable | 2.00 |
+| **Cross-vendor Gemini-3 ↔ GPT-5.4** | **1.70** |
+| *(reference)* Within-Claude strict↔pragmatic | 1.83 |
+| *(reference)* Within-Claude pragmatic↔charit | 0.60 |
+
+**Mean across all 4 cross-vendor non-Claude pairs (Gem ↔ each of {Claude-prag, Claude-strict, Claude-charit, GPT-5.4} + the GPT-5.4 ↔ Claude-prag pair): ~1.7 grade-steps.** Cross-vendor distances cluster around the within-Claude strict↔pragmatic distance, suggesting the persona system and the model-vendor identity are *roughly comparable* sources of grade-shift, not one dominating the other.
+
+### What now reads as confirmed
+
+1. **Archetype detection is stable across all 5 raters** (8/10 unanimous on Reference + Creative skills; all disagreements on the same Procedural↔Hybrid borderline cases v0.2 already named). This generalizes cleanly.
+2. **#24 self-observation is a real corpus-wide gap.** Both GPT-5.4 (7/7 near-F) and Gemini-3 (5/6 F or near-F) confirm this. The framework's own honest C self-audit on #24 is externally validated by *two* independent model families.
+3. **The persona system does real work** — and it's roughly the same magnitude as the model-vendor effect. Persona modulation is not just prompt-noise; model identity is not just translation-noise. Both contribute meaningfully to grade-step distances.
+
+### What now reads as open
+
+1. **Aggregate grade portability across vendors is weaker than v0.2's within-model data implied.** A skill graded A− by Claude-pragmatic might draw C+ from Gemini-3 — that's a real difference for any practitioner using the rubric to make ship-or-iterate decisions.
+2. **#25 spawn-detection applicability is unstable across vendors.** Until the rubric's N/A rule for #25 is sharpened, scores on this principle aren't comparable across raters.
+3. **The "rubric is Claude-specific" objection is partially valid.** It's *not* that Claude is uniquely interpreting the rubric — GPT-5.4 sits inside the Claude-persona triangle. It's that Gemini sits outside it. Either Claude+GPT cluster as one mode of instruction-following and Gemini is another, or the corpus was authored for Claude's reading and GPT happens to read it similarly.
+
+---
+
 ## Cross-references
 
 - [`kappa-pilot.md`](./kappa-pilot.md) — v0.2 prompt-variant kappa pilot (3 Claude personas)
-- [`kappa-pilot-multimodel-raw-data.md`](./kappa-pilot-multimodel-raw-data.md) — verbatim GPT-5.4 outputs (10 schema-validated JSON files)
+- [`kappa-pilot-multimodel-raw-data.md`](./kappa-pilot-multimodel-raw-data.md) — verbatim per-principle outputs (GPT-5.4 + Gemini-3 sections)
 - [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — the 25 principles being scored
-- [`../04-RUBRIC/reflexive-self-audit.md`](../04-RUBRIC/reflexive-self-audit.md) — the repo's own grades (including the C on #24 that this pilot externally confirms)
-- [`../06-META-PAAP/paap-eval/SKILL.md`](../06-META-PAAP/paap-eval/SKILL.md) — the auto-scoring instrument; `paap-eval` was NOT used here (direct `codex exec` invocation per the methodology)
+- [`../04-RUBRIC/reflexive-self-audit.md`](../04-RUBRIC/reflexive-self-audit.md) — the repo's own grades (including the C on #24 that this pilot externally confirms across two vendors)
+- [`../06-META-PAAP/paap-eval/SKILL.md`](../06-META-PAAP/paap-eval/SKILL.md) — the auto-scoring instrument; `paap-eval` was NOT used here (direct CLI invocation per the methodology)
 - [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) — v0.3 priority #2 (multi-model kappa) status

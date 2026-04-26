@@ -26,8 +26,8 @@ How we test PaaP empirically: methodology, regression suite, inter-rater reliabi
 |---|---|
 | [`kappa-pilot.md`](./kappa-pilot.md) | 3-persona inter-rater reliability pilot (mean 1.83 grade-steps) |
 | [`kappa-pilot-raw-data.md`](./kappa-pilot-raw-data.md) | Raw scores per persona × skill |
-| [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md) | v0.3 multi-model kappa — GPT-5.4 via Codex CLI vs the 3 Claude personas (mean GPT-5.4 ↔ Claude-pragmatic distance: 1.20 grade-steps) |
-| [`kappa-pilot-multimodel-raw-data.md`](./kappa-pilot-multimodel-raw-data.md) | Verbatim GPT-5.4 grades per skill (10 schema-validated outputs) |
+| [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md) | v0.3 multi-model kappa — 5-rater matrix: 3 Claude personas + GPT-5.4 + Gemini-3-pro-preview. Mean Gemini-3 ↔ Claude-pragmatic = 2.30; mean GPT-5.4 ↔ Claude-pragmatic = 1.20 |
+| [`kappa-pilot-multimodel-raw-data.md`](./kappa-pilot-multimodel-raw-data.md) | Verbatim per-principle outputs (GPT-5.4 + Gemini-3 sections) |
 | [`head-to-head.md`](./head-to-head.md) | Hand-written vs `/meta-paap`-generated, blind judge couldn't distinguish provenance |
 | [`corpus-extension-raw-data.md`](./corpus-extension-raw-data.md) | Raw data for the +30 corpus extension (see [`04-RUBRIC/corpus-extension-30-skills.md`](../04-RUBRIC/corpus-extension-30-skills.md) for analysis) |
 

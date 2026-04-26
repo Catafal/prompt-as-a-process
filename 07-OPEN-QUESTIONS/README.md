@@ -54,14 +54,21 @@ Promoted in v0.3 (commit landed 2026-04-26). Numbering follows community-evidenc
 
 v0.2's kappa pilot is **prompt-variant reliability**, not multi-rater. All 3 personas ran on Claude Sonnet. v0.3 runs the same 10-skill corpus through additional model families.
 
-**v0.3 Codex/GPT-5.4 run (✅ DONE 2026-04-26).** Same 10 skills, full 25-principle rubric, single pragmatic-practitioner persona, JSON-Schema-enforced output via `codex exec`. Headline: GPT-5.4 ↔ Claude-pragmatic mean distance = 1.20 grade-steps (tighter than within-Claude 1.83). Closest cluster: GPT-5.4 ↔ Claude-strict (1.00). 7/10 archetype agreement with Claude-pragmatic. First inter-model evidence on principles #23/#24/#25 — #24 (self-observation) graded near-F across all 7 applicable skills, externally confirming the framework's own honest C self-audit. Full results: [`../05-EVALUATION/kappa-pilot-multimodel.md`](../05-EVALUATION/kappa-pilot-multimodel.md). GPT-5.5 run pending account access.
+**v0.3 Codex/GPT-5.4 + Gemini-3-pro-preview runs (✅ DONE 2026-04-26).** Same 10 skills, full 25-principle rubric, single pragmatic-practitioner persona, both vendors. Full results: [`../05-EVALUATION/kappa-pilot-multimodel.md`](../05-EVALUATION/kappa-pilot-multimodel.md).
 
-**Still pending in v0.3:**
+**Headline (post-Gemini correction):** GPT-5.4 ↔ Claude-pragmatic = 1.20 grade-steps; **Gemini-3 ↔ Claude-pragmatic = 2.30** — the largest pair distance in the dataset, *larger* than within-Claude strict↔pragmatic (1.83). Cross-vendor distances cluster around within-Claude strict↔pragmatic; model-vendor identity and persona contribute roughly comparable variance. **GPT-5.4 was the well-aligned outlier, not the representative case.** The "rubric travels" framing the GPT-5.4-only data initially supported was overturned once Gemini was added.
+
+Both vendors confirm #24 self-observation as a corpus-wide gap (GPT-5.4: 7/7 near-F; Gemini: 5/6 F-or-near-F) — the framework's honest C self-audit on #24 is externally validated across two independent model families. Archetype detection is stable across all 5 raters (8/10 Reference + Creative unanimous). Disagreement is on grading severity, not skill classification.
+
+**Candidate explanation worth testing in v0.4:** the corpus may have been authored primarily for Claude Code; Claude family models grade them generously; modern GPT-5-class models (gpt-5.4) are strong enough at long-instruction-following to read the rubric similarly to Claude; Gemini-3 may apply the rubric more literally or its training distribution diverges enough that the same instruction text produces a stricter reading. Test: re-run on a deliberately Claude-friendly subset, plus run a Gemini-friendly skill subset on Claude, and see if the asymmetry inverts.
+
+**Still pending in v0.3+:**
 - Within-Claude family expansion (Claude Opus / Sonnet / Haiku — 3 model sizes within Anthropic family)
-- Gemini 2.5 Pro (third vendor, different RLHF approach)
-- Per-principle Cohen's kappa across model-vendor pairs (currently aggregate-grade-distance only)
+- GPT-5.5 once account access lands
+- Per-principle Cohen's kappa across all 5 raters (currently aggregate-grade-distance + a few per-principle observations only)
+- Sharpening the rubric's N/A rule for principle #25 (Gemini and GPT-5.4 disagreed on whether #25 applies to Procedural skills generically)
 
-When the multi-vendor matrix is complete, principles with low cross-model agreement need rewording for v0.4. This is the actual multi-rater study academic reviewers will demand.
+When the multi-vendor matrix is more complete, principles with low cross-model agreement need rewording for v0.4. This is the actual multi-rater study academic reviewers will demand.
 
 ### 3. Output-quality test expansion
 

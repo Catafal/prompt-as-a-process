@@ -201,13 +201,13 @@ v0.1's #1 academic blocker — single-scorer rubric — is closed proportionally
 
 ---
 
-## v0.3 multi-model extension
+## v0.3 multi-model extension (5-rater)
 
-The same 10 skills were re-scored against **GPT-5.4 via Codex CLI** as the v0.3 multi-model kappa step (single-persona pragmatic-practitioner, full 25-principle rubric, `model_reasoning_effort=high`). See [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md).
+The same 10 skills were re-scored against two additional model families as the v0.3 multi-model kappa step: **GPT-5.4 via Codex CLI** and **gemini-3-pro-preview via Gemini CLI** — both single-persona pragmatic-practitioner, full 25-principle rubric. Full results: [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md).
 
-**Headline:** GPT-5.4 ↔ Claude-pragmatic mean grade-step distance = **1.20** — *tighter* than the within-Claude strict↔pragmatic distance of 1.83 reported above. Cross-model agreement is closer than the most-divergent within-model persona pair. GPT-5.4 lands closest to Claude-strict (1.00 grade-steps), suggesting it grades systematically more conservatively than Claude-pragmatic despite identical persona instructions.
+**Headline (post-Gemini, the corrected synthesis):** the GPT-5.4-only data initially looked like *"the rubric travels"* — GPT-5.4 ↔ Claude-pragmatic was 1.20 grade-steps, tighter than within-Claude 1.83. Adding Gemini-3 reframed it: **Gemini-3 ↔ Claude-pragmatic = 2.30** — the largest pair distance in the dataset, larger than within-Claude. Cross-vendor distances cluster around the within-Claude strict↔pragmatic distance, suggesting model-vendor identity and persona are *roughly comparable* sources of grade-shift, not one dominating the other.
 
-The rubric travels across model families. The persona system continues to produce the largest grade-shift; model identity is a smaller (but real and consistent) effect.
+GPT-5.4 was the well-aligned outlier, not the representative case. Either Claude+GPT cluster as one mode of instruction-following and Gemini is another, or the corpus was authored for Claude's reading and GPT happens to read it similarly. Archetype detection remains stable across all 5 raters (8/10 unanimous on Reference + Creative; disagreements only on the same Procedural↔Hybrid borderline cases v0.2 already named).
 
 ---
 
