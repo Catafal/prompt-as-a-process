@@ -211,4 +211,4 @@ v1.0's workshop-paper conditional becomes concretely defensible. The paper struc
 - [`../06-META-PAAP/paap-eval/SKILL.md`](../06-META-PAAP/paap-eval/SKILL.md) — The skill that did the scoring
 - [`../06-META-PAAP/SKILL.md`](../06-META-PAAP/SKILL.md) — The skill that generated the comparison arm
 - [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 22 principles
-- [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) — v0.3 priorities (head-to-head expansion is HIGH per this report)
+- [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) — v0.3 priorities (head-to-head expansion is HIGH per this report)

@@ -440,4 +440,4 @@ This skill has known limitations that are inherent to its design, not bugs:
 - [`../../04-RUBRIC/principles.md`](../../04-RUBRIC/principles.md) — The rubric this skill scores against
 - [`../../04-RUBRIC/scoring-template.md`](../../04-RUBRIC/scoring-template.md) — The output format
 - [`../../05-EVALUATION/methodology.md`](../../05-EVALUATION/methodology.md) — How rubric-based evaluation works
-- [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) — v0.2 plan and where this skill fits
+- [`../../07-OPEN-QUESTIONS/`](../../07-OPEN-QUESTIONS/) — v0.2 plan and where this skill fits

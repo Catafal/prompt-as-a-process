@@ -119,10 +119,10 @@ The repo enforces the same tone discipline it asks of skills. The tone-editor ag
 - 4 new files in `05-EVALUATION/` (kappa-pilot + raw data, corpus-extension raw data, head-to-head)
 - 1 new file in `04-RUBRIC/` (corpus-extension-30-skills)
 - 1 new file at root (`CHANGELOG.md`)
-- Updates to: README.md, CITATION.cff, principles.md (versioning section), empirical-validation.md, 06-META-PAAP/README.md, 07-OPEN-QUESTIONS.md
+- Updates to: README.md, CITATION.cff, principles.md (versioning section), empirical-validation.md, 06-META-PAAP/README.md, 07-OPEN-QUESTIONS/README.md
 - 13 commits between baseline (`8833630`) and v0.2 release
 
-**Files NOT changed in v0.2:** principles.md content (only versioning section), 01-CONCEPT.md, 02-EVIDENCE.md, 03-ANATOMY.md, scoring-template.md, examples/pre-call/SKILL.md, all 4 individual test files in 05-EVALUATION/test-1..4.
+**Files NOT changed in v0.2 (paths shown at current v0.3 location):** principles.md content (only versioning section), 01-CONCEPT/README.md, 02-EVIDENCE/README.md, 03-ANATOMY/README.md, scoring-template.md, examples/pre-call/SKILL.md, all 4 individual test files in 05-EVALUATION/test-1..4.
 
 ## How v0.2 changes affect each grade
 
@@ -196,4 +196,4 @@ These two items would land the repo at full A+ across all applicable principles 
 - [`../05-EVALUATION/kappa-pilot.md`](../05-EVALUATION/kappa-pilot.md) — v0.2 reliability data this audit lives within
 - [`../05-EVALUATION/head-to-head.md`](../05-EVALUATION/head-to-head.md) — v0.2 head-to-head experiment
 - [`../CHANGELOG.md`](../CHANGELOG.md) — v0.1 → v0.2 delta in canonical form
-- [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) — v0.3 priorities including external reflexive scoring
+- [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) — v0.3 priorities including external reflexive scoring

@@ -2,7 +2,7 @@
 
 > Three waves of LLM-application thinking, the framework backlash with primary sources, a deep-dive on Garry Tan's `gstack` as the largest production exemplar, an empirical survey baseline extended to 80 community skills, and what the current state suggests about where the pattern goes next.
 
-This chapter is the empirical spine of the framework. [`01-CONCEPT.md`](./01-CONCEPT.md) introduced the three-wave framing; this one makes it defensible. Every claim in this chapter has a primary source. Every quoted text is verbatim. Where investigation hit a paywall, that's stated.
+This chapter is the empirical spine of the framework. [`01-CONCEPT`](../01-CONCEPT/) introduced the three-wave framing; this one makes it defensible. Every claim in this chapter has a primary source. Every quoted text is verbatim. Where investigation hit a paywall, that's stated.
 
 ---
 
@@ -22,7 +22,7 @@ Every SKILL.md execution is a ReAct loop dressed up in workflow phases. The inne
 
 > "Reflexion agents verbally reflect on task feedback signals, then maintain their own reflective text in an episodic memory buffer to induce better decision-making in subsequent trials."
 
-Reflexion benchmarks at 91% pass@1 on HumanEval (vs. early-2023 GPT-4's 80%). Quality gates and `meta-paap`'s self-critique phase are the practical descendants of this idea — applied at the prose level, mediated by the rubric in [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md).
+Reflexion benchmarks at 91% pass@1 on HumanEval (vs. early-2023 GPT-4's 80%). Quality gates and `meta-paap`'s self-critique phase are the practical descendants of this idea — applied at the prose level, mediated by the rubric in [`04-RUBRIC/principles.md`](../04-RUBRIC/principles.md).
 
 ### Wave 2 — Orchestration frameworks (~2023-2024)
 
@@ -129,7 +129,7 @@ Beyond confirmation, gstack contributed **10 candidate new principles** observed
 - **#21 Decision class drives gating policy** — Mechanical / Taste / User Challenge as a structural taxonomy
 - **#22 Voice + writing rules as skill content** — banned vocabulary, prose structure, anti-AI-slop lists baked into the skill body
 
-The remaining 8 candidates (SKILL.md as build artifact, dual-voice consensus, hooks-as-enforcement, telemetry-driven self-observation, plan-rubric-reuse-at-audit-time, host-agnostic packaging, spawn-vs-interactive detection, section-skip-list composition) are documented in [`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md). They are real architectural patterns at gstack scale; they may not generalize to smaller scale.
+The remaining 8 candidates (SKILL.md as build artifact, dual-voice consensus, hooks-as-enforcement, telemetry-driven self-observation, plan-rubric-reuse-at-audit-time, host-agnostic packaging, spawn-vs-interactive detection, section-skip-list composition) are documented in [`04-RUBRIC/empirical-validation.md`](../04-RUBRIC/empirical-validation.md). They are real architectural patterns at gstack scale; they may not generalize to smaller scale.
 
 ### Why gstack matters as evidence
 
@@ -157,7 +157,7 @@ A rubric you derived yourself, scored on skills you wrote, is a self-portrait. T
 - **Stratified sampling** across domain (research / code / ops / content / knowledge / education / other), complexity tier (lean / full / orchestration), and authoring origin (official Anthropic / org collection / individual practitioner)
 - **Sources:** `anthropics/skills` (14 skills), `obra/superpowers` and `obra/superpowers-skills` (7), `trailofbits/skills` (7), `michalparkola/tapestry-skills-for-claude-code` (5), `expo/skills` (3), `K-Dense-AI/claude-scientific-skills` (2), 12 individual practitioner repos (1 each)
 - **Discovery via:** `karanb192/awesome-claude-skills`, `travisvn/awesome-claude-skills`, `ComposioHQ/awesome-claude-skills`
-- **gstack and `meta-paap` excluded** — gstack covered separately in Part C; `meta-paap` is the subject of the n=4 evaluation in [`05-EVALUATION/`](./05-EVALUATION/) and would be self-scoring
+- **gstack and `meta-paap` excluded** — gstack covered separately in Part C; `meta-paap` is the subject of the n=4 evaluation in [`05-EVALUATION/`](../05-EVALUATION/) and would be self-scoring
 
 A 10-skill stratified sub-sample was scored against all 22 principles; the remaining 40 were classified on coarser axes (presence/absence of feature heuristics).
 
@@ -189,7 +189,7 @@ The most valuable disconfirmation from the survey: the original rubric assumed o
 
 Reference skills are *not* failed procedural skills — they're library/API documentation reformatted as SKILL.md, and they appropriately lack gates and exits. Creative skills lean on output spec and voice rather than procedural discipline.
 
-Treating all skills as procedural would have penalized ~18% of the corpus for following genuinely sensible patterns. The applicability matrix in [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) was added explicitly to fix this.
+Treating all skills as procedural would have penalized ~18% of the corpus for following genuinely sensible patterns. The applicability matrix in [`04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) was added explicitly to fix this.
 
 ### Best-in-corpus exemplars
 
@@ -210,7 +210,7 @@ Six recurring patterns the rubric currently only partially captures:
 5. **Tone-as-instruction** (n=5+) — imperative voice setting behavior. Now part of Personas (#6) and Voice rules (#22).
 6. **Reference-style skill archetype** (n≈6) — addressed in v0.1 via the archetype framing.
 
-See [`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md) for full evidence and v0.2 promotion criteria for the remaining patterns.
+See [`04-RUBRIC/empirical-validation.md`](../04-RUBRIC/empirical-validation.md) for full evidence and v0.2 promotion criteria for the remaining patterns.
 
 ### Limitations stated honestly
 
@@ -233,7 +233,7 @@ The proximate cause of Wave 3 was Sonnet-class models becoming reliable enough t
 2. **Quality gate loops.** When a quality gate fails, the model loops back to the named recovery phase instead of declaring success.
 3. **Multi-phase state preservation.** 8-phase pipelines maintain coherence across phases without losing the thread.
 
-None of these were reliable before mid-2025. They are now reliable enough to build on. Not perfect — the failure modes documented in `01-CONCEPT.md` ("where it breaks") are real — but reliable enough that prose-based orchestration produces working software.
+None of these were reliable before mid-2025. They are now reliable enough to build on. Not perfect — the failure modes documented in [`01-CONCEPT`](../01-CONCEPT/) ("where it breaks") are real — but reliable enough that prose-based orchestration produces working software.
 
 ### Karpathy's autoresearch pattern → applied to SOPs
 
@@ -299,4 +299,4 @@ All accessed 2026-04-25.
 - Repo: https://github.com/garrytan/gstack
 - TechCrunch coverage: https://techcrunch.com/2026/03/17/why-garry-tans-claude-code-setup-has-gotten-so-much-love-and-hate/
 
-**50-skill community survey:** Full URL list documented in [`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md).
+**50-skill community survey:** Full URL list documented in [`04-RUBRIC/empirical-validation.md`](../04-RUBRIC/empirical-validation.md).

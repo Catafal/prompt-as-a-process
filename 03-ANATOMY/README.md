@@ -6,7 +6,7 @@ My first three SOPs produced garbage. Not because the model failed. Because I wr
 
 A prompt says: give me X. A process says: do A, check B, if C then D, produce E in format F. The failure mode of a prompt is a bad answer. The failure mode of a SOP is a decision branch you didn't define. The model hits a fork, invents a path, and confidently produces the wrong thing.
 
-This chapter is how to avoid that. It assumes you've read [`01-CONCEPT.md`](./01-CONCEPT.md) and want to know how to write one yourself. The principles cited (#1, #2, etc.) are defined in [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md).
+This chapter is how to avoid that. It assumes you've read [`01-CONCEPT`](../01-CONCEPT/) and want to know how to write one yourself. The principles cited (#1, #2, etc.) are defined in [`04-RUBRIC/principles.md`](../04-RUBRIC/principles.md).
 
 ---
 
@@ -123,7 +123,7 @@ Honest omission rules prevent bloat. The output spec should also include **anti-
 
 ## Worked example: `pre-call`
 
-The skill in [`examples/pre-call/SKILL.md`](./examples/pre-call/SKILL.md) is the canonical worked example referenced from the rubric. Here's why it's the canonical example: it's the simplest skill that demonstrates all four required components.
+The skill in [`examples/pre-call/SKILL.md`](../examples/pre-call/SKILL.md) is the canonical worked example referenced from the rubric. Here's why it's the canonical example: it's the simplest skill that demonstrates all four required components.
 
 ### Goal
 
@@ -276,7 +276,7 @@ When it breaks (and it will), the loop is short: read the execution, find the ph
 
 You're editing prose. My `/deep-research` SOP started at 80 lines. It's 600 now. Each version fixed one specific failure mode I'd observed.
 
-Karpathy's autoresearch pattern applied to skills: run the pipeline, evaluate the output against the rubric, mutate the SOP, run again. Keep what scores better. The quality jumps are noticeable after three or four cycles. See [`05-EVALUATION/methodology.md`](./05-EVALUATION/methodology.md) for the rubric-driven evaluation protocol.
+Karpathy's autoresearch pattern applied to skills: run the pipeline, evaluate the output against the rubric, mutate the SOP, run again. Keep what scores better. The quality jumps are noticeable after three or four cycles. See [`05-EVALUATION/methodology.md`](../05-EVALUATION/methodology.md) for the rubric-driven evaluation protocol.
 
 ---
 
@@ -300,7 +300,7 @@ Before writing the first phase, decide: what archetype is this skill?
 - **Reference** — library/API documentation reformatted as SKILL.md. Don't add gates or exits; they don't fit. Focus on description, output spec, and worked code examples.
 - **Creative** — output-spec-and-voice driven. Lean on principle #11 (output spec, including anti-templates) and #22 (voice rules). Don't force gates.
 
-See [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) for the applicability matrix — which principles apply to which archetypes. A skill that doesn't fit cleanly can declare itself **Hybrid** and apply the principles of the dominant mode.
+See [`04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) for the applicability matrix — which principles apply to which archetypes. A skill that doesn't fit cleanly can declare itself **Hybrid** and apply the principles of the dominant mode.
 
 ---
 
@@ -317,14 +317,14 @@ Output: [what the final result should look like — format, sections, length]
 Archetype: [Procedural / Reference / Creative / Hybrid]
 ```
 
-Those four lines are what Claude can't fill in on its own. Or use the [`meta-paap`](./06-META-PAAP/) skill, which generates the same output with elicitation prompts and self-critique.
+Those four lines are what Claude can't fill in on its own. Or use the [`meta-paap`](../06-META-PAAP/) skill, which generates the same output with elicitation prompts and self-critique.
 
 ---
 
 ## Cross-references
 
-- [`01-CONCEPT.md`](./01-CONCEPT.md) — Why PaaP, why now
-- [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) — The 22 principles, with applicability matrix and grading scale
-- [`04-RUBRIC/scoring-template.md`](./04-RUBRIC/scoring-template.md) — How to score your finished skill
-- [`examples/pre-call/SKILL.md`](./examples/pre-call/SKILL.md) — The runnable worked-example artifact
-- [`06-META-PAAP/`](./06-META-PAAP/) — The skill that generates skills
+- [`01-CONCEPT`](../01-CONCEPT/) — Why PaaP, why now
+- [`04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 22 principles, with applicability matrix and grading scale
+- [`04-RUBRIC/scoring-template.md`](../04-RUBRIC/scoring-template.md) — How to score your finished skill
+- [`examples/pre-call/SKILL.md`](../examples/pre-call/SKILL.md) — The runnable worked-example artifact
+- [`06-META-PAAP/`](../06-META-PAAP/) — The skill that generates skills

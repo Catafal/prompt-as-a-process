@@ -1,6 +1,6 @@
 # `/paap-eval` — Genesis Document
 
-> The elicitation answers and architecture spec that drove the v0 generation of `/paap-eval`. Equivalent to invoking `/meta-paap` with the v0.2 design spec from [`07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) — but executed manually with the dogfooding visible to readers and reviewers.
+> The elicitation answers and architecture spec that drove the v0 generation of `/paap-eval`. Equivalent to invoking `/meta-paap` with the v0.2 design spec from [`07-OPEN-QUESTIONS/`](../../07-OPEN-QUESTIONS/) — but executed manually with the dogfooding visible to readers and reviewers.
 
 **Generated:** 2026-04-26 (Stage 1a of v0.2)
 **Method:** Manual execution of `meta-paap`'s 7-phase generation protocol against the design spec
@@ -10,7 +10,7 @@
 
 ## Pre-Phase — Invocation parsing
 
-**Hypothetical invocation:** *"Build me a skill called /paap-eval that scores any SKILL.md file against the 22-principle PaaP rubric. Use the design spec in 07-OPEN-QUESTIONS.md."*
+**Hypothetical invocation:** *"Build me a skill called /paap-eval that scores any SKILL.md file against the 22-principle PaaP rubric. Use the design spec in 07-OPEN-QUESTIONS/README.md."*
 
 **Skills explicitly named in invocation:** None — `/paap-eval` is intended to be standalone.
 

@@ -28,7 +28,7 @@ v0.1 of the rubric was *expensive to apply* — the [scoring template](../../04-
 - Head-to-head experiments practical (50 outputs blind-scored)
 - The rubric itself usable in production (skill authors auditing their own work)
 
-See [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) for the v0.2 retrospective and v0.3 priorities this skill unlocks.
+See [`../../07-OPEN-QUESTIONS/`](../../07-OPEN-QUESTIONS/) for the v0.2 retrospective and v0.3 priorities this skill unlocks.
 
 ---
 
@@ -106,4 +106,4 @@ Plus a self-disclosure footer making clear this is an LLM-judge, not an objectiv
 - [`../../04-RUBRIC/principles.md`](../../04-RUBRIC/principles.md) — The 22 principles being scored against
 - [`../../04-RUBRIC/scoring-template.md`](../../04-RUBRIC/scoring-template.md) — The output format
 - [`../../05-EVALUATION/kappa-pilot.md`](../../05-EVALUATION/kappa-pilot.md) — Stage 2 reliability results
-- [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) — v0.2 retrospective and v0.3 priorities
+- [`../../07-OPEN-QUESTIONS/`](../../07-OPEN-QUESTIONS/) — v0.2 retrospective and v0.3 priorities

@@ -267,7 +267,7 @@ This file presents direction-of-evidence, not statistical proof.
 
 ## What v0.2 will resolve
 
-See [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) for the full v0.2 scope. Key empirical questions from this validation:
+See [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) for the full v0.2 scope. Key empirical questions from this validation:
 
 1. **Multi-scorer reliability** — 3-5 independent scorers grade the same 10 skills. Compute Cohen's kappa per principle. Identify principles with low agreement (likely too vague or overlapping).
 2. **Extend community survey to N=100** — does the archetype distribution stabilize? Do the 8 deferred candidates gain additional support?

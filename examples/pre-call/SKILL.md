@@ -93,4 +93,4 @@ It deliberately skips:
 - **#7 Files = bus** (no inter-phase data files)
 - **#19 Composition** (standalone)
 
-This is the canonical example referenced from [`03-ANATOMY.md`](../../03-ANATOMY.md).
+This is the canonical example referenced from [`03-ANATOMY`](../../03-ANATOMY/).

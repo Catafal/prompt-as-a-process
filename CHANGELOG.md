@@ -7,6 +7,22 @@ Versioning is **content-tied**, not strict semver: each release describes both r
 
 ---
 
+## [Unreleased] — v0.3 in progress
+
+**Theme:** structural cleanup + planned multi-model kappa, rubric promotion, output-quality test expansion.
+
+### Changed
+
+- **Numbered top-level chapters reorganized into folders for consistency.** Every numbered entry is now a folder (`01-CONCEPT/`, `02-EVIDENCE/`, `03-ANATOMY/`, `04-RUBRIC/`, `05-EVALUATION/`, `06-META-PAAP/`, `07-OPEN-QUESTIONS/`). Single-file chapters live as `<NN-NAME>/README.md` so GitHub auto-renders them on folder navigation.
+- All 318 relative cross-references updated to the new paths; cross-link audit reports 0 broken.
+- Added folder-index `README.md` to `04-RUBRIC/` and `05-EVALUATION/` orienting readers to the contents of each.
+
+### Migration note
+
+External links pointing to `01-CONCEPT.md`, `02-EVIDENCE.md`, `03-ANATOMY.md`, or `07-OPEN-QUESTIONS.md` will 404 after this commit. Replace with the folder form (e.g., `01-CONCEPT/`) or `<NN-NAME>/README.md`.
+
+---
+
 ## [v0.2] — 2026-04-26
 
 **Theme:** evidence + tooling. **Rubric content unchanged from v0.1**; v0.2 builds the empirical case and operational infrastructure that v0.1 deliberately deferred.
@@ -57,7 +73,7 @@ Versioning is **content-tied**, not strict semver: each release describes both r
 
 - README status badge: "v0.1 → v0.2 in progress" → "v0.2 released"
 - README roadmap: v0.2 marked released, v1.0 marked conditional-unlocked
-- `07-OPEN-QUESTIONS.md` restructured: full v0.2 plan replaced with v0.2-delivered summary + v0.3 priorities
+- `07-OPEN-QUESTIONS/README.md` restructured: full v0.2 plan replaced with v0.2-delivered summary + v0.3 priorities
 - `04-RUBRIC/empirical-validation.md` headline: N=50 → N=80; archetype distribution table updated; all 8 deferred candidates given v0.2 verdicts
 - `04-RUBRIC/principles.md` versioning policy: v0.2 marked released, v0.3 priorities listed, v1.0 unlocked
 - `06-META-PAAP/README.md` "See also" surfaces `/paap-eval` as the complementary scoring skill

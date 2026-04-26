@@ -42,7 +42,7 @@ Full per-test detail: [test-1](../05-EVALUATION/test-1-skill-audit.md), [test-2]
 ## When NOT to use
 
 - The workflow is a one-line query (use direct prompting)
-- You already know exactly what you want — write the SKILL.md directly using [`03-ANATOMY.md`](../03-ANATOMY.md)
+- You already know exactly what you want — write the SKILL.md directly using [`03-ANATOMY`](../03-ANATOMY/)
 - The workflow involves credentials, payments, or destructive operations (still author by hand and review carefully)
 
 ---
@@ -78,4 +78,4 @@ The quality of the generated skill depends more on your input than on the genera
 - [`paap-eval/`](./paap-eval/) — **The complementary scoring skill (v0.2 in progress).** Where `meta-paap` generates skills, `/paap-eval` scores them against the rubric.
 - [`../05-EVALUATION/`](../05-EVALUATION/) — Full n=4 regression study
 - [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 22 principles `meta-paap` enforces (originally 20 at the time of the n=4 study)
-- [`../03-ANATOMY.md`](../03-ANATOMY.md) — How to write a SKILL.md by hand if you'd prefer not to use the generator
+- [`../03-ANATOMY/`](../03-ANATOMY/) — How to write a SKILL.md by hand if you'd prefer not to use the generator

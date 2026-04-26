@@ -10,7 +10,7 @@ There have been three waves of "AI replaces code" thinking. The third wave doesn
 
 **Wave 1 — Prompt engineering (~2020-2023).** The unit of work was a one-shot query. Few-shot, chain-of-thought (Wei et al. 2022), zero-shot CoT. ReAct (Yao et al. 2022, [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)) introduced the canonical loop — *"reasoning traces and task-specific actions in an interleaved manner... reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with external sources."* Reflexion (Shinn et al. 2023, [arXiv:2303.11366](https://arxiv.org/abs/2303.11366)) added *"verbal reinforcement"* — agents critiquing their own outputs and storing the critique as episodic memory. The prompt was still a module *inside* a code system, not the system itself.
 
-**Wave 2 — Orchestration frameworks (~2023-2024).** LangChain, LlamaIndex, AutoGen, CrewAI, DSPy. The premise: chain prompts with code to enforce structure. The trade-off: as much complexity created as removed. The most-cited backlash post is Octomind's June 2024 piece, *"Why we no longer use LangChain for building our AI agents,"* which states bluntly: *"All LangChain has achieved is increased the complexity of the code with no perceivable benefits."* See [`02-EVIDENCE.md`](./02-EVIDENCE.md) Part B for the full evidence.
+**Wave 2 — Orchestration frameworks (~2023-2024).** LangChain, LlamaIndex, AutoGen, CrewAI, DSPy. The premise: chain prompts with code to enforce structure. The trade-off: as much complexity created as removed. The most-cited backlash post is Octomind's June 2024 piece, *"Why we no longer use LangChain for building our AI agents,"* which states bluntly: *"All LangChain has achieved is increased the complexity of the code with no perceivable benefits."* See [`02-EVIDENCE`](../02-EVIDENCE/) Part B for the full evidence.
 
 **Wave 3 — Prompt as a Process (~mid-2025-onwards).** Models reliable enough to follow complex SOPs end-to-end. Anthropic launched the SKILL.md format on October 16, 2025 — *"a directory that contains a `SKILL.md` file [...] with YAML frontmatter that contains [...] `name` and `description`."* The format was opened as a multi-vendor standard on December 18, 2025, adopted by Microsoft, OpenAI, Atlassian, Figma, Cursor, and GitHub. As of this repo's v0.1 ship date, the format is ~6 months old as a formal product feature and ~4 months old as a cross-vendor standard. **PaaP is not documenting an old pattern. It is formalizing patterns within a format that became real less than a year ago.**
 
@@ -37,7 +37,7 @@ Claude Code's SKILL.md system is the clearest example. A skill file has two part
 
 When you type `/deep-research about X`, Claude loads that Markdown and follows it. The orchestration logic is prose. Scripts and tools are optional companions, not the program.
 
-Structurally, yes, this is a formatted system prompt with a loader. What makes it different is the **standardization**: a file format with a slash-command invoker, a shareable artifact that can be forked and improved like code. That's what created the ecosystem around it. There are 1,200+ community skills on GitHub. Garry Tan's `gstack` models an engineering team in 50 SKILL.md files. The pattern is real, and the question is what makes it work — which is what [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) answers.
+Structurally, yes, this is a formatted system prompt with a loader. What makes it different is the **standardization**: a file format with a slash-command invoker, a shareable artifact that can be forked and improved like code. That's what created the ecosystem around it. There are 1,200+ community skills on GitHub. Garry Tan's `gstack` models an engineering team in 50 SKILL.md files. The pattern is real, and the question is what makes it work — which is what [`04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) answers.
 
 This is not prompt engineering. Prompt engineering figures out how to phrase a one-shot query. PaaP writes a process with phases, branches, and quality gates that the model follows end-to-end.
 
@@ -51,7 +51,7 @@ This is not prompt engineering. Prompt engineering figures out how to phrase a o
 
 Anything where the steps are clear and the output is text. **Editorial pipelines.** **Codebase analysis with a structured report format.** **Competitive research.** Workflows where you'd normally write a brief for a person, you write a SKILL.md instead.
 
-[`gstack`](https://github.com/garrytan/gstack) by Garry Tan (President & CEO of Y Combinator) is the largest production case study. 50 SKILL.md files modeling an engineering team — CEO review, design review, QA, release management, deploy. All Markdown files. ~83.5k stars and 12.2k forks at snapshot 2026-04-26 (verify current count at the repo). Tan reports shipping *"3 production services and 40+ features in 60 days, while running YC full-time"* using this setup. People fork skills and contribute back the way you'd contribute to an open-source library. See [`02-EVIDENCE.md`](./02-EVIDENCE.md) Part C for the full case study.
+[`gstack`](https://github.com/garrytan/gstack) by Garry Tan (President & CEO of Y Combinator) is the largest production case study. 50 SKILL.md files modeling an engineering team — CEO review, design review, QA, release management, deploy. All Markdown files. ~83.5k stars and 12.2k forks at snapshot 2026-04-26 (verify current count at the repo). Tan reports shipping *"3 production services and 40+ features in 60 days, while running YC full-time"* using this setup. People fork skills and contribute back the way you'd contribute to an open-source library. See [`02-EVIDENCE`](../02-EVIDENCE/) Part C for the full case study.
 
 ---
 
@@ -90,11 +90,11 @@ The gap between *"I have a workflow I do manually"* and *"I have a slash command
 
 PaaP isn't a product or a framework. It's a name for a pattern that practitioners and platform vendors have converged on independently. This repo's contribution is:
 
-- A **22-principle rubric** ([`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md)) describing what makes one SKILL.md higher-quality than another, with archetype-aware applicability so reference and creative skills aren't penalized for not being procedural.
-- A **scoring template** ([`04-RUBRIC/scoring-template.md`](./04-RUBRIC/scoring-template.md)) anyone can use to audit their own skills or community skills.
-- An **empirical validation** ([`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md)) testing the rubric against `gstack` (single-author depth) and a 50-skill community survey (breadth).
-- A **canonical authoring guide** ([`03-ANATOMY.md`](./03-ANATOMY.md)) with a worked example.
-- A **meta-skill** ([`06-META-PAAP/`](./06-META-PAAP/)) that generates skills following the rubric, plus an n=4 evaluation of its outputs ([`05-EVALUATION/`](./05-EVALUATION/)).
-- An **evidence chapter** ([`02-EVIDENCE.md`](./02-EVIDENCE.md)) anchoring the framework's research lineage and corpus findings.
+- A **22-principle rubric** ([`04-RUBRIC/principles.md`](../04-RUBRIC/principles.md)) describing what makes one SKILL.md higher-quality than another, with archetype-aware applicability so reference and creative skills aren't penalized for not being procedural.
+- A **scoring template** ([`04-RUBRIC/scoring-template.md`](../04-RUBRIC/scoring-template.md)) anyone can use to audit their own skills or community skills.
+- An **empirical validation** ([`04-RUBRIC/empirical-validation.md`](../04-RUBRIC/empirical-validation.md)) testing the rubric against `gstack` (single-author depth) and a 50-skill community survey (breadth).
+- A **canonical authoring guide** ([`03-ANATOMY`](../03-ANATOMY/)) with a worked example.
+- A **meta-skill** ([`06-META-PAAP/`](../06-META-PAAP/)) that generates skills following the rubric, plus an n=4 evaluation of its outputs ([`05-EVALUATION/`](../05-EVALUATION/)).
+- An **evidence chapter** ([`02-EVIDENCE`](../02-EVIDENCE/)) anchoring the framework's research lineage and corpus findings.
 
 If you have a workflow you repeat at least once a week and you can't get it down to a slash command in an afternoon, the rubric and the meta-skill are the highest-leverage starting points.

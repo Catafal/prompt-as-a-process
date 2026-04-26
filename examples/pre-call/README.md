@@ -1,6 +1,6 @@
 # Example — `pre-call`
 
-> Research a person before a call or meeting. The canonical worked example referenced from `03-ANATOMY.md`.
+> Research a person before a call or meeting. The canonical worked example referenced from `03-ANATOMY/README.md`.
 
 **Status:** Runnable canonical example.
 
@@ -50,7 +50,7 @@ It's also concrete enough to run on a real meeting today, and short enough to re
 
 ## Cross-references
 
-- [`../../03-ANATOMY.md`](../../03-ANATOMY.md) — The canonical authoring guide where this example is referenced
+- [`../../03-ANATOMY/`](../../03-ANATOMY/) — The canonical authoring guide where this example is referenced
 - [`../../04-RUBRIC/principles.md`](../../04-RUBRIC/principles.md) — The principles this skill is graded against
 
 ---

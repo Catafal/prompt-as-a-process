@@ -2,7 +2,7 @@
 
 > What v0.3 and v1.0 will tackle, and where contributions are most useful right now.
 
-**Status as of 2026-04-26:** v0.2 RELEASED. See [`../CHANGELOG.md`](./CHANGELOG.md) for what shipped. v0.3 priorities below are derived from v0.2's surfaced findings.
+**Status as of 2026-04-26:** v0.2 RELEASED. See [`../CHANGELOG.md`](../CHANGELOG.md) for what shipped. v0.3 priorities below are derived from v0.2's surfaced findings.
 
 ---
 
@@ -82,7 +82,7 @@ v0.3 runs head-to-head against community skills (e.g., 5 from Stage 3's N=80 cor
 
 ### 6. `meta-paap` v2 self-critique improvements (deferred from v0.2)
 
-The 4/4 systematic weakness from v0.1's [n=4 regression study](./05-EVALUATION/regression.md):
+The 4/4 systematic weakness from v0.1's [n=4 regression study](../05-EVALUATION/regression.md):
 
 - Add an **execution-trace pass** — data flow from Phase N output → Phase N+1 references
 - Add a **reference-validation pass** — do named skills/files actually exist at resolved paths?
@@ -109,7 +109,7 @@ The community survey at v0.2 (N=80) surfaced 6 patterns the rubric only partiall
 
 Of these 6, the most likely v0.3 promotion is **#1 Refusal-as-skill** based on the v0.2 corpus extension's evidence (Refusal Gate pattern visible in `daymade/fact-checker`, `glebis/jtbd`, `wrsmith108/linear` — at least 3/30 community sightings).
 
-For full v0.2 verdicts on the original 8 deferred gstack candidates, see [`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md). Three are promotion-ready (#26 self-observation, #29 host-portable, #30 spawn-detection); three confirmed gstack-only (#22 section-skip, #24 dual-voice, #28 plan-rubric-reuse); two stay deferred (#21 build-artifact, #25 hooks).
+For full v0.2 verdicts on the original 8 deferred gstack candidates, see [`04-RUBRIC/empirical-validation.md`](../04-RUBRIC/empirical-validation.md). Three are promotion-ready (#26 self-observation, #29 host-portable, #30 spawn-detection); three confirmed gstack-only (#22 section-skip, #24 dual-voice, #28 plan-rubric-reuse); two stay deferred (#21 build-artifact, #25 hooks).
 
 ---
 
@@ -128,7 +128,7 @@ The honest v1.0 paper title:
 
 This is defensible. v0.3 expansions (multi-model judging, output-quality test on 5 workflows × 3-5 inputs each, multi-author baseline) determine whether the title strengthens or stays in single-practitioner scope.
 
-Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting, developer tools, or LLM-as-judge methodology. Citable via [`CITATION.cff`](./CITATION.cff) in the meantime.
+Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting, developer tools, or LLM-as-judge methodology. Citable via [`CITATION.cff`](../CITATION.cff) in the meantime.
 
 ---
 
@@ -168,7 +168,7 @@ Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting,
 
 ## Citing this work
 
-If you build on the rubric, the methodology, the `/paap-eval` instrument, or the empirical findings, cite via [`CITATION.cff`](./CITATION.cff). GitHub renders this into a one-click citation block. When v1.0 ships as a paper, it will get its own DOI.
+If you build on the rubric, the methodology, the `/paap-eval` instrument, or the empirical findings, cite via [`CITATION.cff`](../CITATION.cff). GitHub renders this into a one-click citation block. When v1.0 ships as a paper, it will get its own DOI.
 
 **Citation formats:**
 - Framework citation: *"PaaP framework v0.2 (Catafal, 2026)."*

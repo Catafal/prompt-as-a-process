@@ -116,4 +116,4 @@ The n=4 study is the floor for what v0.2 will build on:
 4. **Extension to a 5th test (lean path)** — currently the only spec-untested generation path.
 5. **Re-evaluation after `meta-paap` v2 fixes** — the systematic weaknesses identified here become specific features in `meta-paap` v2; re-running the tests measures whether the fixes worked.
 
-See [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) for the full v0.2 research agenda.
+See [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) for the full v0.2 research agenda.

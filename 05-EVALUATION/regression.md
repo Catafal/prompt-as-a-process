@@ -137,4 +137,4 @@ For the full evaluation of each test (process compliance, principle-by-principle
 - [`methodology.md`](./methodology.md) — How the tests were designed and scored
 - [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 22 principles (these tests scored against the original 20)
 - [`../06-META-PAAP/`](../06-META-PAAP/) — The skill being evaluated
-- [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) — v0.2 research agenda derived from these findings
+- [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) — v0.2 research agenda derived from these findings

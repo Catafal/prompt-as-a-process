@@ -430,7 +430,7 @@ The rubric will evolve. Major changes (adding/removing principles, changing appl
 
 When you cite this rubric, include the version: *"PaaP rubric v0.1 (Catafal, 2026)."*
 
-See [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) for what v0.2 specifically aims to resolve.
+See [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) for what v0.2 specifically aims to resolve.
 
 ## Dogfooding — does the repo pass its own rubric?
 

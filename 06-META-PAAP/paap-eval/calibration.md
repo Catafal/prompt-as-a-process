@@ -15,7 +15,7 @@ Four skills chosen to span available evidence:
 | # | Skill | Source | Lines | Why included |
 |---|---|---|---|---|
 | 1 | `/meta-paap` | in-repo | 387 | The skill that generated the rest of the framework — should score well |
-| 2 | `/pre-call` | in-repo | 96 | Canonical worked example referenced from 03-ANATOMY.md |
+| 2 | `/pre-call` | in-repo | 96 | Canonical worked example referenced from 03-ANATOMY/README.md |
 | 3 | `/paap-eval` | in-repo | 443 | **Reflexive scoring** — interesting test case |
 | 4 | `obra/test-driven-development` | community ([github.com/obra/superpowers](https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md)) | 371 | Cross-corpus test; manual-scored A- in v0.1 deep-10 sub-sample |
 
@@ -234,4 +234,4 @@ This calibration completes Stage 1 of v0.2:
 - [`../../04-RUBRIC/principles.md`](../../04-RUBRIC/principles.md) — The 22 principles being scored against
 - [`../../04-RUBRIC/empirical-validation.md`](../../04-RUBRIC/empirical-validation.md) — v0.1 50-skill survey context (where obra/TDD's manual A- comes from)
 - [`../../05-EVALUATION/`](../../05-EVALUATION/) — The 4 `meta-paap`-generated skill evaluations (out of scope for Stage 1d; covered in Stage 2)
-- [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) — v0.2 plan; Stage 2 (kappa pilot) is next
+- [`../../07-OPEN-QUESTIONS/`](../../07-OPEN-QUESTIONS/) — v0.2 plan; Stage 2 (kappa pilot) is next

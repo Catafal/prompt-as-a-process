@@ -209,4 +209,4 @@ v0.1's #1 academic blocker — single-scorer rubric — is closed proportionally
 - [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 22 principles being scored
 - [`../06-META-PAAP/paap-eval/SKILL.md`](../06-META-PAAP/paap-eval/SKILL.md) — The skill that produced these evaluations
 - [`../06-META-PAAP/paap-eval/calibration.md`](../06-META-PAAP/paap-eval/calibration.md) — Stage 1d's smaller-scale calibration that preceded this pilot
-- [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) — Stage 3, 4, 5 plans that this pilot unblocks
+- [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) — Stage 3, 4, 5 plans that this pilot unblocks
