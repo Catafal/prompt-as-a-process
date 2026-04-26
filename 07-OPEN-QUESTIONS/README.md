@@ -101,11 +101,17 @@ v0.2 Stage 4's most actionable finding for `meta-paap` improvement: generated sk
 
 **Reflexive self-audit:** #24 upgraded from C to B+; aggregate from A− back to A. Grounded in observable mechanism (Phase 1.5b + Output write of learnings.jsonl, auditable in the SKILL.md text), not just claim.
 
-### 5. Run head-to-head on community skills (not just author's hand-written)
+### 5. Community-skill head-to-head ✅ DONE
 
-v0.2 Stage 4's hand-written baseline came from the rubric author's local skill folder. This is a self-evaluation bias: the author may write skills in ways the rubric rewards.
+v0.2 Stage 4's hand-written baseline came from the rubric author's local skill folder — self-evaluation bias on the handwritten side.
 
-v0.3 runs head-to-head against community skills (e.g., 5 from Stage 3's N=80 corpus across the 4 archetypes), feeding their workflow descriptions to `meta-paap` and comparing.
+**v0.3 delivered (2026-04-26):** 4 archetype-stratified community skills × 3 inputs × 3 cross-vendor judges = 36 paired quality judgments. Generator arm = meta-paap v2.0 (priority #4). Briefs extracted from descriptions only (no implementation leakage). Full results: [`../05-EVALUATION/community-head-to-head.md`](../05-EVALUATION/community-head-to-head.md).
+
+**Headline:** v2-generated beats community **29/36 (81%)** with all 3 vendors agreeing (Claude 11/12, GPT-5.4 9/12, Gemini-3 9/12). Per-workflow: canvas-design 9/9 unanimous v2; gstack/plan-ceo-review 9/9 unanimous v2 (despite ~600 lines of gstack templated PREAMBLE); chrisvoncsefalvay/d3-viz 7/9 v2; **obra/TDD 5/9 community** (the only workflow where production-iteration depth holds). Inter-judge agreement 9/12 unanimous. **0/36 provenance accuracy** — judges systematically mis-attribute v2-generated as hand-authored.
+
+**Form vs substance — the v0.3 key finding:** meta-paap v2 wins where quality is articulable from a brief (Creative voice, Procedural mode-declarations, Reference completeness); production iteration holds the line where quality lives in specifics no brief captures (TDD discipline depth). The rubric describes form well; substance only emerges through use.
+
+**Honest caveat-saturation flagged in the writeup:** measurement-side self-bias (rubric author also designed v2's prompt). **v0.4 priorities surfaced:** third-party rubric author, third-party random-sample hand-authored skills (from N=80 corpus), human-rater layer, larger N per workflow, feed prior `learnings.jsonl` from production-iterated skills back into meta-paap to close the substance gap.
 
 ### 6. `meta-paap` v2 self-critique improvements (deferred from v0.2)
 

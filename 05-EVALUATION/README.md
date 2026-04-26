@@ -31,6 +31,8 @@ How we test PaaP empirically: methodology, regression suite, inter-rater reliabi
 | [`head-to-head.md`](./head-to-head.md) | v0.2 head-to-head: 5 paired skills (structural axis) + 1 humanizer task (output-quality axis, N=1, blind judge mis-attributed provenance) |
 | [`head-to-head-expanded.md`](./head-to-head-expanded.md) | v0.3 priority #3 expansion: 5 workflows × 3 inputs × 3 cross-vendor judges = 45 quality judgments. Workflow-specific picture (HW wins humanizer 8/9; Gen wins remember 9/9 unanimous; provenance accuracy: GPT 67%, Claude 60%, Gemini 53% at chance) |
 | [`head-to-head-expanded-raw-data.md`](./head-to-head-expanded-raw-data.md) | Verbatim 30 outputs + 45 judge JSONs from the v0.3 priority #3 experiment |
+| [`community-head-to-head.md`](./community-head-to-head.md) | v0.3 priority #5: meta-paap v2 vs **4 community-authored skills** (obra/TDD, anthropics/canvas-design, chrisvoncsefalvay/d3-viz, gstack/plan-ceo-review) × 3 inputs × 3 judges. v2-generated wins 29/36 (81%); community holds only on obra/TDD (5/9). 0/36 provenance accuracy across all judges (judges systematically mis-attribute v2-generated as hand-authored). |
+| [`community-head-to-head-raw-data.md`](./community-head-to-head-raw-data.md) | Verbatim 24 outputs + 36 judge JSONs from the v0.3 priority #5 experiment |
 | [`corpus-extension-raw-data.md`](./corpus-extension-raw-data.md) | Raw data for the +30 corpus extension (see [`04-RUBRIC/corpus-extension-30-skills.md`](../04-RUBRIC/corpus-extension-30-skills.md) for analysis) |
 
 ## How to use

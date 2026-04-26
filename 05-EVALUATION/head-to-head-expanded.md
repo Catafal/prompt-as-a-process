@@ -210,6 +210,7 @@ Anchor examples (5/3/1) per dimension. Judges asked to cite specific evidence fr
 
 - [`head-to-head.md`](./head-to-head.md) — v0.2 N=1 humanizer head-to-head + structural-rubric scoring on the 5 paired skills
 - [`head-to-head-expanded-raw-data.md`](./head-to-head-expanded-raw-data.md) — verbatim 30 outputs + 45 judge JSONs
+- [`community-head-to-head.md`](./community-head-to-head.md) — v0.3 priority #5: same protocol with **community-authored skills** (removes the author-skill bias caveat in this document); v2 wins 29/36, obra/TDD is the only workflow where community holds
 - [`kappa-pilot-multimodel.md`](./kappa-pilot-multimodel.md) — multi-model kappa with the same Claude+GPT-vs-Gemini cluster pattern
 - [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — the 25 principles being validated for predictive power
 - [`../04-RUBRIC/reflexive-self-audit.md`](../04-RUBRIC/reflexive-self-audit.md) — the framework's own honest grade including the C on #24 that this experiment doesn't directly test
