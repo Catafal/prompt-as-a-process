@@ -406,6 +406,73 @@ If any output field is still unspecified: specify it now, before generating.
 
 ---
 
+## 21. Persona Depth — Iron Law + Rationalizations to Reject (v2, principle #6 + #22)
+
+**Trigger:** the skill enforces *behavioral discipline* — a non-negotiable stance the model would otherwise erode. Examples: TDD ("write the test first"), humanizer ("kill the AI signature even when it sounds fine"), refusal-by-default ("don't auto-research without approval"), voice rules ("no banned vocabulary regardless of fluency").
+
+**Anti-pattern:** "You are a senior engineer." This is decoration. The model already tries to be one; the role-framing produces no behavior change.
+
+**The pattern (from `obra/test-driven-development` and gstack review preambles):**
+
+```markdown
+## Persona
+
+**Iron Law:** Write the failing test first. Make it red, then green. Never the other way.
+
+**Rationalizations to reject:**
+
+| The model will say | Why it's wrong | What to do instead |
+|---|---|---|
+| "Just one quick fix without a test" | Untested code is unmeasurable; "quick" debt compounds; the bug WILL recur | Write the failing test first, then the fix. No exceptions. |
+| "The test is obvious — skip it" | Obvious-to-you ≠ caught-by-CI; obvious tests are the cheapest to write | Write it anyway. Cost: 90 seconds. Benefit: regression coverage forever. |
+| "We'll add tests later" | "Later" never arrives; tested-late ≠ tested | Stop. Write the test now. Or don't ship. |
+```
+
+**How to source rationalizations (≥3 rows required):**
+
+1. **From the workflow's failure modes** (Phase 1 question 2 in meta-paap elicitation): every "where it breaks" is a rationalization the model would produce.
+2. **From the workflow's domain** — every discipline has known bad arguments models produce against it. If you've worked in this domain, you know them.
+3. **If you can't list 3** — ask the user explicitly: *"What bad arguments do you find yourself rejecting most often when you do this manually?"*
+
+**N/A justification rule:** Pure Reference skills (library docs reformatted) and pure data-transformation skills (in → out, no discipline) mark this N/A in the architecture spec. The bar is whether the skill *enforces* a behavior, not whether it *describes* one.
+
+**Why this beats role-framing:** the rationalization table is *concrete* (the model sees the exact bad argument it would produce and the counter); role-framing is *aspirational* (the model nods along but doesn't change behavior on borderline cases).
+
+---
+
+## 22. Self-Observation — write+read learnings loop (v2, principle #24)
+
+**Trigger:** the skill is procedural with state (STATE: yes per Phase 2). Short skills with STATE: no mark this N/A.
+
+**The pattern:**
+
+```markdown
+## Self-observation
+
+**Write side (after every successful run):**
+
+Append a one-line entry to `~/.claude/[skill-name]/learnings.jsonl`:
+
+{"timestamp":"<iso>", "input_summary":"<1-sentence reduction>", "key_decisions":[<list>], "open_questions":[<list>]}
+
+**Read side (before any new run):**
+
+Read `~/.claude/[skill-name]/learnings.jsonl` (if present) and:
+- Find prior entries where input_summary shares ≥2 key terms with the current input
+- Surface them inline as "Prior similar runs" before proceeding
+- Do NOT auto-apply prior decisions — just inform the current run with the prior context
+
+**Corruption handling:** if the file is unreadable or contains invalid JSON, skip the lookup and log a one-line warning. Do not halt — corrupted state should never block a new run.
+```
+
+**Why this matters:** a stateless skill relearns the same lessons every invocation. A self-observing skill stops suggesting the same broken approach the user already rejected last time.
+
+**Mechanism is intentionally simple.** Substring match on key terms is not RAG. It's a designed-for-prose feature in the v0.4 era of agent skills. The point is the *closed loop* (write + read, both present), not sophistication.
+
+**N/A justification rule:** Reference skills, pure-transformation skills, and short Procedural skills (<2 min runtime, no resume needed) mark this N/A. The bar is whether prior-run memory would change the next run's behavior usefully — for a one-shot translator, it wouldn't.
+
+---
+
 ## Quick Reference — What Triggers What
 
 | Workflow signal | Architecture addition |
@@ -420,3 +487,7 @@ If any output field is still unspecified: specify it now, before generating.
 | Existing skill covers a phase | Skill composition (#19) |
 | Personal experience needed | Human gate + experience prompts (#9) |
 | Tool dependency | Declare in header, add error handling (#16) |
+| **Skill enforces a behavioral discipline (v2)** | **Iron Law + Rationalizations to Reject table (#21)** |
+| **Procedural skill with state, recurring use (v2)** | **Self-observation: learnings.jsonl write+read loop (#22)** |
+| **Skill calls AskUserQuestion AND may be invoked by another agent (v2)** | **Spawn-detection: non-interactive fallback OR interactive-only declaration (#25 in 04-RUBRIC/principles.md)** |
+| **Skill references external paths (v2)** | **Host-portable: relative or `~/.claude/...` paths only; no `/Users/<author>/...` (#23)** |

@@ -87,11 +87,19 @@ v0.2 Stage 4 ran 1 output-quality task (humanizer). Result was directionally mea
 
 **Per-dimension split:** handwritten dominates voice/AI-signature/action-specificity (taste-shaped); generated dominates title-quality/distillation/decision-relevance (rubric-articulable). The rubric is not purely circular — it encodes both sides. v0.4+ work: third-party hand-written control arm, human-rater layer, larger N per workflow.
 
-### 4. Add "rationalizations to reject" to `meta-paap` persona generation
+### 4. meta-paap v2 — rationalizations + self-observation ✅ DONE
 
 v0.2 Stage 4's most actionable finding for `meta-paap` improvement: generated skills consistently scored lower on persona depth than hand-written exemplars like `obra/test-driven-development`. The gap is the "rationalizations to reject" pattern — naming the bad arguments the model will make and providing the counter, rather than just stating positive behavior.
 
-v0.3 update to `meta-paap`'s Phase 2 architecture spec adds a "Rationalizations Rejection Table" requirement for skills with persona/voice components. Re-run head-to-head to verify the gap closes.
+**v0.3 delivered (2026-04-26):** [`../06-META-PAAP/SKILL.md`](../06-META-PAAP/SKILL.md) bumped to v2.0. Three changes:
+
+- **Persona depth (priority #4 main goal):** discipline-enforcing skills now produce an Iron Law + Rationalizations to Reject table (≥3 rows). The architecture-checklist [§21](../06-META-PAAP/references/architecture-checklist.md) propagates the pattern to every generated skill that enforces behavioral discipline.
+- **Self-observation loop (closes the framework's own #24 gap):** Phase 1.5b reads `~/.claude/meta-paap/learnings.jsonl`; Output appends a one-line entry per run. Architecture-checklist [§22](../06-META-PAAP/references/architecture-checklist.md) propagates this to generated procedural skills with state.
+- **v0.3 principle checks in self-critique:** Phase 4 now explicitly checks #23, #24, #25 (was 7 critical checks in v1; now 11).
+
+**Validation experiment (N=1, directional):** regenerated humanizer with v2 meta-paap, ran it on the same technical AI passage from priority #3, blind judge compared against v0.3-handwritten output. **v2-generated won 21/25 vs handwritten 11/25** — 10-point margin. Handwritten arm hit the task-compliance cap on 3 dimensions (substance preservation, editorial discipline, AI-signature removal) because it changed the argument — the failure mode rationalizations-to-reject was designed to prevent. Judge correctly predicted provenance both ways. **Honest scope:** priority #3 had handwritten 8/9 humanizer wins; this is N=1 directional confirmation, not full replication. **v0.4: re-run priority #3 with v2-generated arm to test whether v2 closes the persona-depth gap broadly.**
+
+**Reflexive self-audit:** #24 upgraded from C to B+; aggregate from A− back to A. Grounded in observable mechanism (Phase 1.5b + Output write of learnings.jsonl, auditable in the SKILL.md text), not just claim.
 
 ### 5. Run head-to-head on community skills (not just author's hand-written)
 

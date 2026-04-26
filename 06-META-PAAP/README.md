@@ -1,18 +1,27 @@
-# meta-paap — The skill that generates skills
+# meta-paap — The skill that generates skills (v2.0)
 
 > A SKILL.md that builds other SKILL.md files. Drop it in your skills folder, type `/meta-paap`, describe what you want to automate, answer five questions, review the architecture, generate.
 
+**v2.0 (2026-04-26)** addresses two empirically-grounded gaps surfaced in v0.3:
+
+- **Persona depth** — generated skills now produce an **Iron Law + Rationalizations to Reject** table for any skill that enforces behavioral discipline (TDD, voice rules, refusal-by-default). v0.3 priority #3 found generated skills systematically lacked this depth on humanizer-class workflows.
+- **Self-observation loop** — meta-paap reads `~/.claude/meta-paap/learnings.jsonl` on every run (Phase 1.5b) and appends to it after self-critique (Phase 4 + Output). Closes the framework's own honest C grade on principle #24, externally validated by GPT-5.4 (7/7 near-F) and Gemini-3 (5/6 F-or-near-F).
+- **v0.3 principle checks** in self-critique — Phase 4 now explicitly checks #23 (host-portable), #24 (self-observation), and #25 (spawn-detection) on every generated skill.
+
+Backwards-compatible — v1 skills run unchanged; v2 generates higher-depth output for new skills. Full details in [`SKILL.md`](./SKILL.md) and [`references/architecture-checklist.md`](./references/architecture-checklist.md) §21–22.
+
 ## What it does
 
-Seven phases:
+Seven phases (v2 — Phase 1.5b is new in this release):
 
 1. **Pre-Phase — Invocation parsing.** Detects skills you named in your invocation (e.g., "build me a skill that uses `/deep-research`") and pre-confirms them.
 2. **Phase 0 — Classification.** Classifies the workflow as single-step (don't build a skill, write a prompt), lean (2-3 linear phases), or full (parallel agents, human gates, state, etc.).
 3. **Phase 1 — Elicitation.** Five questions in one message: workflow steps, failure modes, output spec, tool dependencies, frequency + resumability.
 4. **Phase 1.5 — Skills discovery.** Scans installed skills and suggests composition candidates relevant to your workflow.
-5. **Phase 2 — Architecture design.** Loads the architecture checklist (`references/architecture-checklist.md`), works through each decision point, presents the spec for review BEFORE generating.
-6. **Phase 3 — Generation.** Writes the complete SKILL.md following the 22-principle rubric (see [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md)).
-7. **Phase 4 — Self-critique.** Red-teams the generated skill against a structural checklist; fixes critical issues before saving.
+5. **Phase 1.5b — Prior-run lookup (v2).** Reads `~/.claude/meta-paap/learnings.jsonl`, surfaces prior similar generations as inline context. Informs but does not auto-apply.
+6. **Phase 2 — Architecture design.** Loads the architecture checklist (`references/architecture-checklist.md`), works through each decision point, presents the spec for review BEFORE generating. **In v2, the spec includes a PERSONA DEPTH section that generates an Iron Law + Rationalizations table for any discipline-enforcing skill.**
+7. **Phase 3 — Generation.** Writes the complete SKILL.md following the 25-principle rubric (see [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md)). **In v2, the generation rules require both the Rationalizations table (for discipline-enforcing skills) and a self-observation block (for procedural skills with state).**
+8. **Phase 4 — Self-critique.** Red-teams the generated skill against an 11-row critical checklist (was 7 in v1); v2 adds checks for persona depth, #23 host-portable, #24 self-observation, #25 spawn-detection. After save, appends a learnings entry to meta-paap's own jsonl.
 
 ---
 

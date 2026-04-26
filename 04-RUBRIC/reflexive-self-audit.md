@@ -197,25 +197,27 @@ These two items would land the repo at full A+ across all applicable principles 
 | # | Principle | Grade | Notes |
 |---|---|---|---|
 | 23 | Host-portable | B+ | All 318 internal cross-references are relative; no absolute author paths in the chapters. The two SKILL.md files in the repo (`06-META-PAAP/SKILL.md` and `examples/pre-call/SKILL.md`) declare `allowed-tools` and use relative paths. **Gap (why not A):** the repo doesn't include explicit `--host` config blocks or per-host setup; portability is "by convention," not "by mechanism." A real per-host installer (gstack-style) would push this to A. |
-| 24 | Self-observation | C | The repo writes evaluation outputs (kappa-pilot raw data, corpus-extension raw data, calibration scores) to dedicated files, but no skill in the repo *reads them forward* into its next run. `/meta-paap` does not consult prior generations to avoid repeating mistakes; `/paap-eval` does not consult prior calibration outputs to update its detector thresholds. **Honest C grade** — write side present, read-back side missing. v0.3 follow-up: feed kappa-pilot lessons back into `meta-paap` persona generation (already on the v0.3 priority list as item #4). |
+| 24 | Self-observation | B+ | **Updated 2026-04-26 after meta-paap v2.0 ships (priority #4).** `/meta-paap` v2 now reads `~/.claude/meta-paap/learnings.jsonl` in Phase 1.5b (surfaces prior similar generations as inline context) and appends to it in the Output phase (one JSONL line per run with brief summary, architecture sketch, self-critique fixes, open questions). The closed write+read loop is in place. **Why B+ not A:** the read-side is intentionally simple substring match on key terms — not RAG, not embeddings. It's a designed-for-prose mechanism in the v0.4 era; sophistication is deferred. The architecture-checklist (§22) also propagates the same pattern to generated skills (procedural skills with state get an analogous learnings.jsonl pattern). `/paap-eval` does not yet consume prior calibration data — that piece keeps #24 short of A. v0.4: add the paap-eval calibration feedback loop. |
 | 25 | Spawn-detection | N/A | The repo as an artifact is documentation, not a runnable skill that gets spawned. **Justification:** principle #25 applies to skills participating in multi-agent dispatch loops; this repo is the framework defining those skills, not itself a dispatched skill. The two SKILL.md files in the repo (`06-META-PAAP/SKILL.md` and `examples/pre-call/SKILL.md`) could be scored against #25 individually if invoked — but at the repo-as-artifact level, N/A with this justification is correct. |
 
 ### Updated aggregate
 
 - **v0.2 baseline aggregate (22 principles, 15 applicable):** A (4 A+, 9 A, 1 A-, 1 B+, 1 B)
-- **v0.3 update (25 principles, 17 applicable — #23 + #24 added; #25 N/A):**
+- **v0.3 update post-priority-#4 (25 principles, 17 applicable — #23 + #24 added; #25 N/A):**
   - Add #23 = B+ → 1 more B+
-  - Add #24 = C → 1 new C-grade entry (the lowest grade in the audit)
+  - Add #24 = **B+ (updated from initial C after meta-paap v2 closed the loop in priority #4)**
   - #25 N/A → no aggregate impact
-- **New aggregate distribution:** 4 A+, 9 A, 1 A-, 2 B+, 1 B, 1 C → **A−** (down from A on the 22-principle scale; the C on #24 is the genuine driver).
+- **New aggregate distribution:** 4 A+, 9 A, 1 A-, 3 B+, 1 B → **A** (back to A; the C-grade entry from the initial v0.3 self-audit was upgraded to B+ once the priority #4 work landed).
 
-The C on #24 is honest. The repo *should* feed prior runs forward, and currently doesn't. Closing that gap is on the v0.3 roadmap as priority #4 ("rationalizations to reject" pattern + persona-generation feedback loop), so the C is a known weakness with a planned fix, not a hidden one.
+**Why the grade-bump is not circular.** The B+ on #24 is grounded in *observable mechanism* (Phase 1.5b read + Output write of `~/.claude/meta-paap/learnings.jsonl` — auditable in [`../06-META-PAAP/SKILL.md`](../06-META-PAAP/SKILL.md)), not just claim. v2 also propagates the pattern to generated skills via [`../06-META-PAAP/references/architecture-checklist.md`](../06-META-PAAP/references/architecture-checklist.md) §22 — discipline-enforcing skills get an Iron Law + Rationalizations table; procedural skills with state get a learnings.jsonl pattern. The mechanism is reviewable; the grade reflects that.
+
+**Why not A on #24.** The read-side is intentionally simple substring match — not embeddings, not RAG. And `/paap-eval` does not yet consume prior calibration outputs to update detector thresholds. Both are deferred to v0.4 work; the B+ honestly reflects the half-done state.
 
 ### v0.3 honest limitations (new)
 
 - **#23 and #24 calibration data is pending.** The detectors / judges for these principles haven't been kappa-tested at 25-principle scale. Self-scoring against pre-calibration judges is doubly biased (author's rubric + author's instrument + author's interpretation).
 - **#25 N/A is the easiest call but also the most defensive.** A stricter reviewer could argue the framework as a whole *should* include a section on how to spawn-test its own example skills; declining to score #25 sidesteps that work.
-- **The C on #24 surfaces a real architectural weakness** in the framework. Documenting the weakness is honest; not closing it before scoring is the actual gap. v0.3 priority #4 addresses it.
+- **The #24 B+ depends on meta-paap v2 actually being run.** The mechanism is in the SKILL.md text and architecture-checklist; the learnings.jsonl will exist the first time a v2 invocation completes. Until then, the mechanism is documented but not exercised. Not a falsification of the grade — same standard the rubric applies to any other skill — but worth noting.
 
 ---
 
