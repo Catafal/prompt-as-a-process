@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](./LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/docs-CC--BY--4.0-lightgrey.svg)](./LICENSE-docs)
-[![Status](https://img.shields.io/badge/status-v0.1-orange.svg)](#roadmap)
+[![Status](https://img.shields.io/badge/status-v0.1%20%E2%86%92%20v0.2%20in%20progress-orange.svg)](./07-OPEN-QUESTIONS.md)
 
 ---
 
@@ -155,9 +155,9 @@ This is not a frozen artifact. The rubric will evolve. The evaluation set will g
 
 ### Roadmap
 
-- **v0.1 (this release)** — Framework, rubric, n=4 evaluations, 50-skill empirical survey, meta-paap skill, runnable example.
-- **v0.2** — Head-to-head experiment: hand-written vs `meta-paap`-generated skills on the same tasks, blind-scored outputs. Extending survey to n=100.
-- **v1.0** — Possibly: conversion to a workshop-paper format if v0.2's empirical work warrants it. Submission readiness depends on hitting multi-scorer kappa, head-to-head outcome data, and N≥100 corpus. v0.1 is explicitly not paper-ready by current academic standards (see [`07-OPEN-QUESTIONS.md`](./07-OPEN-QUESTIONS.md) for the gap list).
+- **v0.1 (released)** — Framework, rubric, n=4 evaluations, 50-skill empirical survey, `meta-paap` skill, runnable example, reflexive self-audit.
+- **v0.2 (in progress)** — `/paap-eval` (a skill that auto-scores SKILL.md files against the rubric), unlocking: multi-scorer kappa pilot, N=100 corpus extension, head-to-head outcome experiment (hand-written vs `meta-paap`-generated, blind-scored). Full plan in [`07-OPEN-QUESTIONS.md`](./07-OPEN-QUESTIONS.md).
+- **v1.0 (conditional)** — Workshop-paper format if v0.2's empirical work warrants it. Submission readiness depends on hitting multi-scorer kappa, head-to-head outcome data, and N≥100 corpus. v0.1 is explicitly not paper-ready by current academic standards.
 
 ---
 
