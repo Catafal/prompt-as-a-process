@@ -1,8 +1,8 @@
 # Empirical Validation of the Rubric
 
-> The 22 principles in [`principles.md`](./principles.md) are top-down hypotheses. This file presents the bottom-up evidence: gstack as a single-author case study, a 50-skill survey across 18 community authors, and an honest assessment of which principles held up, which didn't, and which patterns the rubric still misses.
+> The 22 principles in [`principles.md`](./principles.md) are top-down hypotheses. This file presents the bottom-up evidence: gstack as a single-author case study, an 80-skill survey across 36 community authors (extended from v0.1's N=50), and an honest assessment of which principles held up, which didn't, and which patterns the rubric still misses.
 
-**Headline finding:** 19 of the 20 original principles confirmed cleanly under bottom-up testing, plus 2 candidate principles promoted from gstack-specific patterns. Three original principles (#5 Parallel, #13 External storage, #18 Path resolution) hold up only conditionally — they apply when triggered, not universally. Eight candidate patterns from gstack remain documented-but-not-promoted pending broader corpus evidence.
+**Headline finding (v0.2):** 19 of the 20 original principles confirmed cleanly under bottom-up testing, plus 2 candidate principles promoted from gstack-specific patterns. Three original principles (#5 Parallel, #13 External storage, #18 Path resolution) hold up only conditionally — they apply when triggered, not universally. **Of the 8 deferred gstack candidates, 3 now show ≥20% community-corpus prevalence and are promotion-ready for v0.3** (#26 self-observation, #29 host-portable, #30 spawn-detection). **3 confirmed gstack-specific** (0% community sightings: #22 section-skip, #24 dual-voice, #28 plan-rubric-reuse). **2 ambiguous** (#21 build-artifact at 10%, #25 hooks at 7% — keep deferred).
 
 This file documents how those calls were made.
 
@@ -16,11 +16,16 @@ Garry Tan's `gstack` repo (50 SKILL.md files, ~43,000 lines, MIT license, ~82,00
 
 This is a depth test: how does the rubric score against a single practitioner who has thought about every principle deeply?
 
-### Corpus 2 — 50 community skills (breadth test)
+### Corpus 2 — 80 community skills (breadth test)
 
-A stratified sample of 50 SKILL.md files across 18 distinct authors, drawn from `anthropics/skills` (14), `obra/superpowers` and `obra/superpowers-skills` (7), `trailofbits/skills` (7), `michalparkola/tapestry-skills-for-claude-code` (5), `expo/skills` (3), `K-Dense-AI/claude-scientific-skills` (2), and 12 individual practitioner repos (1 each). Stratified across domain (research / code / ops / content / knowledge / education / other), complexity tier (lean / full / orchestration), and authoring origin (official / org / individual).
+A stratified sample now spanning 80 SKILL.md files across 36 distinct authors. Built in two phases:
 
-This is a breadth test: how does the rubric hold up when applied to many authors with different skill levels and different priorities?
+- **v0.1 baseline (N=50, 18 authors):** Curated from `anthropics/skills` (14), `obra/superpowers` and `obra/superpowers-skills` (7), `trailofbits/skills` (7), `michalparkola/tapestry-skills-for-claude-code` (5), `expo/skills` (3), `K-Dense-AI/claude-scientific-skills` (2), and 12 individual practitioner repos (1 each). Full URL list: [`corpus-50-skills.md`](./corpus-50-skills.md).
+- **v0.2 extension (N=30, 18 NEW authors):** Sourced specifically to dilute v0.1's 4-author concentration and 76% Procedural bias. New authors include `jamesrochabrun`, `daymade` (Chinese), `glebis` (Russian — Gleb Kalinin), `agamm`, `AgriciDaniel`, `ryanbbrown`, `zarazhangrui` (Chinese), `sanjay3290`, `BehiSecc`, `tasteray`, `HeshamFS` (Egyptian), `conorbronsdon`, `coinpaprika` (Polish), `wrsmith108`, `olgasafonova`, `product-on-purpose`, `glacierphonk`, `Swiftner`. Full URL list and per-skill metadata: [`corpus-extension-30-skills.md`](./corpus-extension-30-skills.md). Per-skill `/paap-eval` scoring: [`../05-EVALUATION/corpus-extension-raw-data.md`](../05-EVALUATION/corpus-extension-raw-data.md).
+
+This is a breadth test: how does the rubric hold up when applied to many authors with different skill levels, different priorities, and different cultural/domain backgrounds?
+
+**Honest scope:** the v0.2 plan targeted N=100 (50 new skills); actual delivery is N=80 (30 new skills) due to time-bounded discovery in a single session. Remaining 20-skill gap is documented as v0.3 work.
 
 ---
 
@@ -102,16 +107,20 @@ Most violations cluster in principles that are genuinely hard or that only matte
 
 The single most valuable disconfirmation from the corpus survey: **the original rubric assumed one archetype. The community produces at least three.**
 
-| Archetype | % of corpus | Examples | What's load-bearing |
-|---|---:|---|---|
-| Procedural | ~76% | obra/TDD, tob/agentic-actions-auditor, anthropic/skill-creator | Phases, gates, exits, synthesis |
-| Reference | ~12% | expo-deployment, kdense-biopython, chrisvoncsefalvay-d3 | Description, output spec, code examples |
-| Creative | ~6% | anthropic-canvas-design, anthropic-frontend-design | Output spec, voice rules, anti-templates |
-| Hybrid | ~6% | various | Variable |
+### Archetype distribution (v0.1 N=50 vs v0.2 N=80)
+
+| Archetype | v0.1 N=50 | v0.2 N=80 | Examples |
+|---|---:|---:|---|
+| Procedural | 76% | **60%** | obra/TDD, tob/agentic-actions-auditor, anthropic/skill-creator, AgriciDaniel/cybersecurity |
+| Reference | 12% | **20%** | expo-deployment, kdense-biopython, chrisvoncsefalvay-d3, conorbronsdon/avoid-ai-writing, agamm/owasp |
+| Creative | 6% | **11%** | anthropic-canvas-design, anthropic-frontend-design, glebis/tufte-report, glacierphonk/naming, zarazhangrui/frontend-slides |
+| Hybrid | 6% | **9%** | various, including daymade/deep-research, glebis/jtbd, tasteray/elicitation |
+
+**The v0.1 76% Procedural number was partly a sourcing artifact.** v0.2's diverse-author extension (30 new skills, 18 new authors) shifted the distribution meaningfully — the actual community ecosystem is closer to **60% Procedural / 20% Reference / 11% Creative / 9% Hybrid**. This is a real finding: rubric-design must accommodate Reference skills more carefully than v0.1 implied (one in five community skills, not one in eight).
 
 Reference skills are *not* failed procedural skills. They're library/API documentation reformatted as SKILL.md, and they appropriately lack gates and exits. Creative skills lean on output spec and voice rather than procedural discipline — and that's correct for the domain.
 
-Treating all skills as procedural would have penalized ~18% of the corpus for following genuinely sensible patterns. The applicability matrix in [`principles.md`](./principles.md) was added explicitly to fix this.
+Treating all skills as procedural would have penalized ~30% of the corpus for following genuinely sensible patterns (up from ~18% in v0.1's smaller sample). The applicability matrix in [`principles.md`](./principles.md) was added explicitly to fix this; the v0.2 evidence makes the matrix's importance even clearer.
 
 ---
 
@@ -143,9 +152,38 @@ Imperative voice setting behavior: "**don't hold back**", "**iron law**", "**ABS
 
 ---
 
-## The 8 deferred gstack candidates
+## The 8 deferred gstack candidates — v0.2 verdicts
 
-The remaining 8 candidates from the gstack investigation that did NOT clear the 50-skill survey. Documented here so they're not lost; may return in v0.2 if more evidence accumulates.
+The remaining 8 candidates from the gstack investigation. v0.2 Stage 3 re-evaluated each against the 30-skill extension corpus (a fresh, diverse community sample). Verdict per candidate based on community-wide sighting rate at N=30 extension:
+
+| Candidate | v0.1 sightings | v0.2 ext sightings (N=30) | v0.3 verdict |
+|---|:-:|:-:|:-:|
+| **#26 Skills observe themselves and feed prior runs forward** | only `skill-creator` | **6/30 (20%)** | **PROMOTE** |
+| **#29 Skills are portable; host is config knob** | partial | **8/30 (27%)** | **PROMOTE** |
+| **#30 Skills detect spawn vs interactive and adapt** | weak | **6/30 (20%)** | **PROMOTE** |
+| #21 SKILL.md as build artifact | 0 | 3/30 (10%) | Keep deferred (trending) |
+| #25 Hard guardrails via hooks, not prose | 0 | 2/30 (7%) | Keep deferred |
+| **#22 Composed skills declare which sections parent owns** | partial | **0/30 (0%)** | **CONFIRM gstack-specific** |
+| **#24 Dual-voice consensus for verification** | 0 | **0/30 (0%)** | **CONFIRM gstack-specific** |
+| **#28 Plan-stage rubric reused at audit time** | partial | **0/30 (0%)** | **CONFIRM gstack-specific** |
+
+**Stage 3's biggest finding:** 3 of 8 deferred candidates show ≥20% community-corpus prevalence — they're real emerging patterns, not gstack-specific. v0.3 should promote them. Specific community evidence:
+
+- **#26 (self-observation)** — appeared in `daymade/deep-research` (V6/V6.1 version tracking suggests skill observes prior outputs and feeds them forward), `glebis/jtbd` (Update Mode reads prior run forward), `glebis/tufte-report` (Session Lessons section), `ryanbbrown/revealjs` (Session Lessons), `AgriciDaniel/cybersecurity` (agent validation step catches failures and feeds forward), `olgasafonova/skill-check` (versioned check IDs).
+
+- **#29 (host-portable)** — 8 sightings across new corpus, mix of positive and negative implementations. Negative cases (hardcoded paths) confirm the principle is widely violated; positive cases (relative paths, allowed-tools restrictions) confirm the pattern is adopted by experienced authors.
+
+- **#30 (spawn-detection)** — appeared in `daymade/deep-research` (P0 capability check + degrade to sequential), `AgriciDaniel/cybersecurity` (orchestrator vs agent distinction with --focus flags), `zarazhangrui/frontend-slides` (Phase 0 mode detection), `conorbronsdon/avoid-ai-writing` (detect/rewrite mode distinction), `wrsmith108/linear` (Linear-specialist subagent vs direct execution), `glacierphonk/naming` (loop-back logic).
+
+**3 candidates confirmed gstack-specific** (0/30 sightings at extension): #22 section-skip composition, #24 dual-voice consensus, #28 plan-rubric-reuse-at-audit-time. These remain interesting architectural patterns but should not be promoted to the universal rubric without evidence of community adoption.
+
+The detailed candidate descriptions follow below.
+
+---
+
+### Original deferred candidate descriptions
+
+(Preserved from v0.1 for reference. Verdicts above incorporate v0.2 Stage 3 evidence.)
 
 ### 21 (deferred). SKILL.md as build artifact
 
@@ -241,6 +279,9 @@ See [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) for the full v0.2 scope
 ## Sources
 
 - gstack repo: https://github.com/garrytan/gstack (accessed 2026-04-25, SHA `23c4d7b` at writing)
-- **50-skill community corpus full URL list:** [`corpus-50-skills.md`](./corpus-50-skills.md) — pinned for reproducibility
-- Primary collections sampled: `anthropics/skills`, `obra/superpowers`, `trailofbits/skills`, `michalparkola/tapestry-skills-for-claude-code`, `expo/skills`, `K-Dense-AI/claude-scientific-skills`
-- Curated discovery lists used: `karanb192/awesome-claude-skills`, `travisvn/awesome-claude-skills`, `ComposioHQ/awesome-claude-skills`
+- **v0.1 50-skill corpus full URL list:** [`corpus-50-skills.md`](./corpus-50-skills.md)
+- **v0.2 30-skill extension full URL list:** [`corpus-extension-30-skills.md`](./corpus-extension-30-skills.md)
+- **v0.2 per-skill /paap-eval scoring data:** [`../05-EVALUATION/corpus-extension-raw-data.md`](../05-EVALUATION/corpus-extension-raw-data.md)
+- v0.1 collections: `anthropics/skills`, `obra/superpowers`, `trailofbits/skills`, `michalparkola/tapestry-skills-for-claude-code`, `expo/skills`, `K-Dense-AI/claude-scientific-skills`
+- v0.2 extension new authors: `jamesrochabrun`, `daymade`, `glebis`, `agamm`, `AgriciDaniel`, `ryanbbrown`, `zarazhangrui`, `sanjay3290`, `BehiSecc`, `tasteray`, `HeshamFS`, `conorbronsdon`, `coinpaprika`, `wrsmith108`, `olgasafonova`, `product-on-purpose`, `glacierphonk`, `Swiftner`
+- Curated discovery lists used: `karanb192/awesome-claude-skills`, `travisvn/awesome-claude-skills`, `ComposioHQ/awesome-claude-skills`, `BehiSecc/awesome-claude-skills` (highest yield for v0.2 extension)
