@@ -75,6 +75,7 @@ The quality of the generated skill depends more on your input than on the genera
 - [`SKILL.md`](./SKILL.md) — The skill itself
 - [`references/architecture-checklist.md`](./references/architecture-checklist.md) — The decision-point checklist Phase 2 walks through
 - [`examples.md`](./examples.md) — Sample invocations and what they produced (4 worked cases)
+- [`paap-eval/`](./paap-eval/) — **The complementary scoring skill (v0.2 in progress).** Where `meta-paap` generates skills, `/paap-eval` scores them against the rubric.
 - [`../05-EVALUATION/`](../05-EVALUATION/) — Full n=4 regression study
 - [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) — The 22 principles `meta-paap` enforces (originally 20 at the time of the n=4 study)
 - [`../03-ANATOMY.md`](../03-ANATOMY.md) — How to write a SKILL.md by hand if you'd prefer not to use the generator
