@@ -1,6 +1,6 @@
 # Scoring Template
 
-> Copy this file to score any SKILL.md against the 22 principles. Use it for self-audit, peer review, or contribution to the community evaluation set.
+> Copy this file to score any SKILL.md against the 25 principles. Use it for self-audit, peer review, or contribution to the community evaluation set.
 
 This template is the canonical scoring instrument for the rubric in [`principles.md`](./principles.md). Use it consistently and the resulting evaluations are comparable across authors and skills.
 
@@ -32,7 +32,7 @@ Composition:       standalone / N composed (list names if visible)
 Authored by:       human / meta-paap / hybrid
 Date scored:       YYYY-MM-DD
 Scorer:            Your name + handle
-Rubric version:    v0.1 (Catafal, 2026)
+Rubric version:    v0.3 (Catafal, 2026)
 ```
 
 ---
@@ -83,6 +83,9 @@ Fill in the table. Use the grade scale: A+, A, B+, B, C, D, F, or N/A. For every
 | 20 | Output-first | | |
 | 21 | Decision class drives gating | | |
 | 22 | Voice + writing rules | | |
+| 23 | Host-portable | | |
+| 24 | Self-observation | | |
+| 25 | Spawn-detection | | |
 
 **Aggregate grade:** [computed from applicable principles only — N/A grades excluded from average]
 

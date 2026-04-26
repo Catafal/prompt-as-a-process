@@ -1,8 +1,8 @@
 # Algorithmic Detectors — `/paap-eval` Phase 2 Reference
 
-> Per-principle pattern-match detector logic for the 12 algorithmic principles in the [PaaP rubric](../../../04-RUBRIC/principles.md). Loaded by [`paap-eval/SKILL.md`](../SKILL.md) Phase 2.
+> Per-principle pattern-match detector logic for the 13 algorithmic principles in the [PaaP rubric](../../../04-RUBRIC/principles.md). Loaded by [`paap-eval/SKILL.md`](../SKILL.md) Phase 2.
 
-**Status:** v0.2 Stage 1b. Each detector outputs `grade + confidence + evidence + notes`. Persona variants modulate thresholds (see grade-mapping tables per principle).
+**Status:** v0.3-dev on a v0.2 Stage 1b baseline. Each detector outputs `grade + confidence + evidence + notes`. Persona variants modulate thresholds (see grade-mapping tables per principle). The 12 v0.2 detectors were validated against the Stage 1d 4-skill calibration set; the v0.3 addition (Detector 23 — host-portable) is wired into Phase 2 but has not yet been calibration-tested at 25-principle scale.
 
 ---
 
@@ -696,6 +696,72 @@ L<n>: "    optional: true"
 
 ---
 
+## Detector 23 — Principle #23: Host-portable
+
+**Reference:** [principles.md #23](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** All (Universal — promoted v0.3 from deferred candidate #29)
+
+### Detector strategy
+
+Three signals: positive (host-aware mechanisms), positive (portable conventions), negative (hardcoded host assumptions).
+
+```bash
+# Positive: explicit host/profile flags or per-host config blocks
+host_flags=$(grep -ciE '\-\-host[ =]|\-\-profile[ =]|host:[ ]|hosts:[ ]|harness:[ ]' SKILL.md)
+
+# Positive: allowed-tools restriction in YAML (harness-agnostic spec)
+allowed_tools=$(awk '/^---$/{f=!f; next} f && /^allowed.tools:/{flag=1; next} flag && /^[a-z_]+:/{flag=0} flag' SKILL.md | wc -l)
+allowed_tools_present=$([ "$allowed_tools" -gt 0 ] && echo 1 || echo 0)
+
+# Positive: relative paths or HOME-anchored standard locations
+relative_paths=$(grep -ciE '~/\.[a-z]+/skills|\$HOME/|\./|\.\./' SKILL.md)
+
+# Negative: hardcoded absolute author-machine paths (overlaps #18 but scored separately)
+absolute_author_paths=$(grep -ciE '/Users/[a-z]+|/home/[a-z]+|C:\\\\Users\\\\' SKILL.md)
+
+# Negative: harness-specific subprocess invocations buried in prose
+harness_specific=$(grep -ciE 'claude-code\b|claude_code\.|codex\.cli|cursor\.cli' SKILL.md)
+```
+
+### Grade mapping
+
+Score the skill on host-portability intent (positive signals) minus host-coupling violations (negative signals). #18 grades resolution discipline; #23 grades portability intent — they overlap on absolute-path detection but are scored independently.
+
+| Host flags / per-host config | allowed-tools | Absolute author paths | Harness-specific calls | strict-academic | pragmatic-practitioner | charitable-newcomer |
+|---|---|---|---|---|---|---|
+| ≥1 | yes | 0 | 0 | A+ | A+ | A+ |
+| 0 | yes | 0 | 0 | A | A | A |
+| 0 | yes | 0 | ≥1 | B | B+ | A- |
+| 0 | no | 0 | 0 | B+ | A- | A |
+| 0 | no | ≥1 | any | D | C | B |
+| any | any | ≥3 | any | F | D | C |
+
+**N/A justification rule:** A skill can score N/A on #23 only if it explicitly declares itself host-locked by design and explains why. Otherwise the principle applies (it's universal — every shareable SKILL.md should be portable).
+
+### Confidence
+
+- **high:** explicit per-host config block or `--host` flag + `allowed-tools` field present + zero absolute author paths
+- **medium:** portable conventions (relative paths, allowed-tools) but no explicit host-aware mechanism
+- **low:** mixed signals — some portable, some host-coupled — without a clear strategy
+
+### Evidence format
+
+```
+L<n>: "allowed-tools: [Read, Bash, ...]"
+L<n>: "--host codex|opencode|cursor"
+L<n>: "PRIMARY:  ~/.claude/skills/<name>/SKILL.md"
+Absolute author paths: 0
+Harness-specific subprocess calls: 0
+```
+
+### Known limitations
+
+- The line between #18 (path resolution) and #23 (host portability) is genuine: a skill can have clean path resolution and still hardcode `claude-code` as the only target harness. Both detectors run and grade independently.
+- Plugin-format skills that work across hosts implicitly (no explicit `--host` flag, but the format itself is harness-agnostic) tend to score B / B+; raise to A only when explicit portability mechanisms are visible.
+- Calibration data for #23 is pending: the v0.2 4-skill calibration set predates this principle. Treat v0.3 grades on #23 as provisional until kappa-tested.
+
+---
+
 ## Detector summary
 
 | # | Principle | Strategy | False-positive risk | False-negative risk |
@@ -712,15 +778,16 @@ L<n>: "    optional: true"
 | 16 | Errors | Markdown table parse + columns | Low | Medium (inline handling) |
 | 18 | Path resolution | Absolute-path negative signal | Medium (code blocks) | Low |
 | 19 | Composition | YAML composed_skills + runtime patterns | Low | Medium (Bash composition) |
+| 23 | Host-portable | Host-flag + allowed-tools + path-coupling | Medium (overlap with #18) | Medium (implicit portability) |
 
-**Overall calibration:** detectors 5, 10, 13, 18 have high accuracy. Detectors 7, 12, 16, 19 have moderate noise — flag low confidence when borderline.
+**Overall calibration:** detectors 5, 10, 13, 18 have high accuracy. Detectors 7, 12, 16, 19 have moderate noise — flag low confidence when borderline. Detector 23 is provisional at v0.3 (calibration pending).
 
 ---
 
 ## Cross-references
 
 - [`../SKILL.md`](../SKILL.md) — The skill that loads this file (Phase 2)
-- [`../genesis.md`](../genesis.md) — Architecture spec listing all 12 principles
-- [`./semantic-judges.md`](./semantic-judges.md) — The complementary file for the 10 semantic principles (Stage 1c)
+- [`../genesis.md`](../genesis.md) — Architecture spec listing the 12 v0.2 algorithmic principles (this file adds #23 in v0.3)
+- [`./semantic-judges.md`](./semantic-judges.md) — The complementary file for the 12 semantic principles (10 added in Stage 1c; #24 + #25 added in v0.3)
 - [`../../../04-RUBRIC/principles.md`](../../../04-RUBRIC/principles.md) — Principle definitions
 - [`../calibration.md`](../calibration.md) — Stage 1d will validate these detectors against the 4 manual evaluations

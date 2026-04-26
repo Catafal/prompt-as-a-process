@@ -265,14 +265,32 @@ This file presents direction-of-evidence, not statistical proof.
 
 ---
 
-## What v0.2 will resolve
+## What v0.2 resolved
 
-See [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) for the full v0.2 scope. Key empirical questions from this validation:
+See [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) for the v0.3 scope. Key empirical questions from v0.1 of this validation:
 
-1. **Multi-scorer reliability** — 3-5 independent scorers grade the same 10 skills. Compute Cohen's kappa per principle. Identify principles with low agreement (likely too vague or overlapping).
-2. **Extend community survey to N=100** — does the archetype distribution stabilize? Do the 8 deferred candidates gain additional support?
-3. **Promote/reject the deferred candidates** based on N=100 evidence.
-4. **Test the rubric's predictive validity** — do skills scoring higher actually produce better outputs when run? This is the head-to-head experiment that converts v0.1 from architectural rubric to outcome-validated rubric.
+1. **Multi-scorer reliability** — addressed in v0.2 via the 3-persona kappa pilot; mean inter-rater 1.83 grade-steps (strict ↔ pragmatic). See [`../05-EVALUATION/kappa-pilot.md`](../05-EVALUATION/kappa-pilot.md). Multi-model kappa remains v0.3 work.
+2. **Extend community survey to N=100** — partially addressed: extended to N=80 across 36 distinct authors in v0.2; further extension is v0.3+ work.
+3. **Promote/reject the deferred candidates** — resolved at N=80 evidence. See "v0.3 promotion log" below.
+4. **Test the rubric's predictive validity** — addressed in v0.2 via the head-to-head experiment ([`../05-EVALUATION/head-to-head.md`](../05-EVALUATION/head-to-head.md)); blind judge could not distinguish hand-written from generator-produced outputs on a humanizer task.
+
+## v0.3 promotion log
+
+The 3 candidates above (#26, #29, #30) crossed the ≥20% community-prevalence threshold in v0.2's N=80 corpus extension and were promoted into the canonical rubric in v0.3. Numbering follows community-evidence rank rather than original gstack order:
+
+- **Principle #23 = host-portable** (was deferred candidate #29; 27% N=80 evidence; highest of the 3)
+- **Principle #24 = self-observation** (was #26; 20% N=80 evidence)
+- **Principle #25 = spawn-detection** (was #30; 20% N=80 evidence)
+
+Five candidates remain deferred after v0.3:
+
+- #21 SKILL.md as build artifact (10% — trending but below threshold)
+- #22 (original) section-skip-list composition (0% community sightings at N=80 — confirmed gstack-specific)
+- #24 (original) dual-voice consensus (0% — confirmed gstack-specific)
+- #25 (original) hard guardrails via hooks (7% — below threshold)
+- #28 (original) plan-rubric-reuse-at-audit-time / "the boomerang" (0% — confirmed gstack-specific)
+
+The five remaining deferred candidates may be revisited in future versions if community contributions surface additional evidence.
 
 ---
 

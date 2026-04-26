@@ -1,15 +1,15 @@
 ---
 name: paap-eval
-description: Score any SKILL.md file against the 22-principle PaaP rubric with archetype-aware applicability and per-principle confidence ratings. Provide a path to a SKILL.md file. Use when you want a structured first-pass evaluation of a skill (your own or someone else's) before publishing, contributing, or comparing across a corpus. Do NOT use for scoring non-SKILL.md files (READMEs, general docs). Do NOT use to claim objective grades — this is an LLM-judge with stated limitations. Do NOT use for promotion or hiring decisions about a skill author. Do NOT use for skills written in languages other than English at v0.2.
+description: Score any SKILL.md file against the 25-principle PaaP rubric with archetype-aware applicability and per-principle confidence ratings. Provide a path to a SKILL.md file. Use when you want a structured first-pass evaluation of a skill (your own or someone else's) before publishing, contributing, or comparing across a corpus. Do NOT use for scoring non-SKILL.md files (READMEs, general docs). Do NOT use to claim objective grades — this is an LLM-judge with stated limitations. Do NOT use for promotion or hiring decisions about a skill author. Do NOT use for skills written in languages other than English at v0.3.
 tools: [Read, Bash, Write, AskUserQuestion, Task]
 composed_skills: []
 ---
 
 # paap-eval — PaaP Rubric Scoring Skill
 
-> A structured first-pass evaluation of any SKILL.md against the 22-principle [PaaP rubric](../../04-RUBRIC/principles.md). Archetype-aware. Confidence-rated per principle. Self-disclosed as an LLM-judge with stated limitations.
+> A structured first-pass evaluation of any SKILL.md against the 25-principle [PaaP rubric](../../04-RUBRIC/principles.md). Archetype-aware. Confidence-rated per principle. Self-disclosed as an LLM-judge with stated limitations.
 
-**Status:** v0.2 released. The phase structure, per-principle detector logic (Stage 1b), semantic judge prompts (Stage 1c), calibration pass (Stage 1d), and 3-persona kappa pilot (Stage 2) are complete. See [`genesis.md`](./genesis.md) for the elicitation answers and architecture spec that drove the initial generation.
+**Status:** v0.3 in progress on a v0.2 baseline. The phase structure, per-principle detector logic for the original 22 (Stage 1b), semantic judge prompts for the original 22 (Stage 1c), calibration pass (Stage 1d), and 3-persona kappa pilot (Stage 2) are complete and were validated against the 22-principle rubric. **v0.3 added principles #23 (host-portable, algorithmic detector), #24 (self-observation, semantic judge), and #25 (spawn-detection, semantic judge)** — these three are wired into Phase 2 and Phase 3 but have NOT yet been calibration-validated or kappa-tested at the 25-principle scale (see [`calibration.md`](./calibration.md) for scope). See [`genesis.md`](./genesis.md) for the elicitation answers and architecture spec that drove the initial generation.
 
 ---
 
@@ -173,7 +173,7 @@ For each principle in the algorithmic set that's also in applicable_principles:
         notes: optional one-line context
 ```
 
-**The 12 algorithmic principles (full detector logic in references/algorithmic-detectors.md):**
+**The 13 algorithmic principles (full detector logic in references/algorithmic-detectors.md):**
 
 1. **#1 Description as router** — YAML parse: anti-triggers count, trigger-phrase count
 2. **#2 Route before work** — Phase-0-pattern detection (Phase 0, "Routing", "Classification" headings)
@@ -187,6 +187,7 @@ For each principle in the algorithmic set that's also in applicable_principles:
 10. **#16 Errors** — error table detection (markdown table with Error|Action columns)
 11. **#18 Path resolution** — hardcoded absolute path detection (negative signal)
 12. **#19 Composition** — composed_skills YAML field + runtime resolution patterns
+13. **#23 Host-portable** — `--host`/`--profile` flag detection (positive), `allowed-tools` restriction detection (positive), absolute-path detection (negative; overlaps with #18 but scored independently — #18 grades resolution discipline, #23 grades host-portability intent)
 
 **Parallel execution:**
 
@@ -229,7 +230,7 @@ If file not found:
     Set inline_judge_mode = true; flag in final report.
 ```
 
-**The 10 semantic principles (full judge prompts in references/semantic-judges.md):**
+**The 12 semantic principles (full judge prompts in references/semantic-judges.md):**
 
 1. **#3 Modes** — Are modes explicit, named, criteria-driven? Or implicit?
 2. **#6 Personas / voice** — Behavioral discipline vs generic role assignment?
@@ -241,6 +242,8 @@ If file not found:
 8. **#20 Output-first** — Output spec defined before phases?
 9. **#21 Decision class drives gating** — Mechanical / Taste / User Challenge taxonomy applied?
 10. **#22 Voice + writing rules** — Tone, banned phrases, prose structure as skill content?
+11. **#24 Self-observation** — Does the skill demonstrably read prior runs / session lessons / version-tagged learnings forward, not merely mention them?
+12. **#25 Spawn-detection** — Does the skill adapt behavior when invoked by another agent vs interactively (suppress AskUserQuestion, switch to machine-readable output, degrade non-interactive features)?
 
 **Parallel execution:**
 
@@ -273,7 +276,7 @@ Aggregate algorithmic + semantic into one score table; compute aggregate grade.
 Read 01-archetype.json, 02-algorithmic-scores.json, 03-semantic-scores.json.
 
 Build the principle-by-principle score table:
-    For each of the 22 principles:
+    For each of the 25 principles:
         If in applicable_principles: use grade from 02 or 03
         If in skipped_principles: mark N/A with the one-line justification
 
@@ -319,12 +322,12 @@ Generate the report file at <output_path> with these sections in order:
    - Composition (parsed from composed_skills field)
    - Authored by (best-effort from path heuristics; "unknown" if unclear)
    - Date scored
-   - Scorer: "/paap-eval v0.2.0 — persona: <persona>"
+   - Scorer: "/paap-eval v0.3.0-dev — persona: <persona>"
    - Rubric version (from config)
 
 2. Archetype declaration with one-line justification
 
-3. Principle-by-principle scoring table (22 rows):
+3. Principle-by-principle scoring table (25 rows):
    | # | Principle | Grade | Notes / evidence |
    For N/A rows: include the one-line justification in Notes column
 
@@ -350,7 +353,7 @@ Generate the report file at <output_path> with these sections in order:
 
 10. Self-disclosure footer (REQUIRED, exact text):
     ---
-    *Generated by `/paap-eval` v0.2.0 (PaaP rubric v<X>) on <date>.*
+    *Generated by `/paap-eval` v0.3.0-dev (PaaP rubric v<X>) on <date>.*
     *This is a structured first-pass LLM-judge evaluation, not an objective grade.
     Confidence ratings are self-reported by the judge model and may be
     miscalibrated. Do not cite this evaluation as definitive without
@@ -391,7 +394,7 @@ Print summary to stdout:
 | 2 | After Phase 2 | Every applicable algorithmic principle has grade + evidence | Detector failed for any principle | Re-run failed detectors; if still failing, mark "detector-error" in report and continue |
 | 3 | After Phase 3 | Every applicable semantic principle has grade + confidence + reasoning | Judge returned malformed output for any principle | Re-run failed judges with simpler prompt; if still failing, mark "needs-human-judgment" |
 | 4 | After Phase 4 | Aggregate grade matches per-principle distribution sanity check | Aggregate too far from individual grades | Recompute; investigate bug |
-| 5 | After Phase 5 | Output file exists, all 10 sections present, self-disclosure footer included | Missing section | Regenerate Phase 5 output |
+| 5 | After Phase 5 | Output file exists, all 10 sections present, self-disclosure footer included, scoring table has 25 rows | Missing section or row count off | Regenerate Phase 5 output |
 
 ---
 
@@ -418,13 +421,13 @@ This skill has known limitations that are inherent to its design, not bugs:
 
 1. **It's an LLM-judge.** Inherits position bias, length bias, style bias. Self-reported confidence may be miscalibrated. Use the scoring template at `04-RUBRIC/scoring-template.md` for any high-stakes evaluation that needs human judgment.
 
-2. **The rubric content is v0.1; the evaluation instrument is v0.2.** Stage 2 prompt-variant reliability data is in, but multi-model and human-rater kappa are still v0.3 work. Some principles may have low inter-rater reliability that future versions of this skill will reflect.
+2. **The rubric content is v0.3; the evaluation instrument is v0.3-dev on a v0.2 baseline.** Stage 2 prompt-variant reliability data is in for the original 22 principles, but multi-model and human-rater kappa are still v0.3 work. Principles #23, #24, #25 are wired into Phase 2 / Phase 3 but have NOT been calibration-tested or kappa-tested yet — their grades carry higher uncertainty than the original 22.
 
 3. **Algorithmic detectors are pattern-matching, not parsing.** They can be fooled by skills that follow the spirit of a principle but use unusual surface forms.
 
-4. **Persona variants are calibrated only within one model family.** strict-academic / pragmatic-practitioner / charitable-newcomer were tested in the v0.2 Stage 2 kappa pilot; v0.3 needs cross-model validation.
+4. **Persona variants are calibrated only within one model family.** strict-academic / pragmatic-practitioner / charitable-newcomer were tested in the v0.2 Stage 2 kappa pilot at 22-principle scale; v0.3 needs cross-model validation and a 25-principle re-run.
 
-5. **English-only at v0.2.** Skills in other languages may produce unreliable grades.
+5. **English-only at v0.3.** Skills in other languages may produce unreliable grades.
 
 6. **Reference and Creative archetypes are scored against a smaller principle set.** That's correct (they shouldn't be penalized for not being procedural), but it also means their aggregate grades are computed from fewer data points and may be noisier.
 
@@ -434,9 +437,9 @@ This skill has known limitations that are inherent to its design, not bugs:
 
 - [`genesis.md`](./genesis.md) — Elicitation answers + architecture spec that drove this generation
 - [`README.md`](./README.md) — User-facing quick-start (added in Stage 1d after validation)
-- [`references/algorithmic-detectors.md`](./references/algorithmic-detectors.md) — Detector logic for the 12 algorithmic principles (added in Stage 1b)
-- [`references/semantic-judges.md`](./references/semantic-judges.md) — Judge prompts for the 10 semantic principles (added in Stage 1c)
-- [`calibration.md`](./calibration.md) — Validation results against the 4 manual evaluations (added in Stage 1d)
+- [`references/algorithmic-detectors.md`](./references/algorithmic-detectors.md) — Detector logic for the 13 algorithmic principles (12 added in Stage 1b; #23 host-portable added in v0.3)
+- [`references/semantic-judges.md`](./references/semantic-judges.md) — Judge prompts for the 12 semantic principles (10 added in Stage 1c; #24 self-observation and #25 spawn-detection added in v0.3)
+- [`calibration.md`](./calibration.md) — Validation results against the 4 manual evaluations (added in Stage 1d; v0.3 re-calibration at 25-principle scale pending)
 - [`../../04-RUBRIC/principles.md`](../../04-RUBRIC/principles.md) — The rubric this skill scores against
 - [`../../04-RUBRIC/scoring-template.md`](../../04-RUBRIC/scoring-template.md) — The output format
 - [`../../05-EVALUATION/methodology.md`](../../05-EVALUATION/methodology.md) — How rubric-based evaluation works

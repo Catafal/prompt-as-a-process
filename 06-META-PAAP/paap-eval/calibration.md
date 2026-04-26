@@ -6,6 +6,8 @@
 **Persona used:** `pragmatic-practitioner` (default)
 **Scorer:** Single-LLM simulation of `/paap-eval` (not an actual subagent invocation — see honest limitations below)
 
+> **v0.3 scope note (2026-04-26):** This calibration was performed at 22-principle scale. v0.3 promoted three additional principles (#23 host-portable, #24 self-observation, #25 spawn-detection) into the rubric. The detectors / judges for these three are wired into `paap-eval` Phase 2 / Phase 3 but have **not** been calibration-validated at 25-principle scale. Re-running this calibration set against the 25-principle rubric is a v0.3 follow-up task (combined with the multi-model kappa re-run). Until then, treat scores on principles #23, #24, #25 as provisional. The 22-principle calibration results below remain valid.
+
 ---
 
 ## Calibration set

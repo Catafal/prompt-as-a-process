@@ -9,17 +9,35 @@ Versioning is **content-tied**, not strict semver: each release describes both r
 
 ## [Unreleased] — v0.3 in progress
 
-**Theme:** structural cleanup + planned multi-model kappa, rubric promotion, output-quality test expansion.
+**Theme:** structural cleanup + rubric promotion + planned multi-model kappa + output-quality test expansion.
+
+### Added
+
+- **Rubric grew from 22 to 25 principles.** Three deferred candidates from the v0.2 N=80 corpus extension crossed the ≥20% community-prevalence threshold and were promoted into the canonical rubric:
+  - **Principle #23 — Host-portable; agent harness is a config knob** (was deferred candidate #29; 8/30 = 27% N=80 evidence — highest of the three)
+  - **Principle #24 — Skills observe themselves and feed prior runs forward** (was #26; 6/30 = 20%)
+  - **Principle #25 — Skills detect spawn vs. interactive context and adapt** (was #30; 6/30 = 20%)
+  Numbering follows community-evidence rank, not original gstack order. Five candidates remain deferred (full list in [`04-RUBRIC/principles.md`](./04-RUBRIC/principles.md) "Deferred candidates (post-v0.3)").
+- `04-RUBRIC/scoring-template.md` extended with 3 new rows (now 25 rows).
+- `06-META-PAAP/paap-eval/references/algorithmic-detectors.md` adds Detector 23 (host-portable; full grade-mapping table + persona modulation + known limitations).
+- `06-META-PAAP/paap-eval/references/semantic-judges.md` adds Judge 24 (self-observation) and Judge 25 (spawn-detection); both with exemplar A+/A/B/C/D/F/N/A cases plus persona modulation.
+- `04-RUBRIC/reflexive-self-audit.md` v0.3 delta section: repo re-scored on #23 (B+), #24 (C — honest weakness, write side present, read-back missing), #25 (N/A justified). New aggregate: **A−** (down from A on the 22-principle scale).
 
 ### Changed
 
 - **Numbered top-level chapters reorganized into folders for consistency.** Every numbered entry is now a folder (`01-CONCEPT/`, `02-EVIDENCE/`, `03-ANATOMY/`, `04-RUBRIC/`, `05-EVALUATION/`, `06-META-PAAP/`, `07-OPEN-QUESTIONS/`). Single-file chapters live as `<NN-NAME>/README.md` so GitHub auto-renders them on folder navigation.
 - All 318 relative cross-references updated to the new paths; cross-link audit reports 0 broken.
 - Added folder-index `README.md` to `04-RUBRIC/` and `05-EVALUATION/` orienting readers to the contents of each.
+- `06-META-PAAP/paap-eval/SKILL.md` updated to reference the 25-principle rubric (was 22). Algorithmic principle list grew from 12 to 13; semantic principle list grew from 10 to 12. Self-disclosure footer scorer string bumped to `v0.3.0-dev`.
+- `06-META-PAAP/paap-eval/calibration.md` v0.3 scope note added: existing 22-principle calibration remains valid; 25-principle re-calibration deferred to a follow-up task.
+- `04-RUBRIC/principles.md` versioning section updated; rubric citation form bumped to `v0.3 (Catafal, 2026)`.
+- `README.md`, `CITATION.cff`, `06-META-PAAP/SKILL.md`: principle count references updated from 22 to 25.
 
 ### Migration note
 
-External links pointing to `01-CONCEPT.md`, `02-EVIDENCE.md`, `03-ANATOMY.md`, or `07-OPEN-QUESTIONS.md` will 404 after this commit. Replace with the folder form (e.g., `01-CONCEPT/`) or `<NN-NAME>/README.md`.
+- External links pointing to `01-CONCEPT.md`, `02-EVIDENCE.md`, `03-ANATOMY.md`, or `07-OPEN-QUESTIONS.md` will 404 after the structural commit. Replace with the folder form (e.g., `01-CONCEPT/`) or `<NN-NAME>/README.md`.
+- v0.1 and v0.2 evaluations cited *"PaaP rubric v0.1"* or *"v0.2"* — both used the 22-principle rubric. v0.3+ evaluations should cite *"PaaP rubric v0.3 (Catafal, 2026)."* Past evaluations remain valid at their cited rubric version.
+- `/paap-eval` runs against the 25-principle rubric. The detectors/judges for #23, #24, #25 are wired in but not calibration-tested yet — grades on these three principles are provisional until the v0.3 kappa re-run completes.
 
 ---
 

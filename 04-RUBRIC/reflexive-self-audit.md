@@ -2,11 +2,12 @@
 
 > The PaaP rubric is designed to evaluate SKILL.md files. This file applies it, reflexively, to **this repo as an artifact**. If a framework can't survive its own rubric, the rubric is broken or the framework is dishonest. This audit makes the discipline visible.
 
-**Two audits documented in this file:**
+**Three audits documented in this file:**
 - **v0.1 baseline audit** (original sections below, scored 2026-04-26 post-Tier-1+2 fixes, commit `8833630`)
-- **v0.2 delta** (appended at the end — what changed in v0.2 and how the repo's grade shifted)
+- **v0.2 delta** (appended mid-file — what changed in v0.2 and how the repo's grade shifted)
+- **v0.3 delta — 25-principle re-score** (appended at the end — the repo's grades on the 3 newly-promoted principles #23, #24, #25)
 
-**Rubric version:** v0.1 (rubric content unchanged in v0.2; only evidence base + tooling expanded)
+**Rubric version:** v0.3 (rubric grew from 22 to 25 principles in v0.3 — see [`principles.md`](./principles.md) versioning section)
 
 ---
 
@@ -187,9 +188,40 @@ These two items would land the repo at full A+ across all applicable principles 
 
 ---
 
+## v0.3 delta — 25-principle re-score (added 2026-04-26)
+
+**What changed:** v0.3 promoted three deferred candidates into the canonical rubric — #23 host-portable, #24 self-observation, #25 spawn-detection. This section scores the repo against the 3 new principles and updates the aggregate honestly.
+
+**Conservative bias retained.** The new principles are designed for SKILL.md files; the repo is a Hybrid Reference-dominant artifact, so several of the new principles either apply weakly or default to N/A.
+
+| # | Principle | Grade | Notes |
+|---|---|---|---|
+| 23 | Host-portable | B+ | All 318 internal cross-references are relative; no absolute author paths in the chapters. The two SKILL.md files in the repo (`06-META-PAAP/SKILL.md` and `examples/pre-call/SKILL.md`) declare `allowed-tools` and use relative paths. **Gap (why not A):** the repo doesn't include explicit `--host` config blocks or per-host setup; portability is "by convention," not "by mechanism." A real per-host installer (gstack-style) would push this to A. |
+| 24 | Self-observation | C | The repo writes evaluation outputs (kappa-pilot raw data, corpus-extension raw data, calibration scores) to dedicated files, but no skill in the repo *reads them forward* into its next run. `/meta-paap` does not consult prior generations to avoid repeating mistakes; `/paap-eval` does not consult prior calibration outputs to update its detector thresholds. **Honest C grade** — write side present, read-back side missing. v0.3 follow-up: feed kappa-pilot lessons back into `meta-paap` persona generation (already on the v0.3 priority list as item #4). |
+| 25 | Spawn-detection | N/A | The repo as an artifact is documentation, not a runnable skill that gets spawned. **Justification:** principle #25 applies to skills participating in multi-agent dispatch loops; this repo is the framework defining those skills, not itself a dispatched skill. The two SKILL.md files in the repo (`06-META-PAAP/SKILL.md` and `examples/pre-call/SKILL.md`) could be scored against #25 individually if invoked — but at the repo-as-artifact level, N/A with this justification is correct. |
+
+### Updated aggregate
+
+- **v0.2 baseline aggregate (22 principles, 15 applicable):** A (4 A+, 9 A, 1 A-, 1 B+, 1 B)
+- **v0.3 update (25 principles, 17 applicable — #23 + #24 added; #25 N/A):**
+  - Add #23 = B+ → 1 more B+
+  - Add #24 = C → 1 new C-grade entry (the lowest grade in the audit)
+  - #25 N/A → no aggregate impact
+- **New aggregate distribution:** 4 A+, 9 A, 1 A-, 2 B+, 1 B, 1 C → **A−** (down from A on the 22-principle scale; the C on #24 is the genuine driver).
+
+The C on #24 is honest. The repo *should* feed prior runs forward, and currently doesn't. Closing that gap is on the v0.3 roadmap as priority #4 ("rationalizations to reject" pattern + persona-generation feedback loop), so the C is a known weakness with a planned fix, not a hidden one.
+
+### v0.3 honest limitations (new)
+
+- **#23 and #24 calibration data is pending.** The detectors / judges for these principles haven't been kappa-tested at 25-principle scale. Self-scoring against pre-calibration judges is doubly biased (author's rubric + author's instrument + author's interpretation).
+- **#25 N/A is the easiest call but also the most defensive.** A stricter reviewer could argue the framework as a whole *should* include a section on how to spawn-test its own example skills; declining to score #25 sidesteps that work.
+- **The C on #24 surfaces a real architectural weakness** in the framework. Documenting the weakness is honest; not closing it before scoring is the actual gap. v0.3 priority #4 addresses it.
+
+---
+
 ## Cross-references
 
-- [`principles.md`](./principles.md) — The 22 principles being applied
+- [`principles.md`](./principles.md) — The 25 principles being applied
 - [`empirical-validation.md`](./empirical-validation.md) — Bottom-up evidence for the rubric
 - [`scoring-template.md`](./scoring-template.md) — The template this audit uses
 - [`../05-EVALUATION/methodology.md`](../05-EVALUATION/methodology.md) — Limitations also documented there

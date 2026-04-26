@@ -14,7 +14,7 @@
 
 By mid-2025, frontier models became reliable enough in practice for many users to treat structured Markdown SOPs as executable workflows. This repo formalizes that pattern and, as of v0.2, adds the evaluation instrument and evidence base to test it:
 
-1. **22 architectural principles** with applicability across **3 skill archetypes** (Procedural / Reference / Creative), a **scoring rubric**, and a **scoring template**.
+1. **25 architectural principles** with applicability across **3 skill archetypes** (Procedural / Reference / Creative), a **scoring rubric**, and a **scoring template**.
 2. An **empirical corpus of 80 community skills** across 36 authors + a deep-dive on **`gstack`** (50 SKILL.md, ~83.5k stars at snapshot — see [02-EVIDENCE](./02-EVIDENCE/) and [04-RUBRIC](./04-RUBRIC/)).
 3. **`/paap-eval`**, an auto-scoring instrument with algorithmic detectors + semantic judges, validated through a 3-persona kappa pilot ([`06-META-PAAP/paap-eval/`](./06-META-PAAP/paap-eval/), [`05-EVALUATION/kappa-pilot.md`](./05-EVALUATION/kappa-pilot.md)).
 4. **Four documented evaluations** of [`meta-paap`](./06-META-PAAP/) plus a **head-to-head comparison** of hand-written vs generated skills ([`05-EVALUATION/head-to-head.md`](./05-EVALUATION/head-to-head.md)).
@@ -26,7 +26,7 @@ Use it to write better skills, evaluate existing ones, extend the rubric, or con
 
 ## Who this is for
 
-- **People writing Claude Code / Codex / Cursor / agent skills.** The 22-principle rubric and the [`03-ANATOMY`](./03-ANATOMY/) authoring guide are calibrated for you.
+- **People writing Claude Code / Codex / Cursor / agent skills.** The 25-principle rubric and the [`03-ANATOMY`](./03-ANATOMY/) authoring guide are calibrated for you.
 - **Teams turning repeatable research, coding, or editorial workflows into agent-run SOPs.** The [`meta-paap`](./06-META-PAAP/) generator is the fastest on-ramp; the [`pre-call`](./examples/pre-call/) example is the canonical pattern to copy.
 - **Researchers studying how prose instructions become executable process in agent harnesses.** [`02-EVIDENCE`](./02-EVIDENCE/), [`05-EVALUATION/`](./05-EVALUATION/), and [`/paap-eval`](./06-META-PAAP/paap-eval/) document the empirical work; honest limitations are stated in each.
 - **Anyone evaluating whether a Markdown workflow is robust enough to share.** Use [`/paap-eval`](./06-META-PAAP/paap-eval/) for fast scoring, or [`04-RUBRIC/scoring-template.md`](./04-RUBRIC/scoring-template.md) for manual self-audit or peer review.
@@ -90,9 +90,9 @@ A fair question: Anthropic ships the SKILL.md format and a 486-line `skill-creat
 
 Three things, with honest scope:
 
-1. **A vocabulary and a rubric.** Anthropic ships the *format* and *one* canonical generator. PaaP names the *patterns* across the format — 22 principles you can score any skill against, with archetype-aware applicability so reference and creative skills aren't penalized for not being procedural.
+1. **A vocabulary and a rubric.** Anthropic ships the *format* and *one* canonical generator. PaaP names the *patterns* across the format — 25 principles you can score any skill against, with archetype-aware applicability so reference and creative skills aren't penalized for not being procedural.
 2. **An empirical corpus.** An 80-skill survey across 36 community authors plus a deep-dive on `gstack`, comparing observed patterns to the rubric. That cross-corpus evidence does not exist anywhere else as of this writing.
-3. **Operational skills.** [`meta-paap`](./06-META-PAAP/) generates SKILL.md files that score well on the 22 principles; [`/paap-eval`](./06-META-PAAP/paap-eval/) scores existing skills against the rubric. They are downstream of `skill-creator`, not competitors — optimized for rubric compliance, evaluation, and workflow architecture.
+3. **Operational skills.** [`meta-paap`](./06-META-PAAP/) generates SKILL.md files that score well on the 25 principles; [`/paap-eval`](./06-META-PAAP/paap-eval/) scores existing skills against the rubric. They are downstream of `skill-creator`, not competitors — optimized for rubric compliance, evaluation, and workflow architecture.
 
 What PaaP does NOT add: a new file format, a new runtime, or a competitor to Claude Code itself.
 
@@ -105,7 +105,7 @@ What PaaP does NOT add: a new file format, a new runtime, or a competitor to Cla
 | [01 — Concept](./01-CONCEPT/) | Why PaaP, why now, what changed in mid-2025 |
 | [02 — Evidence](./02-EVIDENCE/) | Three waves of AI-replaces-code, the framework backlash, gstack case study, empirical survey baseline |
 | [03 — Anatomy](./03-ANATOMY/) | How to write a working SKILL.md — the canonical authoring guide |
-| [04 — Rubric](./04-RUBRIC/) | The 22 architectural principles, scoring template, N=80 corpus extension, bottom-up empirical validation |
+| [04 — Rubric](./04-RUBRIC/) | The 25 architectural principles, scoring template, N=80 corpus extension, bottom-up empirical validation |
 | [05 — Evaluation](./05-EVALUATION/) | n=4 regression, kappa pilot, corpus extension raw data, head-to-head experiment |
 | [06 — meta-paap](./06-META-PAAP/) | `meta-paap` generator + `/paap-eval` scoring instrument |
 | [07 — Open questions](./07-OPEN-QUESTIONS/) | v0.2 retrospective, v0.3 priorities, and v1.0 paper path |
@@ -115,7 +115,7 @@ What PaaP does NOT add: a new file format, a new runtime, or a competitor to Cla
 
 ## The fast path (if you remember nothing else)
 
-The full rubric has 22 principles across 3 archetypes. If you only internalize five, internalize these — they cover ~70% of what separates good Procedural skills from bad ones in the corpus survey:
+The full rubric has 25 principles across 3 archetypes. If you only internalize five, internalize these — they cover ~70% of what separates good Procedural skills from bad ones in the corpus survey:
 
 1. **Description as router (#1).** YAML `description` is routing logic, not metadata. Include explicit anti-triggers ("Do NOT use for..."). Only 6% of community skills do this.
 2. **Phase 0 routing (#2).** First phase classifies the request and identifies STOP conditions before any work runs.

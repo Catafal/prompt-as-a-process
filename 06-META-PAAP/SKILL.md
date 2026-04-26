@@ -6,7 +6,7 @@ description: Designs and generates a production-ready Claude Code skill (SKILL.m
 # meta-paap — Skill Generator
 
 Turns a workflow description into a production-ready SKILL.md.
-Applies the architecture patterns documented in the [22 principles](../04-RUBRIC/principles.md), with concrete shapes drawn from mature reference skills like `/deep-research` and `/blog-factory`.
+Applies the architecture patterns documented in the [25 principles](../04-RUBRIC/principles.md), with concrete shapes drawn from mature reference skills like `/deep-research` and `/blog-factory`.
 
 ---
 

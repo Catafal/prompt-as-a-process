@@ -30,7 +30,7 @@ keywords:
 abstract: >-
   Prompt as a Process (PaaP) is a framework for treating Markdown SOPs as
   deployable applications, runnable end-to-end by sufficiently reliable
-  language models. This repository formalizes the framework via 22
+  language models. This repository formalizes the framework via 25
   architectural principles with archetype-aware applicability, a
   scoring rubric, an evaluation instrument (`/paap-eval`), an N=80
   community-skill empirical survey across 36 distinct authors, a

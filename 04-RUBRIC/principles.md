@@ -1,10 +1,10 @@
-# The 22 Principles
+# The 25 Principles
 
 > The architectural rubric for evaluating a SKILL.md. Each principle: definition, why it matters, anti-pattern, concrete example from the corpus, and which archetypes it applies to.
 
-This is the canonical reference for the Prompt-as-a-Process framework. The principles below are derived from analysis of mature hand-written skills, an n=4 evaluation of `meta-paap`-generated skills, a 50-skill empirical survey, and a deep-dive into Garry Tan's gstack repo (50 SKILL.md files at production scale). See [`empirical-validation.md`](./empirical-validation.md) for the bottom-up evidence.
+This is the canonical reference for the Prompt-as-a-Process framework. The principles below are derived from analysis of mature hand-written skills, an n=4 evaluation of `meta-paap`-generated skills, an N=80 empirical survey across 36 distinct authors, and a deep-dive into Garry Tan's gstack repo (50 SKILL.md files at production scale). See [`empirical-validation.md`](./empirical-validation.md) for the bottom-up evidence.
 
-The headline number used to be 20. After corpus validation against 50 community skills, two patterns surfaced consistently enough to promote: principle 21 (decision class drives gating) and principle 22 (voice + writing rules as skill content). Eight other candidates from gstack are documented in [`empirical-validation.md`](./empirical-validation.md) as observed-but-not-yet-promoted.
+The headline number was 20 in v0.1's first draft; after corpus validation against the original 50 community skills, two patterns surfaced consistently enough to promote — principle 21 (decision class drives gating) and principle 22 (voice + writing rules as skill content). v0.3 promotes a further three after the N=80 corpus extension surfaced ≥20% community prevalence: principle 23 (host-portable), principle 24 (skills observe themselves), and principle 25 (spawn-vs-interactive detection). Five candidates remain deferred and are documented in [`empirical-validation.md`](./empirical-validation.md) as observed-but-not-yet-promoted.
 
 ---
 
@@ -48,6 +48,9 @@ A skill that doesn't fit cleanly into one of these archetypes can mark itself **
 | 20 | Output-first | ✅ | ✅ | ✅ | Universal |
 | 21 | Decision class drives gating | ✅ | — | — | Procedural-only (promoted from gstack candidates) |
 | 22 | Voice + writing rules | ✅ | — | ✅ | Procedural + Creative (promoted from gstack candidates) |
+| 23 | Host-portable | ✅ | ✅ | ✅ | Universal (promoted v0.3 — N=80 evidence: 27%) |
+| 24 | Self-observation | ✅ | ✅ | — | Procedural + Reference (promoted v0.3 — N=80 evidence: 20%) |
+| 25 | Spawn-detection | ⚪ | — | — | Conditional — only if skill is invocable from another agent (promoted v0.3 — N=80 evidence: 20%) |
 
 **Legend:** ✅ applies — required for full grade · ⚪ conditional — applies only when triggered · — not applicable
 
@@ -68,7 +71,7 @@ A skill scoring N/A on a principle marked `⚪ conditional` for its archetype is
 
 ---
 
-## The 22 principles
+## The 25 principles
 
 ### 1. Description as router
 
@@ -402,20 +405,74 @@ composed_skills:
 
 ---
 
-## Deferred candidates (not in v0.1)
+### 23. Host-portable; agent harness is a config knob
 
-Eight additional patterns surfaced from gstack's 50-skill corpus but did not appear consistently enough across the broader 50-skill community survey to merit promotion in v0.1. They are documented in [`empirical-validation.md`](./empirical-validation.md) and may be promoted in v0.2 if community contributions provide additional evidence:
+**Definition:** A skill is written so it runs across multiple agent harnesses (Claude Code, Codex, Cursor, OpenCode, Factory, etc.) by treating the host as a config-time decision, not a hardcoded assumption. Paths are relative or resolved at load; tool restrictions use the harness-agnostic `allowed-tools` field; host-specific behavior lives behind a flag, not embedded in the skill body.
 
-- SKILL.md as build artifact (template-rendered, CI-enforced)
-- Composed skills declare which sections parent owns (section-skip-list composition)
-- Dual-voice consensus for verification
-- Hard guardrails via hooks, not prose
-- Skills observe themselves and feed prior runs forward
-- Plan-stage rubric reused at audit time
-- Skills are portable; host is a config knob
-- Skills detect spawn vs. interactive and adapt
+**Why it matters:** SKILL.md became a multi-vendor format on December 18, 2025. Skills hardcoded to one harness can't be forked across the ecosystem. A skill author who internalizes portability writes against the format spec; an author who doesn't writes against `/Users/their-name/...` paths and `claude-code`-specific tool names that break the moment another harness loads the file.
 
-These are real architectural patterns at gstack scale. They may not apply at smaller scale. v0.2 will revisit with more data.
+**Anti-pattern:** Absolute paths to the author's machine, harness-specific subprocess invocations buried in prose, or tool restrictions written for one runtime that silently no-op in another.
+
+**Concrete examples:**
+- `gstack`'s `setup --host codex|opencode|cursor|factory|slate|kiro|hermes|gbrain` rewrites paths and skill prefixes per agent — one source, many host targets.
+- `daymade/deep-research` and `AgriciDaniel/cybersecurity` use relative paths and explicit `allowed-tools` declarations rather than hardcoded harness assumptions.
+- *Negative case (the principle clarifies a real failure mode):* multiple community skills in the N=80 corpus hardcode `/Users/<author>/...` paths in examples or even in runtime resolution, which break for any other operator.
+
+**Archetypes:** All. Universal — applies whether the skill is procedural, reference, or creative; portability is about the skill artifact, not its execution shape.
+
+**Note:** This principle was promoted from deferred candidate #29 after the v0.2 N=80 corpus extension found 8/30 skills (27%) demonstrating host-aware portability — the highest community-evidence rate among the 8 originally-deferred candidates. The mechanism varies (relative paths, allowed-tools restrictions, plugin-format ship), but the intent is consistent. See [`empirical-validation.md`](./empirical-validation.md) for the per-skill list.
+
+---
+
+### 24. Skills observe themselves and feed prior runs forward
+
+**Definition:** A skill maintains a record of its own previous executions (analytics events, session lessons, version-tagged learnings, prior-run output) and reads from that record on subsequent runs to avoid repeating mistakes or re-doing solved sub-problems.
+
+**Why it matters:** Stateless skills relearn the same lessons every invocation. A skill that observes its own history can stop suggesting the same broken approach the user already rejected, can carry forward calibration from earlier runs, and can demonstrate measurable improvement over time. The pattern is the skill-level analog of supervised fine-tuning, achieved entirely in prose and filesystem.
+
+**Anti-pattern:** A skill that runs as if it has never run before — every invocation starts from zero, even when the same user invoked the same skill on the same task last week.
+
+**Concrete examples:**
+- `gstack` writes start/end events to `~/.gstack/analytics/` on every skill execution; future runs query this store via `gstack-learnings-search` and inject prior learnings into the preamble.
+- `glebis/jtbd` has an explicit Update Mode that reads the prior run forward; `glebis/tufte-report` and `ryanbbrown/revealjs` both ship a "Session Lessons" section that persists across runs.
+- `daymade/deep-research` uses version-tagged identifiers (V6, V6.1) so the skill can observe which iteration of its own logic produced each output.
+
+**Archetypes:** Procedural + Reference. Procedural skills benefit most (carrying forward calibration); Reference skills can use it for cross-session search history.
+
+**Note:** This principle was promoted from deferred candidate #26 after the v0.2 N=80 corpus extension found 6/30 skills (20%) demonstrating self-observation. The mechanism varies — analytics directories, session-lesson files, version-tagged outputs — but the intent (skill learns from its own history) is consistent. See [`empirical-validation.md`](./empirical-validation.md) for the per-skill list.
+
+---
+
+### 25. Skills detect spawn vs. interactive context and adapt
+
+**Definition:** A skill recognizes whether it was invoked interactively (a human at the keyboard) or spawned by another agent (no human present), and changes behavior accordingly — no `AskUserQuestion` calls when spawned, no upgrade-prompt UI, sensible non-interactive defaults, machine-readable output.
+
+**Why it matters:** Multi-agent systems are now common. A skill that prompts for user input when a parent agent invoked it just hangs the parent agent. A skill that emits human-targeted prose when a downstream agent needs structured output forces fragile parsing. Detecting the spawn context and adapting is the difference between a skill that composes cleanly and one that breaks the moment it's not at the top of the call stack.
+
+**Anti-pattern:** A skill that always calls `AskUserQuestion` regardless of caller, or always emits human-only prose, leaving subagent callers to parse around it.
+
+**Concrete examples:**
+- `gstack` flips off `AskUserQuestion` and upgrade prompts when OpenClaw spawns a Claude Code session — same skill source, different runtime behavior.
+- `daymade/deep-research` includes a P0 capability check that degrades to sequential execution when parallel-spawn isn't available; `AgriciDaniel/cybersecurity` distinguishes orchestrator vs agent contexts with `--focus` flags.
+- `zarazhangrui/frontend-slides` Phase 0 mode detection adapts output for batch vs interactive runs; `wrsmith108/linear` routes to a Linear-specialist subagent vs direct execution based on context.
+
+**Archetypes:** Procedural-only. Reference and Creative skills don't typically participate in multi-agent dispatch loops.
+
+**Note:** This principle was promoted from deferred candidate #30 after the v0.2 N=80 corpus extension found 6/30 skills (20%) demonstrating spawn-detection. v0.1 had marked corpus support "weak"; the N=80 extension surfaced a cluster of community skills that explicitly distinguish dispatched vs interactive contexts — the pattern is real but still concentrated in agent-orchestration-aware skills. See [`empirical-validation.md`](./empirical-validation.md) for the per-skill list.
+
+---
+
+## Deferred candidates (post-v0.3)
+
+After the v0.2 N=80 corpus extension and the v0.3 promotion of 3 candidates into principles #23, #24, #25, five patterns from the original gstack-derived deferred set remain deferred. They are documented in [`empirical-validation.md`](./empirical-validation.md):
+
+- SKILL.md as build artifact (template-rendered, CI-enforced) — confirmed gstack-only at N=80 (0 community sightings)
+- Composed skills declare which sections parent owns (section-skip-list composition) — partial in 2 community skills, no formal ownership declaration
+- Dual-voice consensus for verification — confirmed gstack-only at N=80
+- Hard guardrails via hooks, not prose — 0/N=80 community sightings; the community substitutes prose-rules-with-rationale (Cluster C)
+- Plan-stage rubric reused at audit time ("the boomerang") — confirmed gstack-only at N=80; partial in `anthropic/skill-creator`
+
+These are real architectural patterns at gstack scale. They may not generalize at smaller scale. Future versions will revisit if community contributions provide additional evidence; the threshold for promotion remains ≥20% prevalence in the corpus.
 
 ---
 
@@ -425,10 +482,10 @@ The rubric will evolve. Major changes (adding/removing principles, changing appl
 
 - **v0.1 (rubric content frozen here, 2026-04-25):** 22 principles, 3 archetypes, 8 deferred gstack candidates documented
 - **v0.2 (released 2026-04-26 — evidence + tooling):** `/paap-eval` skill (auto-scoring instrument), N=80 corpus extension (3 deferred candidates promotion-ready, 3 confirmed gstack-only), 3-persona kappa pilot (mean inter-rater 1.83 grade-steps), head-to-head experiment (5 paired skills + 1 blind-output test, judge mis-attributed provenance). **Rubric content unchanged from v0.1.** See [`../CHANGELOG.md`](../CHANGELOG.md).
-- **v0.3 (planned):** Promote 3 corpus-validated candidates (#26 self-observation, #29 host-portable, #30 spawn-detection) → 25-principle rubric. Multi-model kappa. Output-quality test expansion. "Rationalizations to reject" pattern added to `meta-paap` persona generation.
+- **v0.3 (in progress):** **Rubric grew from 22 to 25 principles** — promoted #23 host-portable (was deferred candidate #29, 27% N=80 evidence), #24 self-observation (was #26, 20% evidence), #25 spawn-detection (was #30, 20% evidence). Numbering follows community-evidence rank, not original gstack order. Still planned within v0.3: multi-model kappa, output-quality test expansion, "Rationalizations to reject" pattern added to `meta-paap` persona generation, 25-principle re-run of the kappa pilot.
 - **v1.0 (conditional, unlocked by v0.2):** Workshop-paper format. v0.2 evidence makes this defensible (kappa data, N=80 corpus, head-to-head with mis-attributed provenance). Honest defensible paper title: *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Match Hand-Authored Ones On Structural Quality and Output Quality, From a Single-Practitioner Tooling Study."* v0.3 expansions determine whether v1.0 ships.
 
-When you cite this rubric, include the version: *"PaaP rubric v0.1 (Catafal, 2026)."*
+When you cite this rubric, include the version: *"PaaP rubric v0.3 (Catafal, 2026)."* (For evaluations completed before the v0.3 promotion, cite *"v0.1"* or *"v0.2"* as applicable; v0.1 and v0.2 used the 22-principle rubric.)
 
 See [`../07-OPEN-QUESTIONS/`](../07-OPEN-QUESTIONS/) for what v0.2 specifically aims to resolve.
 

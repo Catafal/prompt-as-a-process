@@ -38,15 +38,17 @@ The v0.3 priorities below address these gaps.
 
 ## v0.3 priorities (planned next)
 
-### 1. Promote 3 corpus-validated candidates → 25-principle rubric
+### 1. Promote 3 corpus-validated candidates → 25-principle rubric ✅ DONE
 
 v0.2 Stage 3's headline finding: 3 of 8 deferred gstack candidates appeared in ≥20% of community skills, making them real emerging patterns rather than gstack-specific:
 
-- **#26 Skills observe themselves and feed prior runs forward** (6/30 community sightings = 20%)
-- **#29 Skills are portable; host is config knob** (8/30 = 27%)
-- **#30 Skills detect spawn vs interactive and adapt** (6/30 = 20%)
+- **#29 Skills are portable; host is config knob** (8/30 = 27%) → promoted as **principle #23 (host-portable)**
+- **#26 Skills observe themselves and feed prior runs forward** (6/30 = 20%) → promoted as **principle #24 (self-observation)**
+- **#30 Skills detect spawn vs interactive and adapt** (6/30 = 20%) → promoted as **principle #25 (spawn-detection)**
 
-v0.3 promotes these to the rubric as principles 23, 24, 25 (numbering the previously-deferred candidates by community-evidence rank, not original gstack order). Architecture-checklist updates `meta-paap` accordingly. Re-run kappa pilot at 25-principle scale.
+Promoted in v0.3 (commit landed 2026-04-26). Numbering follows community-evidence rank, not original gstack order. The rubric in [`../04-RUBRIC/principles.md`](../04-RUBRIC/principles.md) now has 25 principles; the scoring template ([`../04-RUBRIC/scoring-template.md`](../04-RUBRIC/scoring-template.md)) has 25 rows; `/paap-eval` ([`../06-META-PAAP/paap-eval/SKILL.md`](../06-META-PAAP/paap-eval/SKILL.md)) has 13 algorithmic detectors and 12 semantic judges; the reflexive self-audit ([`../04-RUBRIC/reflexive-self-audit.md`](../04-RUBRIC/reflexive-self-audit.md)) has been re-scored at 25-principle scale (aggregate dropped from A to A− because the repo scores honest C on #24).
+
+**Still pending in v0.3:** kappa pilot re-run at 25-principle scale (combined with priority #2 below) and architecture-checklist updates inside `meta-paap` for the new principles.
 
 ### 2. Multi-model kappa (Claude + GPT-5 + Gemini)
 

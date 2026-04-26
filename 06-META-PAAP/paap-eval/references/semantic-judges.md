@@ -1,8 +1,8 @@
 # Semantic Judges — `/paap-eval` Phase 3 Reference
 
-> Per-principle LLM-judge prompts for the 10 semantic principles in the [PaaP rubric](../../../04-RUBRIC/principles.md). Loaded by [`paap-eval/SKILL.md`](../SKILL.md) Phase 3.
+> Per-principle LLM-judge prompts for the 12 semantic principles in the [PaaP rubric](../../../04-RUBRIC/principles.md). Loaded by [`paap-eval/SKILL.md`](../SKILL.md) Phase 3.
 
-**Status:** v0.2 Stage 1c. Each judge is invoked as a parallel sub-agent (one Task per principle), receives the skill content + principle definition + persona context, and returns a structured grade with confidence + reasoning + uncertainty notes.
+**Status:** v0.3-dev on a v0.2 Stage 1c baseline. Each judge is invoked as a parallel sub-agent (one Task per principle), receives the skill content + principle definition + persona context, and returns a structured grade with confidence + reasoning + uncertainty notes. The 10 v0.2 judges were calibrated against the Stage 1d 4-skill set; the v0.3 additions (Judges 24 and 25) are wired into Phase 3 but have NOT been calibration-tested at 25-principle scale — treat their grades as provisional until the v0.3 kappa re-run completes.
 
 ---
 
@@ -654,6 +654,146 @@ Output `needs-human-judgment` if:
 
 ---
 
+## Judge 24 — Principle #24: Skills observe themselves and feed prior runs forward
+
+**Reference:** [principles.md #24](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Procedural + Reference (promoted v0.3 from deferred candidate #26)
+
+### Judge prompt
+
+```
+Evaluate principle #24 (Skills observe themselves and feed prior runs forward)
+for this SKILL.md.
+
+The principle: a skill maintains a record of its own previous executions
+(analytics events, session lessons, version-tagged learnings, prior-run
+output) and reads from that record on subsequent runs to avoid repeating
+mistakes or re-doing solved sub-problems. Stateless skills relearn the
+same lessons every invocation; self-observing skills carry calibration
+forward.
+
+Score this skill on:
+1. Does the skill define a persistence mechanism for prior-run data
+   (analytics dir, session-lessons file, version-tagged output, learning
+   store)? Mere mention of "save state" is not sufficient — there must
+   be a named location and a write protocol.
+2. Does the skill read from that record on subsequent runs (search,
+   inject prior learnings into preamble, version-aware comparison)?
+   Writing without reading is not self-observation.
+3. Is the observation loop closed — does prior-run data demonstrably
+   change behavior on the next run?
+
+Reject pattern-matching on keywords alone. The principle is about
+*using* prior runs, not naming a directory called "analytics".
+```
+
+### Output schema
+
+Standard schema. Evidence should quote (a) the persistence mechanism, (b) the read-back mechanism, (c) one concrete example of behavior change driven by prior data.
+
+### Exemplar cases
+
+**A+ example:** `gstack` writes start/end events to `~/.gstack/analytics/` on every skill execution; future runs query this store via `gstack-learnings-search` and inject prior learnings into the preamble — full write→read→behavior-change loop.
+
+**A example:** `glebis/jtbd` Update Mode reads the prior run forward; `glebis/tufte-report` and `ryanbbrown/revealjs` ship "Session Lessons" sections that persist across runs and are explicitly consulted before new runs start.
+
+**B example:** `daymade/deep-research` uses version-tagged identifiers (V6, V6.1) so runs can observe which iteration of logic produced each output — observation pattern present but the read-back side is implicit.
+
+**C example:** Skill mentions saving prior runs but has no read-back mechanism, OR reads prior runs but doesn't demonstrably change behavior based on them.
+
+**D/F example:** Stateless skill that runs as if it has never run before — every invocation starts from zero with no provision for learning from history.
+
+**N/A example:** Pure Reference skills that are read-not-executed (library docs reformatted as SKILL.md) can score N/A with justification "skill is documentation, no execution to observe."
+
+### Persona modulation
+
+- **strict-academic:** require all three loop components (persistence + read-back + visible behavior change) for A. Persistence-only without read-back caps at C.
+- **pragmatic-practitioner (default):** A if persistence + read-back are present; demonstrable behavior change is preferred but not required at A.
+- **charitable-newcomer:** B+ if any prior-run-aware mechanism is visible, even partial.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- The persistence mechanism is described but its read-back is buried in dependent skills not visible in this SKILL.md
+- The skill claims to use prior runs but the implementation reads as architectural intent rather than working logic
+
+### Known limitations
+
+- This principle was promoted from deferred candidate #26 in v0.3; calibration data is pending the 25-principle kappa re-run.
+- Some skills delegate self-observation to the harness (host-managed analytics) rather than implementing it in the SKILL.md body. The principle accepts harness-mediated implementations as long as the SKILL.md explicitly relies on them.
+- Distinguishing "stateful skill" (#4) from "self-observing skill" (#24): #4 is per-run state (resume protocol, ephemeral storage); #24 is cross-run learning (analytics across many runs). A skill can score well on #4 and poorly on #24.
+
+---
+
+## Judge 25 — Principle #25: Skills detect spawn vs. interactive context and adapt
+
+**Reference:** [principles.md #25](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Procedural-only (Conditional — promoted v0.3 from deferred candidate #30)
+
+### Judge prompt
+
+```
+Evaluate principle #25 (Skills detect spawn vs. interactive context and adapt)
+for this SKILL.md.
+
+The principle: a skill recognizes whether it was invoked interactively
+(human at keyboard) or spawned by another agent (no human present), and
+changes behavior — no AskUserQuestion calls when spawned, no upgrade-
+prompt UI, sensible non-interactive defaults, machine-readable output
+when called from another agent.
+
+Score this skill on:
+1. Does the skill detect its invocation context (interactive vs spawned/
+   batch/non-interactive)?
+2. Does the skill adapt behavior based on that detection — concretely:
+   suppress AskUserQuestion when spawned, switch output format for
+   subagent consumption, degrade interactive features cleanly?
+3. Are the defaults safe for the spawned case (so a parent agent
+   doesn't hang on a never-resolved AskUserQuestion call)?
+
+Apply N/A only when the skill clearly cannot be invoked from another
+agent (e.g., a pure interactive design tool). Most modern skills can
+be spawned; default to applicable.
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the detection mechanism (e.g., flag, env var, capability check) AND the adaptive behavior triggered.
+
+### Exemplar cases
+
+**A+ example:** `gstack` flips off `AskUserQuestion` and upgrade prompts when OpenClaw spawns a Claude Code session — same skill source, different runtime behavior, with the detection mechanism explicit in the skill body.
+
+**A example:** `daymade/deep-research` includes a P0 capability check that degrades to sequential execution when parallel-spawn isn't available; `AgriciDaniel/cybersecurity` distinguishes orchestrator vs agent contexts with `--focus` flags.
+
+**B example:** `zarazhangrui/frontend-slides` Phase 0 mode detection adapts output for batch vs interactive runs; the adaptation is real but only covers output format, not the AskUserQuestion / interactive-feature side.
+
+**C example:** Skill mentions it can be called from another agent but provides no detection mechanism — relies on the caller to know not to expect interactive features.
+
+**D/F example:** Skill always calls `AskUserQuestion` regardless of caller, blocking any subagent invocation; OR always emits human-only prose with no machine-readable alternative.
+
+**N/A example:** Pure Creative skills designed for interactive aesthetic judgment (e.g., a design-review skill that fundamentally requires a human looking at output) — score N/A with justification "skill is interactive-only by design; spawned use is not supported and is documented as such."
+
+### Persona modulation
+
+- **strict-academic:** require both detection AND adaptive behavior for A. Detection-only with no adaptation caps at C.
+- **pragmatic-practitioner (default):** A if both halves of the loop are present; B+ if adaptation covers the most-likely-to-hang case (AskUserQuestion suppression) but not the full surface.
+- **charitable-newcomer:** B if any spawn-awareness is visible, even just an opt-out flag for AskUserQuestion.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- The skill's invocation pattern is unclear from the SKILL.md alone (does the parent harness pass context implicitly?)
+- The skill is a Hybrid where Procedural and Reference modes are interleaved, and only one mode supports spawn
+
+### Known limitations
+
+- This principle was promoted from deferred candidate #30 in v0.3; calibration data is pending the 25-principle kappa re-run.
+- Skills that are spawn-safe by accident (no AskUserQuestion calls anywhere) score lower than warranted because the principle rewards intent + detection, not just the absence of blocking calls. Persona modulation softens this for charitable-newcomer.
+- The `needs-human-judgment` defer rate for this principle is expected to be elevated until v0.3 kappa data calibrates the borderline cases.
+
+---
+
 ## Judge summary
 
 | # | Principle | What it judges | Defer rate (estimate) |
@@ -668,10 +808,12 @@ Output `needs-human-judgment` if:
 | 20 | Output-first | Output defined before phases | Low (15%) |
 | 21 | Decision class | Mechanical / Taste / User Challenge taxonomy | High (35%) |
 | 22 | Voice + writing | Voice rules as skill content + banned vocab + anti-templates | Medium (25%) |
+| 24 | Self-observation | Persistence + read-back + behavior change loop | High (provisional, v0.3) |
+| 25 | Spawn-detection | Context detection + adaptive behavior | High (provisional, v0.3) |
 
-**Defer rate** = expected % of evaluations where the judge outputs `needs-human-judgment` rather than a grade. Higher defer rates flag principles that may not be well-calibrated as LLM-judges and may need human scoring in v0.2's kappa pilot.
+**Defer rate** = expected % of evaluations where the judge outputs `needs-human-judgment` rather than a grade. Higher defer rates flag principles that may not be well-calibrated as LLM-judges and may need human scoring in the kappa pilot.
 
-**Highest-risk judges:** #21 (decision class) — concept is new, taxonomy may be ambiguous; #6 (personas/voice) and #22 (voice rules) — taste judgments. These three are the most likely to diverge across persona variants in Stage 2's kappa pilot.
+**Highest-risk judges:** #21 (decision class) — concept is new, taxonomy may be ambiguous; #6 (personas/voice) and #22 (voice rules) — taste judgments. The v0.3 additions (#24 self-observation, #25 spawn-detection) are also expected to be high-defer until kappa-calibrated.
 
 **Lowest-risk judges:** #8 (synthesis) and #15 (progress) — concrete patterns to detect; less subjective.
 
@@ -680,8 +822,8 @@ Output `needs-human-judgment` if:
 ## Cross-references
 
 - [`../SKILL.md`](../SKILL.md) — The skill that loads this file (Phase 3)
-- [`../genesis.md`](../genesis.md) — Architecture spec listing all 10 semantic principles
-- [`./algorithmic-detectors.md`](./algorithmic-detectors.md) — The complementary file for the 12 algorithmic principles (Stage 1b)
+- [`../genesis.md`](../genesis.md) — Architecture spec listing the 10 v0.2 semantic principles (this file adds #24 and #25 in v0.3)
+- [`./algorithmic-detectors.md`](./algorithmic-detectors.md) — The complementary file for the 13 algorithmic principles (12 added in Stage 1b; #23 added in v0.3)
 - [`../../../04-RUBRIC/principles.md`](../../../04-RUBRIC/principles.md) — Principle definitions (the source of truth)
 - [`../../../04-RUBRIC/empirical-validation.md`](../../../04-RUBRIC/empirical-validation.md) — Where the exemplar cases come from
 - [`../calibration.md`](../calibration.md) — Stage 1d will validate these judges against the 4 manual evaluations
