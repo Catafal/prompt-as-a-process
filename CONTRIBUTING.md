@@ -15,7 +15,7 @@ This is the highest-leverage contribution. Pick a skill you've written, score it
 3. Open a PR with a one-paragraph summary of what the rubric helped you see (or where it failed you).
 
 ### 2. Argue for changing a principle
-The 20 principles are top-down hypotheses. Some will be wrong, some will need rewording, some are missing. If you've found one — open an issue with the tag `[principle]`.
+The 22 principles are top-down hypotheses. Some will be wrong, some will need rewording, some are missing. If you've found one — open an issue with the tag `[principle]`.
 
 **Format:**
 - Which principle (number + name)

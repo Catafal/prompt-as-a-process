@@ -2,7 +2,7 @@
 
 > Research a person before a call or meeting. The canonical worked example referenced from `03-ANATOMY.md`.
 
-**Status:** Skeleton — finalized in Phase 3.
+**Status:** Runnable canonical example.
 
 ---
 
@@ -37,7 +37,7 @@ It's also concrete enough to run on a real meeting today, and short enough to re
 
 ## Known dependencies
 
-- Web search must be enabled (the SKILL.md doesn't mention this; it should — Phase 3 fix)
+- Web search must be enabled; the SKILL.md stops rather than fabricating if search is unavailable.
 - Output quality depends on how public the person is. Founders and execs: high signal. Heads-down ICs at unannounced companies: low signal.
 
 ## Known limitations
@@ -55,4 +55,4 @@ It's also concrete enough to run on a real meeting today, and short enough to re
 
 ---
 
-*Populated in Phase 3.*
+*Runnable as the canonical example for the PaaP rubric.*

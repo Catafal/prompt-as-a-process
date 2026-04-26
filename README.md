@@ -10,11 +10,33 @@
 
 ## TL;DR
 
-The third wave of "AI replaces code" doesn't have a clean name yet. **Prompt as a Process** is one. The thesis in three sentences:
+**Prompt as a Process** is a framework for writing Markdown workflows that agents can execute reliably: phases, branches, gates, output contracts, and recovery paths. The `.md` file is the application; the model is the runtime; deploy is dropping the file in a folder.
 
-1. Mid-2025 models became reliable enough to follow complex SOPs end-to-end. The `.md` file is now the application; the model is the runtime; the deploy is dropping the file in a folder.
-2. This repo formalizes that pattern into a framework: **22 architectural principles** with applicability across **3 skill archetypes** (Procedural / Reference / Creative), a **scoring rubric**, an **empirical survey of 50 community skills** + a deep-dive on **gstack** (50 SKILL.md, ~82k stars), **four documented evaluations** of a meta-skill that generates other skills, and a **runnable example**.
-3. Use it to write better skills, evaluate existing ones, extend the rubric, or contribute test data.
+By mid-2025, frontier models became reliable enough in practice for many users to treat structured Markdown SOPs as executable workflows. This repo formalizes that pattern into:
+
+1. **22 architectural principles** with applicability across **3 skill archetypes** (Procedural / Reference / Creative), a **scoring rubric**, and a **scoring template**.
+2. An **empirical survey of 50 community skills** across 18 authors + a deep-dive on **`gstack`** (50 SKILL.md, ~83.5k stars at snapshot — see [02-EVIDENCE.md](./02-EVIDENCE.md)).
+3. **Four documented evaluations** of [`meta-paap`](./06-META-PAAP/), a meta-skill that generates other skills, plus a **runnable example** ([`pre-call`](./examples/pre-call/)).
+4. A **reflexive self-audit** of this repo against its own rubric ([`04-RUBRIC/reflexive-self-audit.md`](./04-RUBRIC/reflexive-self-audit.md)).
+
+Use it to write better skills, evaluate existing ones, extend the rubric, or contribute test data.
+
+---
+
+## Who this is for
+
+- **People writing Claude Code / Codex / Cursor / agent skills.** The 22-principle rubric and the [`03-ANATOMY`](./03-ANATOMY.md) authoring guide are calibrated for you.
+- **Teams turning repeatable research, coding, or editorial workflows into agent-run SOPs.** The [`meta-paap`](./06-META-PAAP/) generator is the fastest on-ramp; the [`pre-call`](./examples/pre-call/) example is the canonical pattern to copy.
+- **Researchers studying how prose instructions become executable process in agent harnesses.** [`02-EVIDENCE.md`](./02-EVIDENCE.md) and [`05-EVALUATION/`](./05-EVALUATION/) document the empirical work; honest limitations are stated in each.
+- **Anyone evaluating whether a Markdown workflow is robust enough to share.** Use [`04-RUBRIC/scoring-template.md`](./04-RUBRIC/scoring-template.md) for self-audit or peer review.
+
+## What this is not
+
+- **Not a new runtime or file format.** Uses Anthropic's existing SKILL.md spec (launched October 2025).
+- **Not a claim that prompts replace software engineering.** Determinism, reproducibility, multi-tenant scaling — all still need code.
+- **Not a claim that PaaP is invented here.** The pattern emerged independently across the community (gstack, obra/superpowers, Anthropic's own skill-creator). PaaP names and formalizes it.
+- **Not yet an academic result.** v0.1 is a practitioner framework with early empirical validation. Workshop-paper conversion is conditional on v0.2 multi-scorer kappa data — see [07-OPEN-QUESTIONS.md](./07-OPEN-QUESTIONS.md).
+- **Not a competitor to Claude Code or Anthropic's `skill-creator`.** It's a vocabulary, a rubric, and a corpus *on top of* what Anthropic ships.
 
 ---
 
@@ -53,9 +75,11 @@ That's the artifact. The framework is about how to write more SKILL.md files lik
 
 Prompt engineering treated the prompt as a one-shot query. Orchestration frameworks (LangChain, AutoGen) wrapped prompts in code and most teams ripped them back out. PaaP is what's left when the model is reliable enough that the SOP itself is the orchestration.
 
-Calling it "just a system prompt" misses what's interesting: standardization (a file format with a slash-command invoker, a shareable artifact that forks like code) created an ecosystem. Anthropic launched the SKILL.md format on October 16, 2025; the spec was opened as a multi-vendor standard on December 18, 2025, adopted by Microsoft, OpenAI, Atlassian, Figma, Cursor, and GitHub. As of this v0.1's ship date, the format is ~6 months old.
+Calling it "just a system prompt" misses what's interesting: standardization (a file format with a slash-command invoker, a shareable artifact that forks like code) created an ecosystem. Anthropic launched the SKILL.md format on October 16, 2025; the spec was opened as a multi-vendor standard on December 18, 2025, with adoption announced by Microsoft, OpenAI, Atlassian, Figma, Cursor, and GitHub (sources in [02-EVIDENCE.md](./02-EVIDENCE.md) Part A). As of this v0.1's ship date, the format is ~6 months old.
 
-There are 1,200+ community skills on GitHub. Garry Tan's `gstack` models an engineering team in 50 SKILL.md files (~82k stars in 6 weeks). The pattern is real; the question is what makes it work.
+The community ecosystem is large and growing — Anthropic's own `anthropics/skills` repo had ~124k stars at snapshot 2026-04-26; community-curated lists track several hundred SKILL.md files (links in [02-EVIDENCE.md](./02-EVIDENCE.md)). Garry Tan's `gstack` models an engineering team in 50 SKILL.md files (~83.5k stars and 12.2k forks at snapshot 2026-04-26; numbers update daily). The pattern is real; the question is what makes it work.
+
+> Yes, structurally a SKILL.md is a system prompt with a loader. The contribution PaaP makes is the **process architecture**, the **standardized artifact**, and the **evaluation rubric** — not the file format itself.
 
 This repo is the answer, organized as a framework.
 

@@ -18,13 +18,13 @@ There have been three waves of "AI replaces code" thinking. The third wave doesn
 
 ## What changed in mid-2025
 
-Models got reliable enough to follow a complex SOP. That changes more than you'd think.
+By mid-2025, frontier models became reliable enough in practice for many users to treat structured Markdown SOPs as executable workflows. That shift changes more than you'd think.
 
-Before mid-2025, if you handed an LLM a 20-step process, it would skip step 7, invent step 12, and present the output confidently as if nothing went wrong. You couldn't trust it to execute a structured workflow. You needed code to enforce the structure: verify that step 3 actually ran before step 4, parse outputs, retry when the model drifted.
+Before mid-2025, if you handed an LLM a 20-step process, it would often skip step 7, invent step 12, and present the output confidently as if nothing went wrong. You couldn't trust it to execute a structured workflow. You needed code to enforce the structure: verify that step 3 actually ran before step 4, parse outputs, retry when the model drifted.
 
-Sonnet-class models changed this. When the SOP calls for it, they spawn sub-agents. When a quality gate fails, they loop back. They maintain state across 8 phases without losing the thread. Not because it's enforced like code. Because they've become reliable enough that following the process is what they do.
+Sonnet-class models changed this in observed practice. When the SOP calls for it, they spawn sub-agents. When a quality gate fails, they loop back. They maintain state across 8 phases without losing the thread. Not because it's enforced like code. Because they've become reliable enough — in the particular ways skill execution depends on — that following the process is what they do.
 
-The format was always available. What unlocked it was the model becoming reliable enough to treat the SOP as a contract. Not perfectly, but well enough to build on.
+The format was always available. What unlocked it was the model becoming reliable enough in practice to treat the SOP as a contract. Not perfectly, not provably, but well enough to build on. (Honest caveat: this is an observed-practice claim, not a benchmark result. Different model versions and different workflow shapes will show different reliability profiles.)
 
 ---
 
@@ -51,7 +51,7 @@ This is not prompt engineering. Prompt engineering figures out how to phrase a o
 
 Anything where the steps are clear and the output is text. **Editorial pipelines.** **Codebase analysis with a structured report format.** **Competitive research.** Workflows where you'd normally write a brief for a person, you write a SKILL.md instead.
 
-[`gstack`](https://github.com/garrytan/gstack) by Garry Tan (President & CEO of Y Combinator) is the largest production case study. 50 SKILL.md files modeling an engineering team — CEO review, design review, QA, release management, deploy. All Markdown files. ~82,000 stars in 6 weeks. Tan reports shipping *"3 production services and 40+ features in 60 days, while running YC full-time"* using this setup. People fork skills and contribute back the way you'd contribute to an open-source library. See [`02-EVIDENCE.md`](./02-EVIDENCE.md) Part C for the full case study.
+[`gstack`](https://github.com/garrytan/gstack) by Garry Tan (President & CEO of Y Combinator) is the largest production case study. 50 SKILL.md files modeling an engineering team — CEO review, design review, QA, release management, deploy. All Markdown files. ~83.5k stars and 12.2k forks at snapshot 2026-04-26 (verify current count at the repo). Tan reports shipping *"3 production services and 40+ features in 60 days, while running YC full-time"* using this setup. People fork skills and contribute back the way you'd contribute to an open-source library. See [`02-EVIDENCE.md`](./02-EVIDENCE.md) Part C for the full case study.
 
 ---
 

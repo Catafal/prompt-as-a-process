@@ -86,15 +86,17 @@ The single largest deployment of the PaaP architecture in the wild is [`garrytan
 
 ### The repo at a glance
 
-**Snapshot date:** 2026-04-25 · **Repo SHA at writing:** [`23c4d7b`](https://github.com/garrytan/gstack/commit/23c4d7b228f6c490bdacfc6926fb19488e6300b1) · **Note:** gstack is daily-cadence; star/fork counts will have shifted by the time you read this. Architectural patterns described below are stable.
+**Snapshot date:** 2026-04-26 · **Repo SHA at writing:** [`23c4d7b`](https://github.com/garrytan/gstack/commit/23c4d7b228f6c490bdacfc6926fb19488e6300b1) · **Note:** gstack is daily-cadence; star/fork counts will have shifted by the time you read this. Architectural patterns described below are stable.
 
 - **License:** MIT
-- **Stars:** 82,852 (in ~6 weeks since launch — verify current count at the repo)
-- **Forks:** 12,044 (same caveat)
+- **Stars:** 83,555 at snapshot (in ~6 weeks since launch — verify current count at the repo)
+- **Forks:** 12,190 at snapshot (same caveat)
 - **Total SKILL.md files:** 50 (47 production + 3 golden test fixtures)
 - **Total skill lines:** ~43,000
 - **Largest skills:** `ship` (3,253 lines), `office-hours` (2,337), `plan-ceo-review` (2,364)
 - **Smallest skills:** `freeze`, `guard`, `careful` (~63-86 lines, hook-only)
+
+For comparison context: Anthropic's `anthropics/skills` repo had **123,978 stars and 14,506 forks** at the same snapshot date. The genre is large.
 
 ### What gstack actually is
 
@@ -133,7 +135,7 @@ The remaining 8 candidates (SKILL.md as build artifact, dual-voice consensus, ho
 
 Three independent reasons.
 
-**(a) Author identity.** Garry Tan is President & CEO of Y Combinator. He has worked with thousands of startups. When this person open-sources the workflow he personally uses to ship at the velocity he describes, the signal is qualitatively different from a community contributor's. The 82.8k-stars-in-6-weeks adoption velocity confirms the signal.
+**(a) Author identity.** Garry Tan is President & CEO of Y Combinator. He has worked with thousands of startups. When this person open-sources the workflow he personally uses to ship at the velocity he describes, the signal is qualitatively different from a community contributor's. The ~83k-stars-in-6-weeks adoption velocity (snapshot 2026-04-26) confirms the signal.
 
 **(b) Bottom-up convergence on the same architecture.** The 22 principles in this rubric were derived top-down. gstack was built bottom-up by a single practitioner trying to maximize his own throughput. **He arrived at the same place from a different direction.** That is suggestive cross-validation — one practitioner converging on the same architecture from a different starting point. A stronger version would involve multiple independent practitioners audited by independent scorers; that is on the v0.2 roadmap.
 
