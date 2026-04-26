@@ -1,64 +1,687 @@
 # Semantic Judges — `/paap-eval` Phase 3 Reference
 
-> Per-principle LLM-judge prompts for the ~10 semantic principles in the [PaaP rubric](../../../04-RUBRIC/principles.md). Loaded by [`paap-eval/SKILL.md`](../SKILL.md) Phase 3.
+> Per-principle LLM-judge prompts for the 10 semantic principles in the [PaaP rubric](../../../04-RUBRIC/principles.md). Loaded by [`paap-eval/SKILL.md`](../SKILL.md) Phase 3.
 
-**Status:** Placeholder (Stage 1a). Full judge prompts added in Stage 1c of v0.2.
-
----
-
-## Why this file is a placeholder
-
-The [`paap-eval` SKILL.md](../SKILL.md) v0 scaffold (Stage 1a) wires up Phase 3 to read this file at runtime. Without this file, the skill falls back to "inline judging mode" — using the principle definitions from `principles.md` directly without the calibrated judge prompts.
-
-Stage 1c fills in per-principle judge prompts that:
-- Frame the judge with persona context (strict-academic / pragmatic-practitioner / charitable-newcomer)
-- Force confidence ratings + uncertainty acknowledgment
-- Include exemplar cases (here's what an A looks like; here's what a C looks like)
-- Defer explicitly to user when the judgment is irreducibly subjective
+**Status:** v0.2 Stage 1c. Each judge is invoked as a parallel sub-agent (one Task per principle), receives the skill content + principle definition + persona context, and returns a structured grade with confidence + reasoning + uncertainty notes.
 
 ---
 
-## What this file will contain (after Stage 1c)
+## How judges work
 
-For each of the 10 semantic principles, a section with:
+Every judge is an LLM-call structured as:
 
-- **Principle reference** — name + number from `04-RUBRIC/principles.md`
-- **Judge prompt template** — the LLM prompt with placeholder slots for skill content + persona
-- **Required output schema** — grade + confidence + reasoning + uncertainty_notes
-- **Exemplar cases** — A-grade example, C-grade example, F-grade example, drawn from corpus
-- **Persona-specific framing additions** — what changes per persona variant
-- **Defer-to-user conditions** — when the judge should abstain rather than guess
+```
+INPUT:
+  skill_content:  full text of the SKILL.md being evaluated
+  archetype:      Procedural / Reference / Creative / Hybrid (from Phase 1)
+  persona:        strict-academic | pragmatic-practitioner | charitable-newcomer
 
-The 10 semantic principles in scope:
+OUTPUT (required schema):
+  grade:             A+ | A | B+ | B | C | D | F | needs-human-judgment
+  confidence:        high | medium | low
+  reasoning:         2-3 sentences explaining the grade
+  uncertainty_notes: required if confidence < high; describes what the judge
+                     was uncertain about and why
+  evidence:          ["L<n>: <quoted line>", ...] up to 5 supporting refs
+```
 
-1. #3 Modes
-2. #6 Personas / voice
-3. #8 Synthesis
-4. #11 Output spec
-5. #14 Context scope
-6. #15 Progress
-7. #17 Autonomy
-8. #20 Output-first
-9. #21 Decision class drives gating
-10. #22 Voice + writing rules
+**Common prompt envelope** wraps every per-principle judge prompt:
+
+```
+You are evaluating a SKILL.md against principle #<N> of the PaaP rubric
+(v0.1, Catafal 2026). Apply the principle as defined; do not invent
+new criteria. Score using the grade scale (A+ through F, plus N/A
+with justification, plus needs-human-judgment for irreducibly
+subjective cases).
+
+PERSONA: <persona>
+- strict-academic: hold to the strictest reading of the principle.
+  Reward only explicit, well-implemented patterns. When in doubt,
+  grade down.
+- pragmatic-practitioner (default): reward patterns that work in
+  practice, even if implemented unconventionally. Calibrate to
+  "would this skill actually help a working practitioner?"
+- charitable-newcomer: reward visible effort and intent, even if
+  execution is incomplete. Calibrate to "did the author try to
+  follow this principle?"
+
+PRINCIPLE DEFINITION:
+<paste from principles.md>
+
+SKILL CONTENT:
+<full SKILL.md text>
+
+ARCHETYPE: <archetype from Phase 1>
+
+If this principle is N/A for this archetype per the applicability
+matrix, output {grade: "N/A", reasoning: "<one-line justification>"}.
+
+If the principle applies but you cannot judge it from surface
+content (requires running the skill, or tasting the output),
+output {grade: "needs-human-judgment", uncertainty_notes: "..."}.
+
+Otherwise, output the structured grade per the schema above.
+```
+
+**Exemplar cases** ground each judge in concrete A/C/F examples from the corpus. The judge model uses these as calibration anchors — what an A-grade looks like in this principle, what a C-grade looks like, what an F-grade looks like. Without exemplars, LLM-judge grades drift.
+
+**Defer-to-user conditions** make explicit when the judge should output `needs-human-judgment` instead of guessing. Examples: when the principle requires running the skill (output #11), when the judgment is taste-based and persona variants would diverge sharply (#22 voice), when the skill's archetype is itself ambiguous.
 
 ---
 
-## Why these need LLM-judges (not algorithmic detectors)
+## Judge 3 — Principle #3: Modes
 
-These principles require *reading* and *judgment*, not pattern matching. Examples:
+**Reference:** [principles.md #3](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Conditional — N/A if skill has only one execution path
 
-- **#11 Output spec** — A regex can detect that an "Output" section exists; only judgment can rate whether the spec leaves nothing to interpretation.
-- **#6 Personas** — A regex can find "You are an X" framings; only judgment can rate whether the persona is behavioral discipline vs decoration.
-- **#21 Decision class** — Identifying Mechanical / Taste / User Challenge classifications requires understanding the decision's nature, not its surface form.
+### Judge prompt
 
-Stage 1c's judge prompts are the calibration instrument that turns LLM judgment into reproducible scoring.
+```
+Evaluate principle #3 (Modes) for this SKILL.md.
+
+The principle: when a skill has multiple legitimate execution paths
+(auto/manual, quick/full, lean/orchestration), modes are explicit,
+named, and selected with stated criteria. Implicit modes leak — the
+model picks based on context cues you didn't anticipate. Explicit
+modes are auditable.
+
+Score this skill on:
+1. Are multiple execution paths visible? (count distinct modes)
+2. Are they named explicitly?
+3. Are mode-selection criteria stated (vs left to model intuition)?
+4. Is there a sensible default mode for ambiguous invocations?
+
+If the skill is genuinely single-mode (linear pipeline that always
+does the same thing), score N/A with justification "single mode by
+design; no alternatives to compare."
+```
+
+### Output schema
+
+Standard schema (see top of file). For this principle, `evidence` should cite the mode declarations and selection criteria.
+
+### Exemplar cases
+
+**A+ example:** gstack's `plan-ceo-review` declares 4 modes (`SCOPE EXPANSION`, `SELECTIVE EXPANSION`, `HOLD SCOPE`, `SCOPE REDUCTION`) with context-dependent defaults (greenfield → EXPANSION, hotfix → HOLD). Each mode maps to a different subset of phases. Selection criteria explicit.
+
+**B example:** A skill with `--quick` and `--full` flags but no description of when to use each; user must guess. Modes named, criteria absent.
+
+**C example:** A skill that "adapts to the situation" without naming the modes. The model picks one and the user is left guessing why.
+
+**N/A example:** `pre-call` (linear pipeline, single mode). Justified as "single mode by design."
+
+### Persona modulation
+
+- **strict-academic:** require all 4 elements (multiple paths, named, criteria, default) for A grades. Borderline → grade down.
+- **pragmatic-practitioner (default):** A if 3 of 4 elements present.
+- **charitable-newcomer:** B+ if modes are visible but criteria are weak.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- Modes appear to exist but are buried in prose (not in a dedicated section)
+- The skill claims to be single-mode but uses many flags that look like mode selectors
+
+### Known limitations
+
+- Skills that use hooks or runtime config to switch modes (rather than explicit YAML/header declarations) may be undercounted.
+- The "sensible default" check is subjective; reasonable judges may disagree on what's sensible.
+
+---
+
+## Judge 6 — Principle #6: Personas / voice
+
+**Reference:** [principles.md #6](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Procedural + Creative
+
+### Judge prompt
+
+```
+Evaluate principle #6 (Personas / voice) for this SKILL.md.
+
+The principle: when a skill uses agents (sub-tasks with distinct
+viewpoints) or enforces a behavioral discipline, it does so through
+specific persona definitions or voice rules — not generic "you are
+an expert in X" framing. Behavioral discipline beats character
+framing. The strongest implementations name the rationalizations
+to reject.
+
+Score this skill on:
+1. Are personas/voice rules present at all?
+2. Are they behavioral (specific scope, named rationalizations to
+   reject) or generic ("you are a senior engineer")?
+3. Do they specify what to focus on AND what to ignore?
+4. If multiple agents exist, do they have distinct, non-overlapping
+   personas?
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the strongest persona definition + the strongest voice rule (e.g., a "Rationalizations to Reject" entry).
+
+### Exemplar cases
+
+**A+ example:** `obra/test-driven-development` defines persona-by-rejection: an "Iron Law" plus a "Rationalizations to Reject" table listing the specific bad arguments the model will make ("just one quick fix without a test", "the test is obvious"). Each rejection has a counter. This IS behavioral discipline encoded as voice.
+
+**A example:** gstack's review skills name agent personas with sharp scope: *"Burned by untested edge cases. Trusts tests more than comments, edge case tests more than happy path tests."*
+
+**B example:** Skill says "act as a careful researcher" — mentions a role, no behavioral specification, no rationalizations.
+
+**C example:** Skill says "you are an expert" — pure decoration; the model already tries to be one.
+
+**F example:** No persona language at all; instructions are written as a generic checklist with no point-of-view.
+
+### Persona modulation
+
+- **strict-academic:** require Rationalizations Rejection table or equivalent for A+. Generic role assignments cap at C.
+- **pragmatic-practitioner (default):** behavioral framing earns A; generic role earns C.
+- **charitable-newcomer:** any voice/tone discipline earns at least B; generic role earns B-.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- Voice rules are present but their effectiveness depends on running the skill (taste judgment)
+- Persona is genre-specific (e.g., security-auditor) and judging quality requires domain expertise
+
+### Known limitations
+
+- Reference skills are correctly N/A here — they describe libraries, not enforce discipline. Phase 1's archetype detection should mark them skipped.
+- Voice rules in the YAML header (e.g., `tone: skeptical`) rather than the body may be undercounted.
+
+---
+
+## Judge 8 — Principle #8: Synthesis
+
+**Reference:** [principles.md #8](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Procedural-only
+
+### Judge prompt
+
+```
+Evaluate principle #8 (Synthesis) for this SKILL.md.
+
+The principle: whenever parallel subtasks produce independent
+outputs, an explicit synthesis phase merges them with stated
+priority rules and conflict resolution. Without priority rules,
+the synthesis agent invents arbitration on the fly — same input,
+different runs, different outputs.
+
+Score this skill on:
+1. Does the skill have parallel subtasks? (if not, N/A)
+2. Is there an explicit synthesis phase after the parallel burst?
+3. Are priority rules stated (which agent wins which decisions)?
+4. Are conflict resolution rules explicit (what to do when agents
+   disagree)?
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the priority rules and any explicit conflict-resolution language.
+
+### Exemplar cases
+
+**A+ example:** gstack's `autoplan` Phase 1 synthesis with phase-context tiebreakers: *"CEO phase: P1 (completeness) + P2 (boil lakes) dominate. Eng phase: P5 (explicit) + P3 (pragmatic) dominate."* Different phases, different priority weights.
+
+**A example:** `meta-paap`-generated `/skill-audit` synthesis: *"Usage wins tiers, Staleness wins maintenance, Overlap wins merges."* Three named arbitration rules.
+
+**B example:** Skill has parallel agents and a synthesis section, but the synthesis is "merge findings into one report" without arbitration rules.
+
+**C example:** Skill has parallel work but no synthesis phase — outputs are concatenated rather than synthesized.
+
+**N/A example:** `pre-call` (no parallel work). Justified as "linear pipeline; nothing to synthesize."
+
+### Persona modulation
+
+- **strict-academic:** require explicit named priority rules for A. Hand-wavy synthesis caps at B.
+- **pragmatic-practitioner (default):** A if priority rules are stated; B if synthesis is structured but rules implicit.
+- **charitable-newcomer:** B+ if synthesis exists at all.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- The skill claims to synthesize but the actual logic depends on the model's judgment in a way that's hard to verify from the spec alone
+
+### Known limitations
+
+- Skills using sequential rounds of agents (each consuming the previous) may not need synthesis but score lower than warranted.
+- Synthesis quality is hard to assess without running the skill on real inputs.
+
+---
+
+## Judge 11 — Principle #11: Output spec
+
+**Reference:** [principles.md #11](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** All (Universal)
+
+### Judge prompt
+
+```
+Evaluate principle #11 (Output spec) for this SKILL.md.
+
+The principle: the output specification leaves nothing to
+interpretation — exact format, named sections, length constraints,
+per-section content rules, and (where useful) anti-templates.
+Vague output specs produce polished-looking but wrong output.
+
+Score this skill on:
+1. Is there a dedicated output specification?
+2. Are format, sections, length, and per-section content rules
+   stated?
+3. Are anti-templates included (what NOT to produce) where
+   appropriate?
+4. Are honest omission rules included ("skip if X")?
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the most specific per-section rule + any anti-template.
+
+### Exemplar cases
+
+**A+ example:** `tapestry/article-extractor` per-section content rules: *"8-10 bullets each containing a concrete claim. Skip this section entirely if all terms are common knowledge. If nothing applies to current work: write 'No direct application' — do not force it."* Honest omission rules prevent bloat.
+
+**A example:** A skill with named output sections + length per section + format examples. Solid output contract.
+
+**B example:** Output is named ("a report") with format (markdown) but no per-section rules.
+
+**C example:** Output spec says "produce a comprehensive analysis." How long? What sections? What if a section is empty?
+
+**F example:** No output specification at all; relies on the model to invent a format.
+
+### Persona modulation
+
+- **strict-academic:** require anti-templates AND honest omission rules for A+. Vague specs ("comprehensive") cap at D.
+- **pragmatic-practitioner (default):** A if per-section content rules are stated; B if format is named but rules absent.
+- **charitable-newcomer:** B+ if output is named with format; A if any per-section guidance.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- Output spec is highly domain-specific and judging completeness requires domain expertise
+- Spec is implicit in worked examples rather than explicit in a dedicated section
+
+### Known limitations
+
+- Reference skills' "output" is the documentation itself; judge via section coverage, not action-output rules.
+- Creative skills may legitimately leave room for the model to produce variations; over-specification is a failure mode the judge should not penalize.
+
+---
+
+## Judge 14 — Principle #14: Context scope
+
+**Reference:** [principles.md #14](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** All (Universal)
+
+### Judge prompt
+
+```
+Evaluate principle #14 (Context scope) for this SKILL.md.
+
+The principle: the skill explicitly states what it is for and what
+it is not for. Per-agent scoping (when agents are used) names what
+each agent can read AND what they're denied. Scope creep is the
+most common skill-decay pattern.
+
+Score this skill on:
+1. Are skill-level boundaries explicit (in description, intro, or
+   "what this is/is not" sections)?
+2. If agents are used, do they have explicit per-agent scoping?
+3. Are denied/excluded items stated, with reasoning where
+   non-obvious?
+4. Does the skill resist scope creep (refuse to expand into
+   adjacent territory)?
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the most explicit boundary statement + any per-agent scoping with reasoning.
+
+### Exemplar cases
+
+**A+ example:** gstack's review skills explicitly scope each reviewer agent: *"Agent B is denied access to GitNexus data; reasoning: architecture-level data would invite scope creep into design decisions outside this agent's mandate."* Boundary plus reasoning.
+
+**A example:** Skill description includes 2-3 anti-triggers ("Do NOT use for X, Y, Z") and the body refuses to expand.
+
+**B example:** Skill is described positively (what it's for) without explicit anti-triggers.
+
+**C example:** Skill description is broad enough that scope creep is invited; no explicit boundaries.
+
+**F example:** Skill claims to do "everything related to X" — guarantees scope creep.
+
+### Persona modulation
+
+- **strict-academic:** require both skill-level boundaries AND per-agent scoping (when applicable) for A+.
+- **pragmatic-practitioner (default):** A if anti-triggers are present and the body stays scoped.
+- **charitable-newcomer:** B+ if any explicit boundary language.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- The skill's domain is itself broad enough that "scoped" is hard to assess from spec alone
+
+### Known limitations
+
+- Some skills have implicit scope (via the workflow's nature) without explicit anti-triggers; this judge undercounts those.
+- Per-agent scoping is N/A when there are no agents; the judge should not penalize.
+
+---
+
+## Judge 15 — Principle #15: Progress
+
+**Reference:** [principles.md #15](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** All (Universal)
+
+### Judge prompt
+
+```
+Evaluate principle #15 (Progress) for this SKILL.md.
+
+The principle: the skill emits status updates at meaningful
+checkpoints — phase transitions at minimum, with key stats
+("Found 12 sources, 3 scored above threshold, proceeding to
+synthesis"). Without progress reporting, debugging is reading
+the whole execution and guessing where it drifted.
+
+Score this skill on:
+1. Are status updates emitted at phase transitions?
+2. Do updates include key stats (counts, intermediate findings)?
+3. Is there a final completion summary?
+4. Is the format consistent across phases?
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the most-detailed progress statement + any final-summary block.
+
+### Exemplar cases
+
+**A+ example:** gstack's `[PROGRESS]` directive: *"During long-running skill sessions, periodically write a brief [PROGRESS] summary (2-3 sentences: what's done, what's next, any surprises)."* Plus phase-transition summaries with stats.
+
+**A example:** Skill has explicit "print after each phase" instructions with example formats showing what stats to include.
+
+**B example:** Skill says "report progress" without specifying when or what.
+
+**C example:** Skill emits no status until the final result; user has no signal whether it's working.
+
+### Persona modulation
+
+- **strict-academic:** require key-stats inclusion for A; phase-only updates cap at B.
+- **pragmatic-practitioner (default):** A if updates include any quantitative info per phase.
+- **charitable-newcomer:** B+ if any progress reporting at all.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- The skill is short enough (<2 minutes) that progress reporting may be N/A
+- The skill is documentation-style and "progress" maps to navigation cues, not runtime updates
+
+### Known limitations
+
+- Reference skills' "progress" maps to navigation breadcrumbs in the document, not execution logs; judge accordingly.
+- Skills with progress in code blocks (Bash echo statements) rather than prose may be undercounted.
+
+---
+
+## Judge 17 — Principle #17: Autonomy
+
+**Reference:** [principles.md #17](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Procedural + Creative
+
+### Judge prompt
+
+```
+Evaluate principle #17 (Autonomy) for this SKILL.md.
+
+The principle: the skill has sensible defaults, infers mode from
+context, treats interactive-prompts as the exception (only when
+genuine human judgment is required). Manual mode is the safe
+fallback. Skills that ask too many questions become unusable;
+skills that ask too few become dangerous.
+
+Score this skill on:
+1. Are defaults stated for ambiguous parameters?
+2. Is mode/path inference from context rather than asking?
+3. Are AskUserQuestion calls reserved for genuine human judgment?
+4. Is there a safe-fallback when inference fails?
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the default-statement and the safe-fallback clause.
+
+### Exemplar cases
+
+**A+ example:** `meta-paap`'s "If mode unclear: FULL mode." One sentence, sensible default, no prompt. Plus inferred classification before any user interaction.
+
+**A example:** Skill has explicit defaults for every parameter + inference logic for archetype/mode + AskUserQuestion only when confidence < threshold.
+
+**B example:** Skill has defaults but asks user for confirmation on every mode selection (over-prompting).
+
+**C example:** Skill asks user for every parameter (no defaults) — usable but high-friction.
+
+**F example:** Skill makes consequential decisions silently without defaults or documentation; or asks user to confirm trivial choices.
+
+### Persona modulation
+
+- **strict-academic:** require explicit default statements + safe-fallback for A. Implicit defaults cap at B.
+- **pragmatic-practitioner (default):** A if defaults are clear and AskUserQuestion is reserved appropriately.
+- **charitable-newcomer:** B+ if any defaults are stated.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- The skill's autonomy calibration depends on workflow stakes (high-stakes work warrants more prompting); judge should note this and defer
+
+### Known limitations
+
+- Skills with intentionally low autonomy (e.g., obra/TDD which deliberately removes choice) score F here even when that's the design point. Persona modulation softens this for charitable-newcomer.
+- Skills where autonomy varies by mode (auto-mode high, manual-mode low) may earn lower aggregate grades than warranted.
+
+---
+
+## Judge 20 — Principle #20: Output-first
+
+**Reference:** [principles.md #20](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** All (Universal)
+
+### Judge prompt
+
+```
+Evaluate principle #20 (Output-first) for this SKILL.md.
+
+The principle: the output specification is defined before the
+phases. The phases are the path to the defined output, not the
+other way around. Phase-first thinking produces skills that
+ramble. Output-first thinking forces clarity about what the
+skill is actually for.
+
+Score this skill on:
+1. Is the output spec defined before the phases (in document
+   order or by clear cross-reference)?
+2. Do the phases visibly contribute to the defined output?
+3. Is there evidence the author worked output-first (e.g., output
+   defined in YAML/intro, phases written to produce it)?
+```
+
+### Output schema
+
+Standard schema. Evidence should cite the output-definition location AND the first phase that consumes it.
+
+### Exemplar cases
+
+**A+ example:** `idea-to-pr` defines the PR description template (6 sections, exact format) in Phase 0 before any phase is described. Every subsequent phase is justified by what it contributes to the final output.
+
+**A example:** Output spec is in the YAML description or intro section; phases reference it explicitly.
+
+**B example:** Output spec exists but appears at the end of the file, after the phases.
+
+**C example:** Output spec is implicit in worked examples; not stated as a contract.
+
+**F example:** No clear output spec; output emerges from whatever the phases happen to produce.
+
+### Persona modulation
+
+- **strict-academic:** require output spec literally before phases in document order for A.
+- **pragmatic-practitioner (default):** A if output is defined in intro/description even if also restated at end.
+- **charitable-newcomer:** B+ if output spec exists anywhere with cross-reference from phases.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- Output is highly procedural (e.g., a side-effect like "creates a PR") and the judge can't easily map phases to output
+
+### Known limitations
+
+- Reference skills with section-level output specs (no skill-level contract) earn lower grades than warranted; this is the v0.1 partial-pass case noted in the rubric.
+
+---
+
+## Judge 21 — Principle #21: Decision class drives gating
+
+**Reference:** [principles.md #21](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Procedural-only
+
+### Judge prompt
+
+```
+Evaluate principle #21 (Decision class drives gating policy)
+for this SKILL.md.
+
+The principle: decisions in a skill are classified into three
+types — Mechanical (auto-decide silently), Taste (auto-decide
+but surface at gate), User Challenge (never auto-decide, always
+escalate) — and each class triggers a different gating treatment.
+Without this distinction, skills either over-prompt or under-prompt.
+
+Score this skill on:
+1. Are decisions in the skill explicitly classified by type?
+2. Do different decision classes trigger different gating?
+3. Are User Challenge decisions never silently auto-decided?
+4. Are Mechanical decisions silent (no over-prompting)?
+```
+
+### Output schema
+
+Standard schema. Evidence should cite where decision classes are named or where different gating is applied to different decision types.
+
+### Exemplar cases
+
+**A+ example:** gstack's `autoplan` distinguishes all three classes explicitly: Mechanical decisions auto-decide, Taste decisions auto-decide-but-flag, User Challenge decisions escalate. The taxonomy is named.
+
+**A example:** Skill calibrates gating without naming the taxonomy: e.g., `obra/TDD` is fundamentally Mechanical (no user prompts for the discipline); `emaynard/family-history-planning` is fundamentally User Challenge (every action requires explicit user approval).
+
+**B example:** Skill has appropriate gating for the dominant decision type but doesn't differentiate within the skill.
+
+**C example:** Skill prompts on every decision regardless of class (over-prompting), or auto-decides everything regardless of stakes (under-prompting).
+
+**F example:** Gating is arbitrary or absent; consequential decisions made silently.
+
+### Persona modulation
+
+- **strict-academic:** require named decision-class taxonomy for A+. Implicit calibration caps at B+.
+- **pragmatic-practitioner (default):** A if gating is appropriately calibrated to decision stakes.
+- **charitable-newcomer:** B+ if gating shows any thought about decision type.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- The skill's domain makes "decision class" hard to assess from spec alone (e.g., security workflows where everything is User Challenge)
+
+### Known limitations
+
+- This principle was promoted from a gstack candidate based on community-corpus evidence; calibration may shift with v0.2 kappa data.
+- Reference and Creative skills don't have execution-time decisions to classify; correctly N/A.
+
+---
+
+## Judge 22 — Principle #22: Voice + writing rules as skill content
+
+**Reference:** [principles.md #22](../../../04-RUBRIC/principles.md)
+**Applicable archetypes:** Procedural + Creative
+
+### Judge prompt
+
+```
+Evaluate principle #22 (Voice + writing rules as skill content)
+for this SKILL.md.
+
+The principle: tone, banned phrases, prose structure rules, and
+anti-AI-vocabulary lists are first-class skill content — written
+into the skill body, not externalized as a separate style guide.
+When voice rules live outside the skill, they're not enforced.
+
+Score this skill on:
+1. Are voice/tone/style rules present in the skill body?
+2. Are banned vocabulary lists or prose-structure rules included
+   where appropriate?
+3. Are anti-templates (what the output should NOT sound like)
+   present for skills that produce text?
+4. Are voice rules calibrated to the skill's domain (not generic)?
+```
+
+### Output schema
+
+Standard schema. Evidence should quote the strongest voice rule + any banned vocabulary or anti-template.
+
+### Exemplar cases
+
+**A+ example:** gstack preambles include 600+ lines of voice rules: banned AI vocabulary lists ("delve", "crucial", "landscape", "tapestry"), required prose structure (D-numbered AskUserQuestion with ELI10 + Stakes + Recommendation + Completeness score + ≥40-char pros/cons + Net line). Voice IS skill content at scale.
+
+**A example:** `anthropic-canvas-design` encodes aesthetic anti-patterns (avoid purple gradients, Inter font, generic AI aesthetics) directly in the skill. `obra/test-driven-development` specifies prose voice ("Iron Law", "Rationalizations to Reject") that shapes how the skill talks to the user.
+
+**B example:** Skill has tone guidance ("write in a clear, professional voice") but no specific banned phrases or anti-templates.
+
+**C example:** Skill produces text but has no voice guidance at all; output defaults to AI-flavored marketing copy.
+
+**N/A example:** Reference skills that don't produce text-with-voice (e.g., a Python library wrapper) — score N/A with justification "skill produces structured output, not voiced text."
+
+### Persona modulation
+
+- **strict-academic:** require named banned vocabulary OR anti-templates for A. Generic tone guidance caps at C.
+- **pragmatic-practitioner (default):** A if voice rules are specific to the domain.
+- **charitable-newcomer:** B+ if any tone discipline is present.
+
+### Defer-to-user conditions
+
+Output `needs-human-judgment` if:
+- Voice quality requires reading sample outputs (taste judgment beyond spec)
+- The skill's domain makes "voice" ambiguous (e.g., code-only skills)
+
+### Known limitations
+
+- This principle was promoted from a gstack candidate; calibration shifts with v0.2 kappa data.
+- Voice rules in external style guides (referenced but not in the SKILL.md) score lower than warranted; this is the principle's intent (voice should be in the skill).
+
+---
+
+## Judge summary
+
+| # | Principle | What it judges | Defer rate (estimate) |
+|---|---|---|---|
+| 3 | Modes | Multiple paths + naming + criteria + default | Low (15%) |
+| 6 | Personas / voice | Behavioral discipline vs decoration | Medium (25%) |
+| 8 | Synthesis | Priority rules + conflict resolution | Low (10%) |
+| 11 | Output spec | Format + sections + length + content rules + anti-templates | Medium (20%) |
+| 14 | Context scope | Boundaries + per-agent scoping + reasoning | Low (15%) |
+| 15 | Progress | Status updates + key stats + completion summary | Low (10%) |
+| 17 | Autonomy | Defaults + inference + appropriate AskUserQuestion | Medium (20%) |
+| 20 | Output-first | Output defined before phases | Low (15%) |
+| 21 | Decision class | Mechanical / Taste / User Challenge taxonomy | High (35%) |
+| 22 | Voice + writing | Voice rules as skill content + banned vocab + anti-templates | Medium (25%) |
+
+**Defer rate** = expected % of evaluations where the judge outputs `needs-human-judgment` rather than a grade. Higher defer rates flag principles that may not be well-calibrated as LLM-judges and may need human scoring in v0.2's kappa pilot.
+
+**Highest-risk judges:** #21 (decision class) — concept is new, taxonomy may be ambiguous; #6 (personas/voice) and #22 (voice rules) — taste judgments. These three are the most likely to diverge across persona variants in Stage 2's kappa pilot.
+
+**Lowest-risk judges:** #8 (synthesis) and #15 (progress) — concrete patterns to detect; less subjective.
 
 ---
 
 ## Cross-references
 
-- [`../SKILL.md`](../SKILL.md) — The skill that loads this file
-- [`../genesis.md`](../genesis.md) — Architecture spec listing all 10 principles
-- [`../../../04-RUBRIC/principles.md`](../../../04-RUBRIC/principles.md) — Principle definitions
-- [`../../../07-OPEN-QUESTIONS.md`](../../../07-OPEN-QUESTIONS.md) — v0.2 plan including Stage 1c
+- [`../SKILL.md`](../SKILL.md) — The skill that loads this file (Phase 3)
+- [`../genesis.md`](../genesis.md) — Architecture spec listing all 10 semantic principles
+- [`./algorithmic-detectors.md`](./algorithmic-detectors.md) — The complementary file for the 12 algorithmic principles (Stage 1b)
+- [`../../../04-RUBRIC/principles.md`](../../../04-RUBRIC/principles.md) — Principle definitions (the source of truth)
+- [`../../../04-RUBRIC/empirical-validation.md`](../../../04-RUBRIC/empirical-validation.md) — Where the exemplar cases come from
+- [`../calibration.md`](../calibration.md) — Stage 1d will validate these judges against the 4 manual evaluations
