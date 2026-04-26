@@ -3,7 +3,7 @@ cff-version: 1.2.0
 title: "Prompt as a Process (PaaP): A Framework for Markdown-as-Application Skills"
 message: "If you use this framework, the rubric, the evaluation instrument, or the empirical findings in your work, please cite it as below."
 type: software
-version: 0.2.0
+version: 0.3.0
 date-released: 2026-04-26
 authors:
   - given-names: Jordi
@@ -27,16 +27,32 @@ keywords:
   - skill evaluation
   - inter-rater reliability
   - LLM-judge
+  - cross-model evaluation
+  - output-quality validation
 abstract: >-
   Prompt as a Process (PaaP) is a framework for treating Markdown SOPs as
   deployable applications, runnable end-to-end by sufficiently reliable
-  language models. This repository formalizes the framework via 25
-  architectural principles with archetype-aware applicability, a
-  scoring rubric, an evaluation instrument (`/paap-eval`), an N=80
-  community-skill empirical survey across 36 distinct authors, a
-  3-persona inter-rater kappa pilot (mean inter-rater 1.83 grade-steps),
-  a head-to-head experiment comparing hand-written vs generated skills
-  (blind judge could not distinguish provenance for a humanizer task),
-  and a runnable example. Intended for practitioners authoring or
-  evaluating LLM workflow files (e.g., SKILL.md), and researchers
-  studying the post-orchestration-framework ecosystem.
+  language models. v0.3 (2026-04-26) tests whether the framework holds up
+  at output time. The repository formalizes the framework via 25
+  architectural principles with archetype-aware applicability, a scoring
+  rubric, an evaluation instrument (`/paap-eval`), and a generator
+  (`meta-paap v2.0`) that produces SKILL.md files following the rubric
+  with explicit Iron Law + Rationalizations to Reject patterns plus a
+  closed self-observation loop. Empirical layer: an N=80 community-skill
+  survey across 36 distinct authors; a 5-rater multi-model kappa pilot
+  spanning 3 Claude personas + GPT-5.4 (via Codex CLI) + Gemini-3-pro-
+  preview (via Gemini CLI), with mean GPT-5.4 ↔ Claude-pragmatic
+  grade-step distance 1.20 vs Gemini-3 ↔ Claude-pragmatic 2.30; a
+  5-workflow × 3-input × 3-judge output-quality experiment (45
+  judgments) showing handwritten edge on voice-shaped workflows and
+  generated edge on rubric-articulable ones; a 4-workflow × 3-input ×
+  3-judge community-skill head-to-head (36 judgments) where meta-paap
+  v2 wins 29/36 against community-authored skills, with the
+  `obra/test-driven-development` case (5/9 community) marking the
+  production-iteration moat; and a 0/36 provenance-prediction pattern
+  showing blind judges systematically mis-attribute generated outputs
+  as hand-authored. Intended for practitioners authoring or evaluating
+  LLM workflow files, and researchers studying the post-orchestration-
+  framework ecosystem. The v0.3 thesis: PaaP captures form quickly
+  through articulable process; production iteration deepens substance
+  the rubric cannot describe.

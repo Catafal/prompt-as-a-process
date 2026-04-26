@@ -221,6 +221,18 @@ These two items would land the repo at full A+ across all applicable principles 
 
 ---
 
+## v0.3 release state — additional external grounding (added at v0.3 release)
+
+After the v0.3 release commits (priority #5 community-skill head-to-head), the reflexive-self-audit's grades remain the same — but the *external* grounding strengthens meaningfully:
+
+- **Principle #6 (Personas) and #22 (Voice + writing rules)** are now externally validated through priority #5: meta-paap v2's Iron Law + Rationalizations to Reject pattern beat 3 of 4 community-authored skills on output quality. The framework's claim that "behavioral discipline is encoded as skill content, not externalized as a style guide" is now defensible against community baselines, not just the author's own.
+- **Principle #24 (Self-observation)** has the read+write loop in meta-paap (B+) AND has external corroboration that #24 is a real corpus-wide gap (priority #3 + priority #5: both vendors confirm 6/7+ near-F across applicable skills). The framework's grade is now contextualized — most skills score worse than B+ on this principle.
+- **Aggregate A holds.** The v0.3-release self-audit grade is the same as the post-priority-#4 grade. No further upgrade because no further mechanism shipped at the framework level. v0.4 priority #8 (paap-eval reads prior calibration outputs) is the path to A on #24.
+
+**Honest scope:** the v0.3 self-audit at aggregate **A** still inherits the single-scorer limitation. v0.4 priority #1 (third-party rubric author) is the path to triangulating the self-audit grade against an independent rater.
+
+---
+
 ## Cross-references
 
 - [`principles.md`](./principles.md) — The 25 principles being applied

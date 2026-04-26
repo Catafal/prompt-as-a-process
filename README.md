@@ -4,7 +4,13 @@
 
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](./LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/docs-CC--BY--4.0-lightgrey.svg)](./LICENSE-docs)
-[![Status](https://img.shields.io/badge/status-v0.2%20released-brightgreen.svg)](./CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-v0.3%20released-brightgreen.svg)](./CHANGELOG.md)
+
+---
+
+## v0.3 in one paragraph
+
+v0.3 (2026-04-26) tests whether Prompt as a Process holds up at output time. The answer is nuanced: meta-paap-generated PaaP skills often **match or beat hand-written skills** when quality can be described in the workflow brief; production-iterated hand-written skills still win where quality depends on tacit domain discipline. The headline finding is the form-vs-substance split: **PaaP captures form quickly through articulable process; production iteration deepens substance the rubric cannot describe.** v0.3 lands the empirical layer that makes this claim defensible — multi-model kappa across three vendors, output-quality experiments at 5×3×3 + 4×3×3 scales, and a generator (`meta-paap v2`) upgraded with Iron Law + Rationalizations to Reject patterns.
 
 ---
 
@@ -12,15 +18,23 @@
 
 **Prompt as a Process** is a framework for writing Markdown workflows that agents can execute reliably: phases, branches, gates, output contracts, and recovery paths. The `.md` file is the application; the model is the runtime; deploy is dropping the file in a folder.
 
-By mid-2025, frontier models became reliable enough in practice for many users to treat structured Markdown SOPs as executable workflows. This repo formalizes that pattern and, as of v0.2, adds the evaluation instrument and evidence base to test it:
+By mid-2025, frontier models became reliable enough in practice for many users to treat structured Markdown SOPs as executable workflows. This repo formalizes that pattern. v0.3 adds the empirical layer that lets you ask whether the pattern survives output-time scrutiny:
 
-1. **25 architectural principles** with applicability across **3 skill archetypes** (Procedural / Reference / Creative), a **scoring rubric**, and a **scoring template**.
+1. **25 architectural principles** with applicability across **3 skill archetypes** (Procedural / Reference / Creative), a **scoring rubric**, and a **scoring template**. v0.3 promoted 3 corpus-validated principles (#23 host-portable, #24 self-observation, #25 spawn-detection) with ≥20% community-prevalence in the N=80 corpus.
 2. An **empirical corpus of 80 community skills** across 36 authors + a deep-dive on **`gstack`** (50 SKILL.md, ~83.5k stars at snapshot — see [02-EVIDENCE](./02-EVIDENCE/) and [04-RUBRIC](./04-RUBRIC/)).
-3. **`/paap-eval`**, an auto-scoring instrument with algorithmic detectors + semantic judges, validated through a 3-persona kappa pilot ([`06-META-PAAP/paap-eval/`](./06-META-PAAP/paap-eval/), [`05-EVALUATION/kappa-pilot.md`](./05-EVALUATION/kappa-pilot.md)).
-4. **Four documented evaluations** of [`meta-paap`](./06-META-PAAP/) plus a **head-to-head comparison** of hand-written vs generated skills ([`05-EVALUATION/head-to-head.md`](./05-EVALUATION/head-to-head.md)).
-5. A **reflexive self-audit** of this repo against its own rubric ([`04-RUBRIC/reflexive-self-audit.md`](./04-RUBRIC/reflexive-self-audit.md)) and a **runnable example** ([`pre-call`](./examples/pre-call/)).
+3. **`/paap-eval`**, an auto-scoring instrument with algorithmic detectors + semantic judges, validated through a 5-rater multi-model kappa pilot spanning 3 Claude personas + GPT-5.4 (Codex) + Gemini-3 (Gemini CLI) — see [`05-EVALUATION/kappa-pilot.md`](./05-EVALUATION/kappa-pilot.md) and [`05-EVALUATION/kappa-pilot-multimodel.md`](./05-EVALUATION/kappa-pilot-multimodel.md).
+4. **`meta-paap v2.0`** ([`06-META-PAAP/`](./06-META-PAAP/)) — the skill generator, upgraded with Iron Law + Rationalizations to Reject patterns and a closed self-observation loop. Tested across two output-quality experiments: **priority #3** ([5 workflows × 3 inputs × 3 judges = 45 judgments](./05-EVALUATION/head-to-head-expanded.md)) and **priority #5** ([4 community skills × 3 inputs × 3 judges = 36 judgments](./05-EVALUATION/community-head-to-head.md)).
+5. A **reflexive self-audit** of this repo against its own rubric ([`04-RUBRIC/reflexive-self-audit.md`](./04-RUBRIC/reflexive-self-audit.md)) — aggregate **A** at 25-principle scale — and a **runnable example** ([`pre-call`](./examples/pre-call/)).
 
 Use it to write better skills, evaluate existing ones, extend the rubric, or contribute test data.
+
+### v0.3 experiments at a glance
+
+| Experiment | Scale | Headline finding |
+|---|---|---|
+| [Multi-model kappa](./05-EVALUATION/kappa-pilot-multimodel.md) | 5 raters × 10 skills | Cross-vendor distance varies by vendor: GPT-5.4 ↔ Claude-pragmatic = 1.20 grade-steps (tighter than within-Claude); Gemini-3 ↔ Claude-pragmatic = 2.30 (looser). Rubric travels, but model-vendor identity is a real source of grade-shift. |
+| [Output-quality 5×3×3](./05-EVALUATION/head-to-head-expanded.md) | 5 workflows × 3 inputs × 3 judges = 45 judgments | Workflow-specific picture: handwritten 24/45 vs generated 20/45. Handwritten wins on voice work (humanizer 8/9); generated wins on structured tasks (`remember` 9/9 unanimous). Provenance accuracy 53-67% (near chance). |
+| [Community 4×3×3](./05-EVALUATION/community-head-to-head.md) | 4 community skills × 3 inputs × 3 judges = 36 judgments | meta-paap v2 wins 29/36 (81%); only `obra/test-driven-development` holds (5/9 community) — production-iteration moat. **0/36 provenance accuracy** — judges systematically mis-attribute generated as hand-authored. |
 
 ---
 
@@ -36,7 +50,7 @@ Use it to write better skills, evaluate existing ones, extend the rubric, or con
 - **Not a new runtime or file format.** Uses Anthropic's existing SKILL.md spec (launched October 2025).
 - **Not a claim that prompts replace software engineering.** Determinism, reproducibility, multi-tenant scaling — all still need code.
 - **Not a claim that PaaP is invented here.** The pattern emerged independently across the community (gstack, obra/superpowers, Anthropic's own skill-creator). PaaP names and formalizes it.
-- **Not yet an academic paper.** v0.2 is a practitioner framework with a stronger evidence base: N=80 corpus, prompt-variant kappa pilot, and a head-to-head experiment. Workshop-paper conversion is now plausible but still conditional on v0.3 multi-model and multi-task validation — see [07-OPEN-QUESTIONS](./07-OPEN-QUESTIONS/).
+- **Not yet an academic paper.** v0.3 is a practitioner framework with a substantially stronger evidence base than v0.2: N=80 corpus, multi-model kappa across 3 vendors, two output-quality experiments (5×3×3 author-skill + 4×3×3 community-skill), and meta-paap v2 with the rationalizations-to-reject pattern. Workshop-paper conversion is more plausible than at v0.2 but still requires third-party validation work — see [07-OPEN-QUESTIONS](./07-OPEN-QUESTIONS/) for v0.4 priorities (third-party rubric author, random-sample community skills, human-rater layer).
 - **Not a competitor to Claude Code or Anthropic's `skill-creator`.** It's a vocabulary, a rubric, and a corpus *on top of* what Anthropic ships.
 
 ---
@@ -150,16 +164,17 @@ Three ways to use this repo:
 
 ## Status
 
-**v0.2** — Released. Living research repo with evaluation tooling, N=80 corpus evidence, and head-to-head results. Forks and contributions welcome.
+**v0.3** — Released 2026-04-26. Living research repo with: evaluation tooling, 25-principle rubric, N=80 corpus, multi-model kappa across 3 vendors, two output-quality experiments (5×3×3 author + 4×3×3 community), `meta-paap v2` with Iron Law + Rationalizations + closed self-observation loop. Forks and contributions welcome.
 
 This is not a frozen artifact. The rubric will evolve. The evaluation set will grow. Open questions are tracked in [07-OPEN-QUESTIONS](./07-OPEN-QUESTIONS/).
 
 ### Roadmap
 
-- **v0.1 (released 2026-04-25)** — Framework, rubric, n=4 evaluations, 50-skill empirical survey, `meta-paap` skill, runnable example, reflexive self-audit. See [CHANGELOG.md](./CHANGELOG.md) for details.
+- **v0.1 (released 2026-04-25)** — Framework, rubric (20 principles), n=4 evaluations, 50-skill empirical survey, `meta-paap` skill, runnable example, reflexive self-audit. See [CHANGELOG.md](./CHANGELOG.md) for details.
 - **v0.2 (released 2026-04-26)** — `/paap-eval` skill (the auto-scoring instrument), 3-persona kappa pilot (mean inter-rater 1.83 grade-steps), corpus extended to N=80 across 36 distinct authors (3 deferred candidates promotion-ready, 3 confirmed gstack-only), head-to-head experiment (5 paired skills + 1 blind-output test where the judge mis-attributed provenance). See [CHANGELOG.md](./CHANGELOG.md).
-- **v0.3 (planned)** — Promote 3 corpus-validated candidates → 25-principle rubric. Multi-model kappa (Claude + GPT-5 + Gemini). Output-quality test expanded to 5 workflows × 3-5 inputs each. Add "rationalizations to reject" to `meta-paap` persona generation.
-- **v1.0 (conditional, defensible after v0.2)** — Workshop-paper format. The v0.2 evidence base supports a defensible workshop submission; the honest title would be *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Match Hand-Authored Ones On Structural Quality and Output Quality, From a Single-Practitioner Tooling Study."* v0.3 expansions (multi-model, multi-task, multi-author baseline) determine whether v1.0 ships.
+- **v0.3 (released 2026-04-26)** — Rubric grew 22 → 25 principles. Multi-model kappa pilot extended to 5 raters (Claude × 3 personas + GPT-5.4 + Gemini-3). Output-quality test expanded to 5 workflows × 3 inputs × 3 cross-vendor judges (45 judgments). `meta-paap v2.0` shipped with Iron Law + Rationalizations to Reject pattern + closed self-observation loop (closes the framework's own #24 grade from C to B+; aggregate A− → A). Community-skill head-to-head (4 archetype-stratified community skills × 3 inputs × 3 judges = 36 judgments) — v2-generated wins 29/36, with `obra/test-driven-development` 5/9 community as the production-iteration moat. **Headline finding: form-vs-substance split.** PaaP captures form quickly; production iteration deepens substance the rubric cannot describe. See [CHANGELOG.md](./CHANGELOG.md).
+- **v0.4 (planned)** — Third-party rubric author (breaks v0.3's measurement-side self-bias loop). Third-party hand-authored skills (random sample from N=80 corpus, not corpus exemplars). Anthropic-family kappa expansion (Claude Opus / Sonnet / Haiku). Larger N per workflow (5+ inputs each). `learnings.jsonl` feedback loop into meta-paap (closes the substance gap from priority #5's finding). Human-rater layer. paap-eval re-calibration at 25-principle scale. See [07-OPEN-QUESTIONS](./07-OPEN-QUESTIONS/).
+- **v1.0 (conditional, more defensible after v0.3)** — Workshop-paper format. The v0.3 evidence base — multi-model judge data, two output-quality experiments at 45 + 36 judgment scales, mechanism-grounded form-vs-substance finding — supports a more defensible workshop submission than v0.2 did. v0.4 third-party validation work determines whether v1.0 ships.
 
 ---
 

@@ -1,8 +1,10 @@
 # 07 — Open Questions
 
-> What v0.3 and v1.0 will tackle, and where contributions are most useful right now.
+> Where contributions are most useful right now. Post-v0.3 retrospective + v0.4 priorities.
 
-**Status as of 2026-04-26:** v0.2 RELEASED. See [`../CHANGELOG.md`](../CHANGELOG.md) for what shipped. v0.3 priorities below are derived from v0.2's surfaced findings.
+**Status as of 2026-04-26:** **v0.3 RELEASED.** All 6 v0.3 priorities landed. See [`../CHANGELOG.md`](../CHANGELOG.md) for what shipped. v0.4 priorities below are derived from v0.3's surfaced findings — primarily the measurement-side self-bias caveat (rubric author also designed `meta-paap v2`) and the production-iteration moat (priority #5's `obra/TDD` 5/9 community result).
+
+The v0.2 retrospective remains for historical context; the v0.3 sections below it document each priority's outcome with cross-references; the v0.4 priorities are at the bottom.
 
 ---
 
@@ -36,7 +38,7 @@ The v0.3 priorities below address these gaps.
 
 ---
 
-## v0.3 priorities (planned next)
+## v0.3 priorities — outcomes
 
 ### 1. Promote 3 corpus-validated candidates → 25-principle rubric ✅ DONE
 
@@ -113,65 +115,96 @@ v0.2 Stage 4's hand-written baseline came from the rubric author's local skill f
 
 **Honest caveat-saturation flagged in the writeup:** measurement-side self-bias (rubric author also designed v2's prompt). **v0.4 priorities surfaced:** third-party rubric author, third-party random-sample hand-authored skills (from N=80 corpus), human-rater layer, larger N per workflow, feed prior `learnings.jsonl` from production-iterated skills back into meta-paap to close the substance gap.
 
-### 6. `meta-paap` v2 self-critique improvements (deferred from v0.2)
+### 6. `meta-paap` v2 self-critique improvements (folded into priority #4) ✅ DONE
 
-The 4/4 systematic weakness from v0.1's [n=4 regression study](../05-EVALUATION/regression.md):
+The 4/4 systematic weakness from v0.1's [n=4 regression study](../05-EVALUATION/regression.md) was the original target. v0.3 priority #4 delivered this as part of the meta-paap v2 upgrade — Phase 4 self-critique grew from 7 to 11 critical checks (added: persona depth, #23 host-portable, #24 self-observation, #25 spawn-detection). The execution-trace pass + reference-validation pass remain v0.4 work; the meta-paap-internal upgrade landed.
 
-- Add an **execution-trace pass** — data flow from Phase N output → Phase N+1 references
-- Add a **reference-validation pass** — do named skills/files actually exist at resolved paths?
-- Add a **safety-audit pass** — read project `CLAUDE.md`, check generated skill against it
+### 7. Persona-depth gap (folded into priority #4) ✅ DONE
 
-These were deferred from v0.2 because they belong with `/paap-eval` (which is the natural place to trace execution paths and validate references). v0.3 can either (a) re-run n=4 evaluation against fixed `meta-paap` v2 OR (b) integrate the three passes into `/paap-eval`'s synthesis phase.
-
-### 7. Resolve v0.2 Stage 4's persona-depth gap finding
-
-v0.2 Stage 4 surfaced that generated skills lack the "rationalizations to reject" depth seen in production-iterated hand-written skills. v0.3 closure depends on Item 4 above (architecture-checklist update).
+The "rationalizations to reject" depth gap surfaced in v0.2 Stage 4 was addressed by meta-paap v2's Iron Law + Rationalizations to Reject pattern. v0.3 priority #5's community head-to-head externally validated the upgrade: meta-paap v2 wins 29/36 against community-authored skills, with `obra/test-driven-development` 5/9 community marking the production-iteration moat that fresh generation cannot fully reach.
 
 ---
 
-## Items still under research (deferred to v0.3+)
+## v0.4 priorities
 
-The community survey at v0.2 (N=80) surfaced 6 patterns the rubric only partially captures. v0.3 (after the 3-promotion candidates land) decides which (if any) become explicit principles vs. continue as sub-patterns of existing ones:
+Derived from v0.3's surfaced findings — primarily the measurement-side self-bias caveat from priority #5 (rubric author also designed `meta-paap v2`) and the production-iteration moat (TDD case).
 
-1. **Refusal-as-skill** (currently absorbed into #2 Phase 0 routing) — promote to its own principle?
-2. **Rationalizations Rejection Table** (currently in #6 Personas, #22 Voice rules) — surface as canonical pattern?
-3. **Aesthetic anti-patterns** (currently in #11 Output spec) — own principle for creative skills?
-4. **Tool-availability fallback chain** (currently in #12 Gates 3 parts) — surface as canonical example?
-5. **Tone-as-instruction** (currently in #6 Personas, #22 Voice rules) — same as #6 or distinct?
-6. **Reference-style skill archetype** — addressed in v0.1 via the archetype framing; no further action needed.
+### 1. Third-party rubric author
 
-Of these 6, the most likely v0.3 promotion is **#1 Refusal-as-skill** based on the v0.2 corpus extension's evidence (Refusal Gate pattern visible in `daymade/fact-checker`, `glebis/jtbd`, `wrsmith108/linear` — at least 3/30 community sightings).
+The rubric author also designed `meta-paap v2`'s prompt and the priority #5 quality rubrics. Measurement-side self-bias is real. **The cleanest v0.4 experiment: have an independent rubric author re-design the per-workflow quality rubrics for priority #5's 4 workflows, and re-judge the existing 24 outputs.** If meta-paap v2's wins survive a third-party rubric, the result is much more defensible.
 
-For full v0.2 verdicts on the original 8 deferred gstack candidates, see [`04-RUBRIC/empirical-validation.md`](../04-RUBRIC/empirical-validation.md). Three are promotion-ready (#26 self-observation, #29 host-portable, #30 spawn-detection); three confirmed gstack-only (#22 section-skip, #24 dual-voice, #28 plan-rubric-reuse); two stay deferred (#21 build-artifact, #25 hooks).
+### 2. Third-party hand-authored skills (random sample, not corpus exemplars)
+
+The 4 community skills used in priority #5 are corpus exemplars (high-stature, well-known). A randomly-sampled subset of the N=80 corpus would test whether v2's win generalizes beyond curated examples. Mechanism: random.seed(42); pick 4 by archetype stratification; run priority #5 protocol against them.
+
+### 3. Anthropic-family kappa expansion (deferred from v0.3 priority #2)
+
+Multi-model kappa shipped Codex/GPT-5.4 + Gemini-3 in v0.3. Anthropic-family expansion (Opus / Sonnet / Haiku) was the deferred piece. Tests within-vendor model-size effects.
+
+### 4. Larger N per workflow (5+ inputs each)
+
+v0.3 priority #3 ran 3 inputs/workflow; priority #5 the same. Per-workflow N=3 surfaces unanimity patterns (`remember` 9/9 in priority #3, `canvas-design` 9/9 in priority #5) but cannot rule out input-selection bias. v0.4: 5+ inputs/workflow.
+
+### 5. `learnings.jsonl` feedback loop into meta-paap (closes the substance gap)
+
+Priority #4 implemented the *write* side of self-observation in meta-paap. v0.4 implements the *read* side as functional feedback: meta-paap reads prior `learnings.jsonl` from production-iterated skills (e.g., `obra/test-driven-development`'s actual rationalizations a real practitioner has heard) and incorporates them into newly-generated skills. This is the architectural follow-up to priority #5's form-vs-substance finding — the mechanism that closes part of the production-iteration moat.
+
+### 6. Human-rater layer
+
+All v0.3 judges are LLM-judges. Adding a small human-rater pass (3-5 humans rating ~10 outputs each) lets us measure LLM-judge ↔ human-judge calibration. This is paper-prerequisite work for v1.0.
+
+### 7. paap-eval re-calibration at 25-principle scale
+
+The v0.3 additions (#23 algorithmic detector + #24/#25 semantic judges) are wired into paap-eval but uncalibrated. v0.4 re-runs the Stage 1d calibration set against the 25-principle rubric.
+
+### 8. paap-eval reading prior calibration outputs
+
+Closes the framework's own #24 grade fully (B+ → A). meta-paap v2 reads prior `learnings.jsonl`; paap-eval should read prior calibration outputs to update detector thresholds. Mechanism analogous to #5 above but for the eval instrument.
 
 ---
 
-## v1.0 (defensible after v0.2; conditional on v0.3 expansions)
+## Items still under research
 
-v0.2 shipped the evidence base v1.0 needs:
+The community survey at v0.2 (N=80) surfaced 6 patterns the rubric only partially captures. v0.3 promoted 3 of them as canonical rubric principles (#23 host-portable, #24 self-observation, #25 spawn-detection); the remaining patterns stay under-research:
 
-- ✅ Inter-rater reliability data (3-persona kappa pilot, mean 1.83 grade-steps)
-- ✅ N=80 community corpus across 36 distinct authors
-- ✅ Head-to-head experiment with blind judge mis-attributing provenance
-- ✅ Reflexive self-audit demonstrating dogfooding discipline
+1. **Refusal-as-skill** (currently absorbed into #2 Phase 0 routing) — promote to its own principle? At least 3/30 community sightings (`daymade/fact-checker`, `glebis/jtbd`, `wrsmith108/linear`).
+2. **Aesthetic anti-patterns** (currently in #11 Output spec) — own principle for creative skills?
+3. **Tool-availability fallback chain** (currently in #12 Gates 3 parts) — surface as canonical example?
+4. **Tone-as-instruction** (currently in #6 Personas, #22 Voice rules) — same as #6 or distinct?
 
-The honest v1.0 paper title:
+For full v0.3 verdicts on the original 8 deferred gstack candidates, see [`04-RUBRIC/empirical-validation.md`](../04-RUBRIC/empirical-validation.md). Three promoted in v0.3 (#23/#24/#25); three confirmed gstack-only (#22 section-skip, #24-original dual-voice, #28 plan-rubric-reuse); two stay deferred (#21 build-artifact, #25-original hooks).
 
-> *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Match Hand-Authored Ones On Structural Quality and Output Quality, From a Single-Practitioner Tooling Study."*
+---
 
-This is defensible. v0.3 expansions (multi-model judging, output-quality test on 5 workflows × 3-5 inputs each, multi-author baseline) determine whether the title strengthens or stays in single-practitioner scope.
+## v1.0 (more defensible after v0.3; still conditional on v0.4 third-party validation)
+
+v0.3 shipped substantially more of v1.0's evidence than v0.2:
+
+- ✅ Inter-rater reliability data (3-persona kappa pilot, mean 1.83 grade-steps within-Claude — v0.2)
+- ✅ Multi-model kappa across 3 vendors (Claude × 3 + GPT-5.4 + Gemini-3 — v0.3)
+- ✅ N=80 community corpus across 36 distinct authors (v0.2)
+- ✅ Output-quality experiment at meaningful scale (5 workflows × 3 inputs × 3 judges = 45 judgments — v0.3 priority #3)
+- ✅ Community-skill head-to-head (4 workflows × 3 inputs × 3 judges = 36 judgments — v0.3 priority #5)
+- ✅ Reflexive self-audit demonstrating dogfooding discipline (aggregate **A** at 25-principle scale)
+- ✅ Mechanism-grounded form-vs-substance finding (the v0.3 narrative arc)
+
+The honest v1.0 paper title (post-v0.3):
+
+> *"Prompt-as-a-Process: Evidence That Generator-Produced Skill Files Meet or Beat Community-Authored Ones On Output Quality Across Three Archetype-Stratified Workflows, With Production-Iteration Holding the Line On Discipline-Depth Tasks."*
+
+This is more defensible than the v0.2 title. v0.4 third-party validation work (third-party rubric author + random-sample community skills + human-rater layer) determines whether the title generalizes or needs scoping back to "from this measurement setup."
 
 Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting, developer tools, or LLM-as-judge methodology. Citable via [`CITATION.cff`](../CITATION.cff) in the meantime.
 
 ---
 
-## Where contributions help most (right now, post-v0.2)
+## Where contributions help most (right now, post-v0.3)
 
 ### High value
-1. **Run `/paap-eval` on one of your skills and submit the scored output** as a PR under `05-EVALUATION/community/`. With v0.2's instrument shipped, this takes ~1 minute per skill instead of 30+ minutes manually.
-2. **Run `/paap-eval` on community skills not in v0.2's N=80 corpus** to push toward N=100+ and validate the v0.2 archetype-distribution finding (60% Procedural / 20% Reference / 11% Creative / 9% Hybrid).
-3. **Multi-model judge cross-check.** Run `/paap-eval` against a skill, then re-score the same skill with a different model (GPT-5, Gemini). Submit the disagreement table — this is the v0.3 multi-model kappa pilot raw data we need.
-4. **Argue for promoting/demoting a principle** with concrete corpus evidence. v0.2 promoted 3 candidates and confirmed 3 as gstack-only; #21 (build-artifact) and #25 (hooks) are still ambiguous and would benefit from more data.
+1. **Independent rubric review for v0.4 priority #1.** Pick one v0.3 priority-#5 workflow (`obra/TDD`, `anthropics/canvas-design`, `chrisvoncsefalvay/d3-viz`, or `gstack/plan-ceo-review`), design your own 5-dim quality rubric, and re-judge the existing 24 outputs. If meta-paap v2's wins survive a third-party rubric, the v1.0 paper claim strengthens significantly.
+2. **Random-sample community skills for v0.4 priority #2.** Pick 4 community skills from the [N=80 corpus](../04-RUBRIC/corpus-50-skills.md) by random selection (not corpus-exemplar curation). Run priority #5's protocol against them. Submit the 4×3×3 judging matrix.
+3. **Human-rater layer for v0.4 priority #6.** Pick 5-10 outputs from the existing `community-head-to-head-raw-data.md`. Score them yourself against the workflow rubric. Submit your scores + provenance prediction. We measure LLM-judge ↔ human-judge calibration.
+4. **Argue for promoting/demoting a principle** with concrete corpus evidence. v0.3 promoted 3 candidates (#23/#24/#25); #21 (build-artifact) and the remaining items in "Items still under research" above would benefit from more data.
 
 ### Medium value
 5. **Bug reports on `/paap-eval`** when its scoring diverges sharply from your own assessment of a skill — divergence patterns inform v0.3 detector and judge revisions.
@@ -187,11 +220,11 @@ Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting,
 
 ---
 
-## Things v0.2 deliberately doesn't try to answer
+## Things v0.3 deliberately doesn't try to answer
 
 - **Whether PaaP scales to multi-tenant SaaS.** It doesn't, and that's fine. The determinism and cost economics are wrong for SaaS. Personal and team-scale tools are the right scope.
-- **Whether the 22 principles generalize beyond Claude Code.** Probably yes for Cursor / Codex / OpenClaw — gstack already runs on 10 hosts via setup config. Cross-host kappa is v0.3+ work.
-- **Whether `meta-paap` is the optimal generator design.** Almost certainly not — Stage 4 showed gaps in persona depth. Better generators will emerge; the rubric is what they should be measured against. v0.3 will close some of the persona-depth gap via the "rationalizations to reject" addition.
+- **Whether the 25 principles generalize beyond Claude Code.** Probably yes for Cursor / Codex / OpenClaw — gstack already runs on 10 hosts via setup config; principle #23 (host-portable) was promoted in v0.3 to make this explicit. Cross-host kappa is v0.4+ work.
+- **Whether `meta-paap v2` is the optimal generator design.** No — v0.3 priority #5 found `obra/test-driven-development` 5/9 community win (production-iteration moat). Better generators will close more of the gap. v0.4 priority #5 (`learnings.jsonl` feedback loop) is the architectural mechanism.
 - **Long-term ecosystem dynamics.** Skill marketplaces, monetization, certification, version-pinning conventions. Speculative. Out of scope until empirical evidence accumulates.
 - **The "Tan endorses PaaP" question.** He doesn't use the term. Cite gstack as evidence the architecture works; do not cite Tan as PaaP's author.
 - **Cross-language generalization.** v0.2 corpus is English-dominant despite 5/36 non-English authors writing in English. Skills authored in Chinese/Russian/Spanish primary languages haven't been corpus-scored.

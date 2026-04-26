@@ -7,9 +7,25 @@ Versioning is **content-tied**, not strict semver: each release describes both r
 
 ---
 
-## [Unreleased] — v0.3 in progress
+## [Unreleased]
 
-**Theme:** structural cleanup + rubric promotion + planned multi-model kappa + output-quality test expansion.
+(no changes yet — v0.4 work begins here)
+
+---
+
+## [v0.3] — 2026-04-26
+
+**Theme:** output-time validation. v0.1 named the pattern; v0.2 built the evaluation instrument; v0.3 asks the harder question — *do generated PaaP-style skills produce output quality comparable to hand-written when actually run?*
+
+### Headline findings
+
+| Experiment | Scale | Result |
+|---|---|---|
+| Multi-model kappa | 5 raters × 10 skills (Claude × 3 + GPT-5.4 + Gemini-3) | GPT-5.4 ↔ Claude-pragmatic 1.20 grade-steps; Gemini-3 ↔ Claude-pragmatic 2.30. Rubric travels, but model-vendor identity is a real source of grade-shift. |
+| Output-quality 5×3×3 | 5 author-skill workflows × 3 inputs × 3 judges = 45 judgments | HW 24 / Gen 20 / TIE 1. Workflow-specific picture: HW wins voice work; Gen wins structured tasks. |
+| Community 4×3×3 | 4 community skills × 3 inputs × 3 judges = 36 judgments | meta-paap v2 wins 29/36. Only `obra/TDD` holds (5/9 community). 0/36 provenance accuracy across all judges. |
+
+**The v0.3 thesis:** PaaP captures form quickly through articulable process; production iteration deepens substance the rubric cannot describe. Generated PaaP skills meet or beat hand-written skills when quality can be described in the workflow brief; production-iterated hand-written skills still win where quality depends on tacit domain discipline.
 
 ### Added
 
