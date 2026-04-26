@@ -52,7 +52,7 @@
 | 13 | External storage | A | `references/artifact-schemas.md` (173 lines). Fallback to inline format guidance. |
 | 14 | Context scope | A | Each phase states which artifacts to read. Resume protocol scopes artifact re-injection per phase. |
 | 15 | Progress | A | Print after every phase with key stats. Final completion block with PR URL, skills invoked, quality chain results. |
-| 16 | Errors | A+ | 10-row table. Covers GitNexus, missing skills, test failures, critical review issues, spec/plan rejection, branch conflicts, merge conflicts, context window pressure, `/ship` failure. Most comprehensive of any test. |
+| 16 | Errors | A+ | 10-row table — highest row count of any test. Covers GitNexus, missing skills, test failures, critical review issues, spec/plan rejection, branch conflicts, merge conflicts, context window pressure, `/ship` failure. |
 | 17 | Autonomy | A | Autonomous except at 2 human gates. Only stops for errors requiring human decision. |
 | 18 | Path resolution | A | Three-tier: PRIMARY → FALLBACK → SEARCH. No hardcoded absolutes. "If not found: skip, note in progress." |
 | 19 | Composition | A+ | 10 skills. 6 mandatory + 4 conditional. Conditional routing based on spec content analysis. Runtime resolution for all. Most complex composition of any test. |
@@ -70,7 +70,7 @@
 
 3. **Conditional skill routing based on content analysis.** Detects auth/PII → `/cso`, big scope → `/plan-eng-review`, backend changes → `/backend-docs-writer`. Auto-detection from spec, not manual flags.
 
-4. **Error handling is the most comprehensive of any test.** 10 rows. Context window pressure handling ("Re-inject only current phase artifacts, summarize OBSERVE.md if too large") shows awareness of real operational constraints.
+4. **Error handling has the most rows of any test.** 10 rows. Context window pressure handling ("Re-inject only current phase artifacts, summarize OBSERVE.md if too large") shows awareness of real operational constraints.
 
 5. **Plan versioning.** PLAN-v1 → v2 (GitNexus) → v3 (review fixes) → PLAN-final. Each version is a traceable artifact. The user can diff versions to see how the plan evolved.
 

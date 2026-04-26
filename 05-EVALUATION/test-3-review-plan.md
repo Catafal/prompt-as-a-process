@@ -48,11 +48,11 @@
 | 9 | Human gate | A | Manual mode = the human gate. Each section pauses with `AskUserQuestion`. Auto mode has no human gate (correct). |
 | 10 | Exit = question | A | All phases. Binary. Mode-specific exit conditions in Phase 4. |
 | 11 | Output spec | A | Two mode-specific templates. Per-section length constraints. Max issue counts per severity. |
-| 12 | Gates = 3 parts | A+ | 6 quality gates. Mode-specific gates (4 auto, 5 manual, 6 both). Most comprehensive of any test. |
+| 12 | Gates = 3 parts | A+ | 6 quality gates. Mode-specific gates (4 auto, 5 manual, 6 both). Highest gate count of any test in the n=4 set. |
 | 13 | External storage | A | 326-line reference file. Fallback if not found. Main SKILL.md stays readable at 508 lines. |
 | 14 | Context scope | A+ | Explicit per agent: Agent B denied GitNexus data to prevent scope creep. Reasoning stated. |
 | 15 | Progress | A | Examples with stats. |
-| 16 | Errors | A+ | 9-row table. Most comprehensive yet. Includes: permissions fallback, MCP unavailability, unclear user choices. |
+| 16 | Errors | A+ | 9-row table — most rows of any test up to this point. Includes: permissions fallback, MCP unavailability, unclear user choices. |
 | 17 | Autonomy | A | Mode inference with manual as safe default. "Add `--auto` for autonomous review." |
 | 18 | Path resolution | A | All paths resolved at runtime with fallbacks. No hardcoded absolute paths. |
 | 19 | Composition | A | `/defuddle` optional. GitNexus optional with graceful degradation. |

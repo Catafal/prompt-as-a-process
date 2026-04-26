@@ -430,3 +430,7 @@ The rubric will evolve. Major changes (adding/removing principles, changing appl
 When you cite this rubric, include the version: *"PaaP rubric v0.1 (Catafal, 2026)."*
 
 See [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) for what v0.2 specifically aims to resolve.
+
+## Dogfooding — does the repo pass its own rubric?
+
+The repo applied this rubric to itself in [`reflexive-self-audit.md`](./reflexive-self-audit.md). Aggregate: A (15 applicable principles; 4 A+, 9 A, 1 A-, 1 B+, 1 B). Honest weak points and known caveats (single-scorer issue, archetype declaration as judgment call) documented in that file.
