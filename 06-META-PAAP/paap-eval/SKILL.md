@@ -9,7 +9,7 @@ composed_skills: []
 
 > A structured first-pass evaluation of any SKILL.md against the 22-principle [PaaP rubric](../../04-RUBRIC/principles.md). Archetype-aware. Confidence-rated per principle. Self-disclosed as an LLM-judge with stated limitations.
 
-**Status:** v0 scaffold (Stage 1a of v0.2). The phase structure is complete; the per-principle detector logic (Stage 1b) and judge prompts (Stage 1c) are filled in by subsequent stages. See [`genesis.md`](./genesis.md) for the elicitation answers and architecture spec that drove this generation.
+**Status:** v0.2 released. The phase structure, per-principle detector logic (Stage 1b), semantic judge prompts (Stage 1c), calibration pass (Stage 1d), and 3-persona kappa pilot (Stage 2) are complete. See [`genesis.md`](./genesis.md) for the elicitation answers and architecture spec that drove the initial generation.
 
 ---
 
@@ -159,8 +159,8 @@ For each algorithmic principle (the ~12 that can be pattern-matched), run its de
 Read references/algorithmic-detectors.md
 
 If file not found:
-    Note: "References file missing — this is the v0 scaffold (Stage 1a).
-    The detector logic is filled in by Stage 1b. Falling back to manual-
+    Note: "references/algorithmic-detectors.md is missing.
+    The v0.2 release expects this file to be present. Falling back to manual-
     detection mode: ask user to score these principles manually."
     Set fallback_mode = true; flag in final report.
 
@@ -173,7 +173,7 @@ For each principle in the algorithmic set that's also in applicable_principles:
         notes: optional one-line context
 ```
 
-**The 12 algorithmic principles (full detector logic in Stage 1b):**
+**The 12 algorithmic principles (full detector logic in references/algorithmic-detectors.md):**
 
 1. **#1 Description as router** — YAML parse: anti-triggers count, trigger-phrase count
 2. **#2 Route before work** — Phase-0-pattern detection (Phase 0, "Routing", "Classification" headings)
@@ -223,13 +223,13 @@ For each semantic principle (the ~10 requiring judgment), run an LLM-judge promp
 Read references/semantic-judges.md
 
 If file not found:
-    Note: "References file missing — this is the v0 scaffold (Stage 1a).
-    The judge prompts are filled in by Stage 1c. Falling back to inline
+    Note: "references/semantic-judges.md is missing.
+    The v0.2 release expects this file to be present. Falling back to inline
     judging mode using the principle definitions only."
     Set inline_judge_mode = true; flag in final report.
 ```
 
-**The 10 semantic principles (full judge prompts in Stage 1c):**
+**The 10 semantic principles (full judge prompts in references/semantic-judges.md):**
 
 1. **#3 Modes** — Are modes explicit, named, criteria-driven? Or implicit?
 2. **#6 Personas / voice** — Behavioral discipline vs generic role assignment?
@@ -402,8 +402,8 @@ Print summary to stdout:
 | Input file not a valid SKILL.md | STOP in Pre-Phase with explanation |
 | `principles.md` not found | STOP in Phase 0; require user to set `--rubric-path` or invoke from repo |
 | Archetype confidence ambiguous | AskUserQuestion in Phase 1 |
-| `references/algorithmic-detectors.md` missing | Fall back to manual-detection mode (Stage 1b not yet shipped) |
-| `references/semantic-judges.md` missing | Fall back to inline judging mode (Stage 1c not yet shipped) |
+| `references/algorithmic-detectors.md` missing | Fall back to manual-detection mode; flag install/repo packaging issue |
+| `references/semantic-judges.md` missing | Fall back to inline judging mode; flag install/repo packaging issue |
 | Parallel sub-agent fails for one principle | Re-run that principle's detector/judge; if still fails, mark `error` and continue |
 | LLM-judge returns malformed grade (not in A+...F) | Retry once with stricter prompt; if still malformed, mark `error` |
 | Output directory not writable | STOP with permission error message |
@@ -418,11 +418,11 @@ This skill has known limitations that are inherent to its design, not bugs:
 
 1. **It's an LLM-judge.** Inherits position bias, length bias, style bias. Self-reported confidence may be miscalibrated. Use the scoring template at `04-RUBRIC/scoring-template.md` for any high-stakes evaluation that needs human judgment.
 
-2. **The rubric is itself v0.1.** Multi-scorer kappa data isn't in yet (v0.2 Stage 2). Some principles may have low inter-rater reliability that future versions of this skill will reflect.
+2. **The rubric content is v0.1; the evaluation instrument is v0.2.** Stage 2 prompt-variant reliability data is in, but multi-model and human-rater kappa are still v0.3 work. Some principles may have low inter-rater reliability that future versions of this skill will reflect.
 
 3. **Algorithmic detectors are pattern-matching, not parsing.** They can be fooled by skills that follow the spirit of a principle but use unusual surface forms.
 
-4. **Persona variants are first-pass approximations.** strict-academic / pragmatic-practitioner / charitable-newcomer are starting points; v0.2 Stage 2 (kappa pilot) will calibrate them empirically.
+4. **Persona variants are calibrated only within one model family.** strict-academic / pragmatic-practitioner / charitable-newcomer were tested in the v0.2 Stage 2 kappa pilot; v0.3 needs cross-model validation.
 
 5. **English-only at v0.2.** Skills in other languages may produce unreliable grades.
 

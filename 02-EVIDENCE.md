@@ -1,6 +1,6 @@
 # 02 — Evidence
 
-> Three waves of LLM-application thinking, the framework backlash with primary sources, a deep-dive on Garry Tan's `gstack` as the largest production exemplar, an empirical survey of 50 community skills, and what the current state suggests about where the pattern goes next.
+> Three waves of LLM-application thinking, the framework backlash with primary sources, a deep-dive on Garry Tan's `gstack` as the largest production exemplar, an empirical survey baseline extended to 80 community skills, and what the current state suggests about where the pattern goes next.
 
 This chapter is the empirical spine of the framework. [`01-CONCEPT.md`](./01-CONCEPT.md) introduced the three-wave framing; this one makes it defensible. Every claim in this chapter has a primary source. Every quoted text is verbatim. Where investigation hit a paywall, that's stated.
 

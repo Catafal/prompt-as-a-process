@@ -2,7 +2,7 @@
 
 > A skill that auto-scores any SKILL.md file against the 22-principle PaaP rubric. Archetype-aware. Confidence-rated per principle. Self-disclosed as an LLM-judge.
 
-**Status:** v0 scaffold (Stage 1a). Production-ready after Stages 1b + 1c + 1d complete.
+**Status:** v0.2 released. Stage 1a scaffold, Stage 1b detectors, Stage 1c semantic judges, Stage 1d calibration, and Stage 2 kappa pilot are complete.
 
 ---
 
@@ -28,11 +28,11 @@ v0.1 of the rubric was *expensive to apply* — the [scoring template](../../04-
 - Head-to-head experiments practical (50 outputs blind-scored)
 - The rubric itself usable in production (skill authors auditing their own work)
 
-See [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) for the full v0.2 plan that this skill unlocks.
+See [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) for the v0.2 retrospective and v0.3 priorities this skill unlocks.
 
 ---
 
-## How to use (after Stages 1b + 1c + 1d ship)
+## How to use
 
 **Basic invocation:**
 
@@ -81,7 +81,7 @@ Plus a self-disclosure footer making clear this is an LLM-judge, not an objectiv
 - **Not an objective grade.** It's a structured first-pass LLM-judge. Always review low-confidence principles.
 - **Not a replacement for human scoring** when stakes are high. For paper-track or hiring-decision uses, use the manual scoring template + human review.
 - **Not a meta-paap competitor.** They're complementary: meta-paap generates, /paap-eval scores.
-- **Not yet calibrated.** v0.2 Stage 1d runs validation against the four manual evaluations; persona variants are calibrated empirically in Stage 2.
+- **Not fully externally calibrated.** Stage 1d validation and Stage 2 prompt-variant kappa are complete, but v0.3 still needs multi-model and human-rater cross-checks.
 
 ---
 
@@ -89,11 +89,12 @@ Plus a self-disclosure footer making clear this is an LLM-judge, not an objectiv
 
 | Component | Status | Stage |
 |---|---|---|
-| [`SKILL.md`](./SKILL.md) — 7-phase scaffold | ✅ Done | 1a |
+| [`SKILL.md`](./SKILL.md) — 7-phase scoring workflow | ✅ Done | 1a |
 | [`genesis.md`](./genesis.md) — elicitation + architecture spec | ✅ Done | 1a |
-| [`references/algorithmic-detectors.md`](./references/algorithmic-detectors.md) — Phase 2 logic | ⏸ Placeholder | 1b |
-| [`references/semantic-judges.md`](./references/semantic-judges.md) — Phase 3 prompts | ⏸ Placeholder | 1c |
-| [`calibration.md`](./calibration.md) — validation against manual scoring | ⏸ Placeholder | 1d |
+| [`references/algorithmic-detectors.md`](./references/algorithmic-detectors.md) — Phase 2 logic | ✅ Done | 1b |
+| [`references/semantic-judges.md`](./references/semantic-judges.md) — Phase 3 prompts | ✅ Done | 1c |
+| [`calibration.md`](./calibration.md) — validation against manual scoring | ✅ Done | 1d |
+| [`../../05-EVALUATION/kappa-pilot.md`](../../05-EVALUATION/kappa-pilot.md) — 3-persona reliability pilot | ✅ Done | 2 |
 
 ---
 
@@ -104,4 +105,5 @@ Plus a self-disclosure footer making clear this is an LLM-judge, not an objectiv
 - [`../README.md`](../README.md) — `/meta-paap` user guide (the complementary skill)
 - [`../../04-RUBRIC/principles.md`](../../04-RUBRIC/principles.md) — The 22 principles being scored against
 - [`../../04-RUBRIC/scoring-template.md`](../../04-RUBRIC/scoring-template.md) — The output format
-- [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) — v0.2 plan and where this skill fits
+- [`../../05-EVALUATION/kappa-pilot.md`](../../05-EVALUATION/kappa-pilot.md) — Stage 2 reliability results
+- [`../../07-OPEN-QUESTIONS.md`](../../07-OPEN-QUESTIONS.md) — v0.2 retrospective and v0.3 priorities
