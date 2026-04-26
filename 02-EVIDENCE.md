@@ -1,6 +1,6 @@
-# 02 — Landscape
+# 02 — Evidence
 
-> The terrain PaaP sits in: three waves of LLM-application thinking, the framework backlash with primary sources, a deep-dive on Garry Tan's `gstack` as the largest production exemplar, an empirical survey of 50 community skills, and where the trends point.
+> Three waves of LLM-application thinking, the framework backlash with primary sources, a deep-dive on Garry Tan's `gstack` as the largest production exemplar, an empirical survey of 50 community skills, and what the current state suggests about where the pattern goes next.
 
 This chapter is the empirical spine of the framework. [`01-CONCEPT.md`](./01-CONCEPT.md) introduced the three-wave framing; this one makes it defensible. Every claim in this chapter has a primary source. Every quoted text is verbatim. Where investigation hit a paywall, that's stated.
 
@@ -84,11 +84,13 @@ PaaP is what's left when the framework is gone.
 
 The single largest deployment of the PaaP architecture in the wild is [`garrytan/gstack`](https://github.com/garrytan/gstack) — Garry Tan's open-source skill set.
 
-### The repo at a glance (snapshot 2026-04-25)
+### The repo at a glance
+
+**Snapshot date:** 2026-04-25 · **Repo SHA at writing:** [`23c4d7b`](https://github.com/garrytan/gstack/commit/23c4d7b228f6c490bdacfc6926fb19488e6300b1) · **Note:** gstack is daily-cadence; star/fork counts will have shifted by the time you read this. Architectural patterns described below are stable.
 
 - **License:** MIT
-- **Stars:** 82,852 (in ~6 weeks since launch)
-- **Forks:** 12,044
+- **Stars:** 82,852 (in ~6 weeks since launch — verify current count at the repo)
+- **Forks:** 12,044 (same caveat)
 - **Total SKILL.md files:** 50 (47 production + 3 golden test fixtures)
 - **Total skill lines:** ~43,000
 - **Largest skills:** `ship` (3,253 lines), `office-hours` (2,337), `plan-ceo-review` (2,364)
@@ -133,7 +135,7 @@ Three independent reasons.
 
 **(a) Author identity.** Garry Tan is President & CEO of Y Combinator. He has worked with thousands of startups. When this person open-sources the workflow he personally uses to ship at the velocity he describes, the signal is qualitatively different from a community contributor's. The 82.8k-stars-in-6-weeks adoption velocity confirms the signal.
 
-**(b) Bottom-up convergence on the same architecture.** The 22 principles in this rubric were derived top-down. gstack was built bottom-up by a single practitioner trying to maximize his own throughput. **He arrived at the same place from a different direction.** That's the strongest possible cross-validation.
+**(b) Bottom-up convergence on the same architecture.** The 22 principles in this rubric were derived top-down. gstack was built bottom-up by a single practitioner trying to maximize his own throughput. **He arrived at the same place from a different direction.** That is suggestive cross-validation — one practitioner converging on the same architecture from a different starting point. A stronger version would involve multiple independent practitioners audited by independent scorers; that is on the v0.2 roadmap.
 
 **(c) Tan's framing is the PaaP framing.** From `ETHOS.md`: *"AI-assisted coding makes the marginal cost of completeness near-zero."* That is the economic thesis underneath PaaP, quantified — Tan even includes a "Boil-the-Lake compression table" (2-day boilerplate → 15-min, 1-week feature → 30-min). PaaP gets to inherit that quantitative anchor.
 

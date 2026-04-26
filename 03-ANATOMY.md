@@ -10,6 +10,20 @@ This chapter is how to avoid that. It assumes you've read [`01-CONCEPT.md`](./01
 
 ---
 
+## The fast path (5 principles)
+
+If you only remember five things, remember these. They cover ~70% of what separates good Procedural skills from bad ones in the 50-skill corpus survey:
+
+1. **Description as router (#1).** YAML `description` is routing logic. Include anti-triggers ("Do NOT use for..."). Only 6% of community skills do this.
+2. **Phase 0 routing (#2).** First phase classifies the request and identifies STOP conditions before any work runs.
+3. **Exit conditions as binary questions (#10).** "Exit when you can answer X" — not "exit when complete."
+4. **Quality gates with all 3 parts (#12).** Check + failure condition + recovery path. Without the recovery path, the model invents one.
+5. **Output spec, defined first (#11, #20).** Format, sections, length, per-section content rules. Define before phases; phases are the path.
+
+The rest of this chapter walks through these in detail, plus the other 17 principles for cases where they apply.
+
+---
+
 ## The mental model
 
 You're writing for something that interprets instructions **literally at structure points** and **creatively at content points**.

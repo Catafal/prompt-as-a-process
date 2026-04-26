@@ -64,7 +64,7 @@ Full per-test detail: [test-1](../05-EVALUATION/test-1-skill-audit.md), [test-2]
 
 ## Honest summary
 
-`meta-paap` produces 80-90% of a production skill on first run. The architecture is consistently right. The remaining 10-20% is execution-path bugs, under-specified implementation for the hardest phase, and self-critique misses (safety violations, non-existent references). One iteration fixes these.
+`meta-paap` produces skills that score B+ to A on the 22-principle rubric (mean A- across n=4). The architecture is consistently right; two systematic gaps appear in every test (self-critique misses + hardest-phase under-specification) and require one iteration to close. Whether the generated skills produce better outputs *when run* than hand-written equivalents is the v0.2 head-to-head experiment, not a v0.1 claim.
 
 The quality of the generated skill depends more on your input than on the generator. The five questions are the right ones. The more precisely you answer them, the more precise the skill. If you can't answer them, the skill will be vague — that's true whether `meta-paap` writes it or you do.
 

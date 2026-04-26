@@ -79,12 +79,13 @@ The community survey found 6 patterns the rubric only partially captures. v0.2 s
 
 ---
 
-## v1.0 priorities (paper conversion)
+## v1.0 (conditional on v0.2 evidence)
 
-- Convert v0.2 results into a workshop-paper-format submission
-- Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting, or developer tools
-- Citable via CITATION.cff in the meantime
-- The repo remains the living artifact even if a paper publishes
+If v0.2 ships with multi-scorer kappa data, head-to-head outcome experiments, and N≥100 corpus extension, the natural next step is conversion to a workshop-paper-format submission. Likely venues: workshops at NeurIPS / ICLR / ACL on agent evaluation, prompting, or developer tools.
+
+This is **conditional, not promised.** v0.1 is explicitly not paper-ready by current academic standards — single-scorer rubric work plus n=4 convenience-sampled evaluation does not clear a workshop bar. Whether the v0.2 work justifies the paper conversion will be obvious from the v0.2 data; if it doesn't, the repo stays as a maintained framework artifact and that is fine.
+
+Citable via [`CITATION.cff`](./CITATION.cff) in the meantime.
 
 ---
 
@@ -98,7 +99,7 @@ The community survey found 6 patterns the rubric only partially captures. v0.2 s
 
 ### Medium value
 5. **Bug reports on `examples/pre-call/`** if it fails to run as documented (e.g., LinkedIn search behavior changes).
-6. **Citations the landscape review missed** — papers, blog posts, framework documentation.
+6. **Citations the evidence chapter missed** — papers, blog posts, framework documentation.
 7. **Tonal sharpening** — flag any AI-slop, vague claims, or inflated symbolism. The repo's credibility depends on this.
 
 ### Low value (don't PR these)

@@ -1,6 +1,6 @@
 # Contributing to Prompt as a Process
 
-Thanks for considering a contribution. This is a living research repo — the rubric evolves, the evaluation set grows, and the framework only gets sharper if practitioners push back on it.
+This is a living research repo. The rubric evolves, the evaluation set grows, and the framework only gets sharper if practitioners push back on it. The most useful contributions are critical, specific, and grounded in real skills.
 
 ---
 

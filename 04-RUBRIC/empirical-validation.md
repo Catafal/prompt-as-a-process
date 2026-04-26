@@ -12,7 +12,7 @@ This file documents how those calls were made.
 
 ### Corpus 1 — gstack (single-author case study)
 
-Garry Tan's `gstack` repo (50 SKILL.md files, ~43,000 lines, MIT license, ~82,000 stars in 6 weeks). One author, two decades of shipping experience, building skills explicitly to maximize personal velocity. **The strongest possible "different person, same conclusion" data point** — Tan converged on PaaP's architecture without using the term, framing it as "twenty-three specialists and eight power tools, all slash commands, all Markdown."
+Garry Tan's `gstack` repo (50 SKILL.md files, ~43,000 lines, MIT license, ~82,000 stars in 6 weeks at snapshot time). One author, "twenty years" of shipping experience (his framing), building skills explicitly to maximize personal velocity. **A strong "different person, same conclusion" data point** — Tan converged on PaaP's architecture without using the term, framing it as "twenty-three specialists and eight power tools, all slash commands, all Markdown." A stronger validation would be multi-author independent derivation; v0.2 will pursue this.
 
 This is a depth test: how does the rubric score against a single practitioner who has thought about every principle deeply?
 
@@ -240,7 +240,7 @@ See [`../07-OPEN-QUESTIONS.md`](../07-OPEN-QUESTIONS.md) for the full v0.2 scope
 
 ## Sources
 
-- gstack repo: https://github.com/garrytan/gstack (accessed 2026-04-25)
-- 50-skill community corpus: 18 distinct authors, full URL list available on request via repo issue
+- gstack repo: https://github.com/garrytan/gstack (accessed 2026-04-25, SHA `23c4d7b` at writing)
+- **50-skill community corpus full URL list:** [`corpus-50-skills.md`](./corpus-50-skills.md) — pinned for reproducibility
 - Primary collections sampled: `anthropics/skills`, `obra/superpowers`, `trailofbits/skills`, `michalparkola/tapestry-skills-for-claude-code`, `expo/skills`, `K-Dense-AI/claude-scientific-skills`
 - Curated discovery lists used: `karanb192/awesome-claude-skills`, `travisvn/awesome-claude-skills`, `ComposioHQ/awesome-claude-skills`

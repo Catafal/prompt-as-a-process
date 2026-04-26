@@ -10,7 +10,7 @@ There have been three waves of "AI replaces code" thinking. The third wave doesn
 
 **Wave 1 — Prompt engineering (~2020-2023).** The unit of work was a one-shot query. Few-shot, chain-of-thought (Wei et al. 2022), zero-shot CoT. ReAct (Yao et al. 2022, [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)) introduced the canonical loop — *"reasoning traces and task-specific actions in an interleaved manner... reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with external sources."* Reflexion (Shinn et al. 2023, [arXiv:2303.11366](https://arxiv.org/abs/2303.11366)) added *"verbal reinforcement"* — agents critiquing their own outputs and storing the critique as episodic memory. The prompt was still a module *inside* a code system, not the system itself.
 
-**Wave 2 — Orchestration frameworks (~2023-2024).** LangChain, LlamaIndex, AutoGen, CrewAI, DSPy. The premise: chain prompts with code to enforce structure. The trade-off: as much complexity created as removed. The most-cited backlash post is Octomind's June 2024 piece, *"Why we no longer use LangChain for building our AI agents,"* which states bluntly: *"All LangChain has achieved is increased the complexity of the code with no perceivable benefits."* See [`02-LANDSCAPE.md`](./02-LANDSCAPE.md) Part B for the full evidence.
+**Wave 2 — Orchestration frameworks (~2023-2024).** LangChain, LlamaIndex, AutoGen, CrewAI, DSPy. The premise: chain prompts with code to enforce structure. The trade-off: as much complexity created as removed. The most-cited backlash post is Octomind's June 2024 piece, *"Why we no longer use LangChain for building our AI agents,"* which states bluntly: *"All LangChain has achieved is increased the complexity of the code with no perceivable benefits."* See [`02-EVIDENCE.md`](./02-EVIDENCE.md) Part B for the full evidence.
 
 **Wave 3 — Prompt as a Process (~mid-2025-onwards).** Models reliable enough to follow complex SOPs end-to-end. Anthropic launched the SKILL.md format on October 16, 2025 — *"a directory that contains a `SKILL.md` file [...] with YAML frontmatter that contains [...] `name` and `description`."* The format was opened as a multi-vendor standard on December 18, 2025, adopted by Microsoft, OpenAI, Atlassian, Figma, Cursor, and GitHub. As of this repo's v0.1 ship date, the format is ~6 months old as a formal product feature and ~4 months old as a cross-vendor standard. **PaaP is not documenting an old pattern. It is formalizing patterns within a format that became real less than a year ago.**
 
@@ -51,7 +51,7 @@ This is not prompt engineering. Prompt engineering figures out how to phrase a o
 
 Anything where the steps are clear and the output is text. **Editorial pipelines.** **Codebase analysis with a structured report format.** **Competitive research.** Workflows where you'd normally write a brief for a person, you write a SKILL.md instead.
 
-[`gstack`](https://github.com/garrytan/gstack) by Garry Tan (President & CEO of Y Combinator) is the largest production case study. 50 SKILL.md files modeling an engineering team — CEO review, design review, QA, release management, deploy. All Markdown files. ~82,000 stars in 6 weeks. Tan reports shipping *"3 production services and 40+ features in 60 days, while running YC full-time"* using this setup. People fork skills and contribute back the way you'd contribute to an open-source library. See [`02-LANDSCAPE.md`](./02-LANDSCAPE.md) Part C for the full case study.
+[`gstack`](https://github.com/garrytan/gstack) by Garry Tan (President & CEO of Y Combinator) is the largest production case study. 50 SKILL.md files modeling an engineering team — CEO review, design review, QA, release management, deploy. All Markdown files. ~82,000 stars in 6 weeks. Tan reports shipping *"3 production services and 40+ features in 60 days, while running YC full-time"* using this setup. People fork skills and contribute back the way you'd contribute to an open-source library. See [`02-EVIDENCE.md`](./02-EVIDENCE.md) Part C for the full case study.
 
 ---
 
@@ -95,6 +95,6 @@ PaaP isn't a product or a framework. It's a name for a pattern that practitioner
 - An **empirical validation** ([`04-RUBRIC/empirical-validation.md`](./04-RUBRIC/empirical-validation.md)) testing the rubric against `gstack` (single-author depth) and a 50-skill community survey (breadth).
 - A **canonical authoring guide** ([`03-ANATOMY.md`](./03-ANATOMY.md)) with a worked example.
 - A **meta-skill** ([`06-META-PAAP/`](./06-META-PAAP/)) that generates skills following the rubric, plus an n=4 evaluation of its outputs ([`05-EVALUATION/`](./05-EVALUATION/)).
-- A **landscape review** ([`02-LANDSCAPE.md`](./02-LANDSCAPE.md)) anchoring the framework's research lineage and corpus evidence.
+- An **evidence chapter** ([`02-EVIDENCE.md`](./02-EVIDENCE.md)) anchoring the framework's research lineage and corpus findings.
 
 If you have a workflow you repeat at least once a week and you can't get it down to a slash command in an afternoon, the rubric and the meta-skill are the highest-leverage starting points.

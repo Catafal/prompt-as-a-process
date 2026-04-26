@@ -425,7 +425,7 @@ The rubric will evolve. Major changes (adding/removing principles, changing appl
 
 - **v0.1 (this version):** 22 principles, 3 archetypes, 8 deferred candidates documented
 - **v0.2 (planned):** empirical survey extended to N=100, candidate principles re-evaluated, multi-scorer reliability data
-- **v1.0 (planned):** conversion to peer-reviewable paper; rubric stabilized for ~12 months
+- **v1.0 (conditional):** workshop-paper format if v0.2 hits multi-scorer kappa, head-to-head outcome data, and N≥100 corpus. Not promised; depends on the empirical work.
 
 When you cite this rubric, include the version: *"PaaP rubric v0.1 (Catafal, 2026)."*
 

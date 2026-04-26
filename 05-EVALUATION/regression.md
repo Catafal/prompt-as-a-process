@@ -74,19 +74,19 @@ This is **the highest-priority fix for `meta-paap` v2**. Three concrete addition
 
 ---
 
-## Improving across tests
+## Patterns that got more sophisticated as the test set advanced
 
-Some patterns got better as the test set advanced.
+Some patterns appeared more frequently or in richer form as the four tests progressed.
 
 | Pattern | T1 (B+) | T2 (A-) | T3 (A-/A) | T4 (A-) | Trend |
 |---|---|---|---|---|---|
-| Error handling rows | 6 | 6 | 9 | 10 | Consistently improving |
+| Error handling rows | 6 | 6 | 9 | 10 | More rows in later tests |
 | Composition count | 0 | 3 | 2 | 10 | Scales with workflow complexity |
 | State management | No | No | Yes | Yes | Implemented when needed |
 | External references | No | No | Yes | Yes | Implemented when needed |
 | Artifact schemas | N/A | N/A | N/A | Yes (5 templates) | New pattern in most complex test |
 
-The trend suggests `meta-paap` *learns from the conversation* — earlier tests' patterns inform later test architectures, even though each test is generated in a clean session. The user's iteration on input quality (more specific elicitation answers) drives most of this improvement.
+**Honest caveat about this trend.** This is the most confounded finding in the n=4 study. Each test was generated in a clean session, but the *user* (the same person across all four tests) gave more precise elicitation answers in later tests after seeing what earlier tests produced. The improvement therefore cannot be attributed cleanly to `meta-paap` — it could be the generator getting better, the user getting better at prompting it, the workflows being intrinsically more complex, or any combination. v0.2's design will fix this with identical inputs across runs, or by scoring elicitation quality separately from output quality. **Read this trend as suggestive, not conclusive.**
 
 ---
 
@@ -108,7 +108,7 @@ The trend suggests `meta-paap` *learns from the conversation* — earlier tests'
 
 **What v0.1 can honestly say:**
 
-`meta-paap` produces 80-90% of a production skill on first run, across simple to highly complex workflows. The architecture is consistently right — composition scales correctly, patterns match workflow complexity, quality gates and exit conditions are enforced. The remaining 10-20% falls into three categories: (1) self-critique misses (safety violations, non-existent references), (2) execution-path inconsistencies between phases, (3) under-specified implementation for the hardest technical step. **One iteration fixes all three.** The generator gets better results with more specific user input — elicitation quality is the biggest lever the user controls.
+`meta-paap` produces skills that score B+ to A on the 22-principle rubric across the four tested workflows (mean: A-). The architecture is consistently right — composition scales correctly, patterns match workflow complexity, quality gates and exit conditions are enforced. Two systematic gaps appeared in 4/4 tests and require one iteration to close: (1) self-critique misses (safety violations, non-existent references), (2) under-specified implementation for the hardest technical phase. A third pattern — execution-path inconsistencies between phases — appeared in 2/4 tests. **One iteration fixes the systematic gaps.** The generator gets better results with more specific user input; elicitation quality is the biggest lever the user controls. Note: this is structural-rubric scoring only. Whether generated skills produce better *outputs when run* than hand-written equivalents is the v0.2 head-to-head experiment.
 
 ---
 
