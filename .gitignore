@@ -32,6 +32,12 @@ tmp/
 # source-file paths, and working drafts. Useful for the maintainer; not for OSS readers.)
 _planning/
 
+# Paper preparation directory — manuscript drafts, revision summaries, reviewer
+# feedback, LaTeX/PDF builds, submission packages, in-flight statistical analyses.
+# Not for public consumption; arXiv preprint and venue submission are the public
+# artifacts. Experimental data referenced via ~/scratch/paap-v0.3-* paths.
+_paper-prep/
+
 # Anything explicitly marked private
 *.private.md
 *.draft.md
